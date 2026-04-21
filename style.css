@@ -37,7 +37,7 @@ body {
     font-family: 'Anakotmai', sans-serif !important;
 }
 
-/* --- 3. Navigation (เมนูห้ามหาย) --- */
+/* --- 3. Navigation --- */
 nav {
     display: flex;
     justify-content: space-between;
@@ -54,35 +54,30 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 4. Hero Section (Banner สว่าง ไม่หมอง ไม่แคบ) --- */
+/* --- 4. Hero Section --- */
 .hero {
     width: 100%;
     height: 450px; 
     display: flex;
     justify-content: center;
     align-items: center;
-    /* ใช้ภาพตรงๆ ไม่ใส่ Overlay สีดำ */
     background-image: url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* --- 5. Grid System (แยกส่วนชัดเจน) --- */
+/* --- 5. Grid System --- */
 .container { 
     max-width: 1200px; 
     margin: 0 auto; 
     padding: 40px 20px; 
 }
-
-/* Grid ข่าวสาร */
 .grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
-
-/* Grid บุคลากร */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -91,8 +86,6 @@ nav {
 }
 
 /* --- 6. Card Styles --- */
-
-/* Card ข่าวสารหน้าแรก */
 .card {
     background: white;
     border-radius: 12px;
@@ -105,7 +98,6 @@ nav {
 .card img { width: 100%; height: 200px; object-fit: cover; }
 .card-body { padding: 20px; }
 
-/* Card บุคลากรทรงรูปติดบัตร 1.5 นิ้ว (3:4) */
 .p-card {
     background: white;
     padding: 25px 15px;
@@ -120,34 +112,72 @@ nav {
     min-height: 300px;
 }
 .p-card:hover { transform: translateY(-5px); }
-
 .p-card img {
-    /* สัดส่วน 1.5 นิ้ว (300x400) ย่อลงมาแสดงผล */
     width: 120px !important;  
     height: 160px !important; 
-    border-radius: 4px !important; /* ขอบมนนิดเดียวแบบรูปถ่าย */
-    border: 3px solid #ffffff; /* ขอบขาวแบบรูปติดบัตร */
-    outline: 1px solid #ddd; /* เส้นตัดขอบบางๆ */
+    border-radius: 4px !important; 
+    border: 3px solid #ffffff; 
+    outline: 1px solid #ddd; 
     margin-bottom: 15px;
-    object-fit: cover; /* กันรูปเบี้ยวแน่นอน */
+    object-fit: cover; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* --- 7. Utility --- */
+/* --- 7. Modal & Font Fix (จุดที่แก้ล่าสุด) --- */
+.modal {
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); 
+    z-index: 2000; 
+    justify-content: center; 
+    align-items: center;
+}
+
+.modal-content { 
+    background: white; 
+    padding: 2.5rem; 
+    border-radius: 20px; 
+    max-width: 550px; 
+    width: 90%; 
+    font-family: 'Anakotmai', sans-serif !important; /* บังคับฟอนต์ */
+    position: relative;
+}
+
+/* แก้ฟอนต์ปุ่มปิด และข้อความใน Modal */
+.modal-content h2, 
+.modal-content h3, 
+.modal-content p, 
+.modal-content span,
+.modal-content div {
+    font-family: 'Anakotmai', sans-serif !important;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    cursor: pointer;
+    font-family: 'Anakotmai', sans-serif !important; /* บังคับฟอนต์ปุ่มปิด */
+    transition: 0.3s;
+}
+.close-btn:hover {
+    color: var(--primary);
+}
+
+/* --- 8. Utility --- */
 .title-border {
     border-left: 6px solid var(--primary);
     padding-left: 15px;
     margin: 30px 0;
     font-size: 1.8rem;
+    font-family: 'Anakotmai', sans-serif !important;
 }
 
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { background: white; padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; }
-
-/* --- 8. Responsive --- */
+/* --- 9. Responsive --- */
 @media (max-width: 768px) {
     .nav-links { display: none !important; }
     .hero { height: 250px; } 
