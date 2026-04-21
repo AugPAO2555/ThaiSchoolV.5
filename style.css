@@ -85,7 +85,7 @@ nav {
     margin-bottom: 50px;
 }
 
-/* --- 6. Card Styles --- */
+/* --- 6. Card Styles (ฉบับแก้ไขภาพแตก) --- */
 .card {
     background: white;
     border-radius: 12px;
@@ -93,34 +93,27 @@ nav {
     box-shadow: var(--shadow);
     transition: 0.3s;
     border: 1px solid #eee;
+    height: 100%; /* ให้ card สูงเท่ากันหมดในแถวเดียว */
 }
-.card:hover { transform: translateY(-5px); }
-.card img { width: 100%; height: 200px; object-fit: cover; }
-.card-body { padding: 20px; }
 
-.p-card {
-    background: white;
-    padding: 25px 15px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 1px solid #eee;
-    transition: 0.3s;
+.card:hover { transform: translateY(-5px); }
+
+.card img { 
+    width: 100%; 
+    height: 220px; /* เพิ่มความสูงอีกนิดให้ดูเด่น */
+    object-fit: cover; /* ตัดภาพให้พอดีกรอบ (ห้ามลบอันนี้) */
+    object-position: center; /* เอาตรงกลางภาพเสมอ */
+    
+    /* เพิ่ม 2 บรรทัดนี้เพื่อลดความแตกของภาพ */
+    image-rendering: -webkit-optimize-contrast; 
+    display: block; 
+}
+
+.card-body { 
+    padding: 20px; 
     display: flex;
     flex-direction: column;
-    align-items: center;
-    min-height: 300px;
-}
-.p-card:hover { transform: translateY(-5px); }
-.p-card img {
-    width: 120px !important;  
-    height: 160px !important; 
-    border-radius: 4px !important; 
-    border: 3px solid #ffffff; 
-    outline: 1px solid #ddd; 
-    margin-bottom: 15px;
-    object-fit: cover; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    gap: 10px;
 }
 
 /* --- 7. Modal & Font Fix (จุดที่แก้ล่าสุด) --- */
