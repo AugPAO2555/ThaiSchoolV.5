@@ -1,4 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Anakotmai:wght@300;400;700&display=swap');
+/* ประกาศที่อยู่ไฟล์ฟอนต์ที่คุณอัปโหลดขึ้น GitHub */
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/anakotmai-light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/anakotmai-medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/Anakotmai-bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ตั้งค่าพื้นฐานให้ทั้งเว็บ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Anakotmai', sans-serif; /* ฟอนต์หลักจะกลายเป็น Anakotmai ทันที */
+}
+
 
 :root {
     --primary: #00a859;
