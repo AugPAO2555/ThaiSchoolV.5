@@ -1,4 +1,5 @@
 /* ประกาศที่อยู่ไฟล์ฟอนต์ที่คุณอัปโหลดขึ้น GitHub */
+/* ประกาศฟอนต์โดยใช้ชื่อไฟล์ตัวพิมพ์เล็กทั้งหมด */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -15,9 +16,23 @@
 
 @font-face {
     font-family: 'Anakotmai';
-    src: url('./fonts/Anakotmai-bold.woff2') format('woff2');
+    src: url('./fonts/anakotmai-bold.woff2') format('woff2');
     font-weight: 700;
     font-style: normal;
+}
+
+/* บังคับใช้ฟอนต์กับทุกส่วนของเว็บ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Anakotmai', sans-serif !important;
+}
+
+/* เน้นให้หัวข้อใช้ตัวหนา (Bold) เสมอ */
+h1, h2, h3, h4, .logo {
+    font-family: 'Anakotmai', sans-serif !important;
+    font-weight: 700;
 }
 
 /* ตั้งค่าพื้นฐานให้ทั้งเว็บ */
