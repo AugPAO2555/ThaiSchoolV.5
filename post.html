@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>รายละเอียดข่าว</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav><a href="index.html" class="logo">Thai School V.5</a></nav>
+    <div class="container" id="full-post" style="max-width: 800px; margin: auto;"></div>
+
+    <script>
+        async function loadFullPost() {
+            const id = new URLSearchParams(window.location.search).get('id');
+            const res = await fetch('news.json');
+            const data = await res.json();
+            const post = data.find(p => p.id == id);
+            
+            if(post) {
+                document.getElementById('full-post').innerHTML = `
+                    <img src="${post.img}" style="width:100%; border-radius:20px; margin-bottom:30px;">
+                    <h1>${post.title}</h1>
+                    <p style="color:#888;">${post.date}</p>
+                    <hr style="margin:20px 0;">
+                    <div style="font-size:1.2rem;">${post.desc}</div>
+                    <a href="index.html" class="btn">กลับหน้าหลัก</a>
+                `;
+            }
+        }
+        loadFullPost();
+    </script>
+</body>
+</html>
 
