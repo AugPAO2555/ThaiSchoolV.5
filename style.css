@@ -37,7 +37,7 @@ body {
     font-family: 'Anakotmai', sans-serif !important;
 }
 
-/* --- 3. Navigation --- */
+/* --- 3. Navigation (เมนูห้ามหาย) --- */
 nav {
     display: flex;
     justify-content: space-between;
@@ -54,46 +54,45 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 4. Hero Section (Banner Style) --- */
+/* --- 4. Hero Section (Banner สว่าง ไม่หมอง ไม่แคบ) --- */
 .hero {
     width: 100%;
-    /* ปรับความสูงให้ไม่แคบเกินไปและแสดงภาพได้ชัดเจน */
     height: 450px; 
     display: flex;
     justify-content: center;
     align-items: center;
-    /* ใช้ภาพแบนเนอร์โดยตรง ไม่ใส่ overlay สีดำให้หม่น */
+    /* ใช้ภาพตรงๆ ไม่ใส่ Overlay สีดำ */
     background-image: url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-/* --- 5. Grid System (แยกหน้าแรกและบุคลากร) --- */
+/* --- 5. Grid System (แยกส่วนชัดเจน) --- */
 .container { 
     max-width: 1200px; 
     margin: 0 auto; 
     padding: 40px 20px; 
 }
 
-/* Grid หน้าแรก (ข่าวสาร) */
+/* Grid ข่าวสาร */
 .grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
 
-/* Grid หน้าบุคลากร (บังคับขนาด Card ให้เล็กและสมดุล) */
+/* Grid บุคลากร */
 .p-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
     margin-bottom: 50px;
 }
 
 /* --- 6. Card Styles --- */
 
-/* Card สำหรับหน้าแรก */
+/* Card ข่าวสารหน้าแรก */
 .card {
     background: white;
     border-radius: 12px;
@@ -106,7 +105,7 @@ nav {
 .card img { width: 100%; height: 200px; object-fit: cover; }
 .card-body { padding: 20px; }
 
-/* Card สำหรับหน้าบุคลากร (บังคับเป็นวงกลม) */
+/* Card บุคลากรทรงรูปติดบัตร 1.5 นิ้ว (3:4) */
 .p-card {
     background: white;
     padding: 25px 15px;
@@ -118,19 +117,23 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 300px;
 }
 .p-card:hover { transform: translateY(-5px); }
+
 .p-card img {
-    /* บังคับรูปโปรไฟล์ให้เป็นวงกลมเป๊ะๆ */
-    width: 110px !important;
-    height: 110px !important;
-    border-radius: 50% !important; 
-    border: 3px solid var(--primary);
+    /* สัดส่วน 1.5 นิ้ว (300x400) ย่อลงมาแสดงผล */
+    width: 120px !important;  
+    height: 160px !important; 
+    border-radius: 4px !important; /* ขอบมนนิดเดียวแบบรูปถ่าย */
+    border: 3px solid #ffffff; /* ขอบขาวแบบรูปติดบัตร */
+    outline: 1px solid #ddd; /* เส้นตัดขอบบางๆ */
     margin-bottom: 15px;
-    object-fit: cover;
+    object-fit: cover; /* กันรูปเบี้ยวแน่นอน */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* --- 7. Utility & Typography --- */
+/* --- 7. Utility --- */
 .title-border {
     border-left: 6px solid var(--primary);
     padding-left: 15px;
@@ -138,29 +141,17 @@ nav {
     font-size: 1.8rem;
 }
 
-/* Modal */
 .modal {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); 
-    z-index: 2000; 
-    justify-content: center; 
-    align-items: center;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
-.modal-content { 
-    background: white; 
-    padding: 2rem; 
-    border-radius: 20px; 
-    max-width: 500px; 
-    width: 90%; 
-}
+.modal-content { background: white; padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; }
 
-/* --- 8. Responsive (มือถือ) --- */
+/* --- 8. Responsive --- */
 @media (max-width: 768px) {
     .nav-links { display: none !important; }
-    .hero { height: 250px; } /* ลดความสูงแบนเนอร์บนมือถือให้พอดีจอ */
+    .hero { height: 250px; } 
     .grid { grid-template-columns: 1fr; }
-    .p-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } /* มือถือโชว์บุคลากร 2 คนต่อแถว */
-    .p-card img { width: 90px !important; height: 90px !important; }
+    .p-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
+    .p-card img { width: 100px !important; height: 133px !important; }
 }
