@@ -11,19 +11,21 @@
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="index.html#news">ข่าวสาร</a></li>
             <li><a href="personnel.html">บุคลากร</a></li>
+            <li><a href="contact.html">ติดต่อเรา</a></li>
         </ul>
     </nav>
 
     <div class="container">
         <h2 class="title-border">ผู้ก่อตั้ง</h2>
-        <div class="grid p-grid" id="founder-list"></div>
+        <div class="p-grid" id="founder-list"></div>
 
         <h2 class="title-border">โรงเรียนกราซวิทยา</h2>
-        <div class="grid p-grid" id="school-list"></div>
+        <div class="p-grid" id="school-list"></div>
 
         <h2 class="title-border">สำนักตำรวจภูธรพระนครศรีอยุธยา</h2>
-        <div class="grid p-grid" id="police-list"></div>
+        <div class="p-grid" id="police-list"></div>
     </div>
 
     <div class="modal" id="bio-modal">
@@ -32,11 +34,10 @@
             <p style="color: var(--primary); font-weight: bold;" id="m-role"></p>
             <p id="m-dept" style="font-size: 0.9rem; margin-bottom: 15px;"></p>
             <p id="m-bio"></p>
-            <button class="btn" onclick="closeModal()" style="width: 100%; border: none; cursor: pointer;">ปิดหน้าต่าง</button>
+            <button class="btn" onclick="closeModal()" style="width: 100%; border: none; cursor: pointer; background: var(--primary); color: white; padding: 10px; border-radius: 5px; margin-top: 20px;">ปิดหน้าต่าง</button>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
 </html>
-
