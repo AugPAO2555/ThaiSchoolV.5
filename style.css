@@ -50,45 +50,65 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* 5. Hero Section (ปรับปรุงตามภาพวิวโรงเรียนที่คุณส่งมา) */
+/* 5. Hero Section (ปรับตามภาพเป้าหมาย) */
 .hero {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 8%;
-    /* ใส่ลิงก์ภาพวิวโรงเรียนของคุณตรงนี้ */
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), 
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
                 url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     color: var(--light);
-    text-align: left; /* เปลี่ยนเป็นชิดซ้ายตามสไตล์โลโก้คู่ข้อความ */
 }
 
 .hero-content {
     display: flex;
     align-items: center;
+    gap: 3rem; /* ระยะห่างระหว่างฝั่งโลโก้กับข้อความ */
+}
+
+/* ฝั่งโลโก้และเส้นคั่น */
+.hero-brand {
+    display: flex;
+    align-items: center;
     gap: 2rem;
 }
 
-/* เพิ่มเติมกรณีคุณใช้โครงสร้างโลโก้คู่ข้อความแบบที่ผมแนะนำก่อนหน้า */
-.hero img {
-    width: 200px; /* ปรับขนาดโลโก้โรงเรียน */
+.hero-brand img {
+    width: 250px; /* ขนาดโลโก้ตามในภาพ */
     height: auto;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
-.hero h1 {
-    font-size: 4rem;
+.divider {
+    width: 4px;
+    height: 150px;
+    background-color: var(--light);
+}
+
+/* ฝั่งข้อความ */
+.hero-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-text h1 {
+    font-size: 5rem;
     font-weight: 700;
-    color: var(--primary);
+    color: var(--primary); /* สีเขียว */
     margin: 0;
+    line-height: 1.1;
 }
 
-.hero p {
-    font-size: 1.5rem;
+.hero-text p {
+    font-size: 2.2rem;
     font-weight: 300;
+    color: var(--light);
+    margin: 0;
 }
 
 /* 6. Grid & Cards */
@@ -122,9 +142,14 @@ nav {
 }
 .modal-content { background: white; padding: 3rem; border-radius: 20px; max-width: 500px; width: 90%; position: relative; }
 
+/* 9. Responsive สำหรับมือถือ */
 @media (max-width: 768px) {
     .nav-links { display: none; }
     .container { padding: 2rem 5%; }
-    .hero h1 { font-size: 2.5rem; }
-    .hero-content { flex-direction: column; text-align: center; }
+    .hero-content { flex-direction: column; text-align: center; gap: 1.5rem; }
+    .hero-brand { flex-direction: column; gap: 1rem; }
+    .divider { width: 100px; height: 4px; } /* เส้นคั่นแนวนอนบนมือถือ */
+    .hero-text h1 { font-size: 3rem; }
+    .hero-text p { font-size: 1.2rem; }
+    .hero-brand img { width: 180px; }
 }
