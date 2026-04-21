@@ -1,4 +1,4 @@
-/* --- 1. Font Setup --- */
+/* 1. ฟอนต์ Anakotmai */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -15,6 +15,7 @@
     font-weight: 700;
 }
 
+/* 2. ตั้งค่าหลัก */
 :root {
     --primary: #00a859;
     --dark: #1a1a1a;
@@ -32,7 +33,7 @@ body {
     font-family: 'Anakotmai', sans-serif !important;
 }
 
-/* --- 2. Navbar --- */
+/* 3. Navigation */
 nav {
     display: flex;
     justify-content: space-between;
@@ -49,39 +50,28 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Hero (ขนาดกะทัดรัด) --- */
+/* 4. Hero Section (Banner Style) */
 .hero {
-    padding: 60px 8%;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), 
-                url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
+    width: 100%;
+    /* ปรับความสูงให้พอดีกับภาพแบนเนอร์ */
+    height: 380px; 
+    background-image: url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
     background-size: cover;
     background-position: center;
-    color: white;
-    text-align: center;
+    background-repeat: no-repeat;
+    /* ไม่ใส่ background-attachment: fixed เพื่อให้ภาพขยับตามการ scroll ได้ง่ายบนมือถือ */
 }
-.hero h1 { font-size: 3rem; color: var(--primary); }
-.hero p { font-size: 1.5rem; }
 
-/* --- 4. Grid System (แยกขาดจากกัน) --- */
+/* 5. Grid System */
 .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
-/* สำหรับหน้าแรก (ข่าวสาร) */
 .grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
 
-/* สำหรับหน้าบุคลากร */
-.p-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
-    margin-bottom: 50px;
-}
-
-/* --- 5. Card Styles --- */
-/* Card ข่าวสาร */
+/* 6. Card Style */
 .card {
     background: white;
     border-radius: 12px;
@@ -90,29 +80,11 @@ nav {
     transition: 0.3s;
     border: 1px solid #eee;
 }
+.card:hover { transform: translateY(-5px); }
 .card img { width: 100%; height: 200px; object-fit: cover; }
 .card-body { padding: 20px; }
 
-/* Card บุคลากร */
-.p-card {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    border: 1px solid #eee;
-    transition: 0.3s;
-}
-.p-card:hover { transform: translateY(-5px); }
-.p-card img {
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    border: 3px solid var(--primary);
-    margin-bottom: 15px;
-    object-fit: cover;
-}
-
-/* --- 6. อื่นๆ --- */
+/* 7. Utility */
 .title-border {
     border-left: 6px solid var(--primary);
     padding-left: 15px;
@@ -120,14 +92,9 @@ nav {
     font-size: 1.8rem;
 }
 
-/* Modal */
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { background: white; padding: 2rem; border-radius: 20px; max-width: 500px; width: 90%; }
-
+/* 8. Responsive */
 @media (max-width: 768px) {
     .nav-links { display: none !important; }
-    .grid, .p-grid { grid-template-columns: 1fr; }
+    .hero { height: 200px; } /* ลดความสูงแบนเนอร์บนมือถือ */
+    .grid { grid-template-columns: 1fr; }
 }
