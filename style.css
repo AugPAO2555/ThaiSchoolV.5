@@ -1,4 +1,4 @@
-/* 1. ประกาศฟอนต์ Anakotmai (ตัวพิมพ์เล็กทั้งหมด) */
+/* 1. ฟอนต์ Anakotmai (ตัวเล็กทั้งหมด) */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -15,9 +15,9 @@
     font-weight: 700;
 }
 
-/* 2. ตั้งค่าพื้นฐาน */
+/* 2. ตั้งค่าหลัก */
 :root {
-    --primary: #00a859; /* สีเขียวหลัก */
+    --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
     --gray: #f4f4f4;
@@ -37,7 +37,7 @@ body {
     line-height: 1.6;
 }
 
-/* 3. Navigation (แก้ไขให้เมนูแสดงครบถ้วน) */
+/* 3. Navigation (แก้ให้เมนูแสดงครบทุกหน้า) */
 nav {
     display: flex;
     justify-content: space-between;
@@ -50,15 +50,16 @@ nav {
     z-index: 1000;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+
 .nav-links { 
-    display: flex !important; /* บังคับให้แสดงผล */
+    display: flex !important; /* บังคับให้แสดงผลเสมอ */
     list-style: none; 
     gap: 2rem; 
 }
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* 4. Hero Section (ขนาดกะทัดรัด) */
+/* 4. Hero Section (ขนาดกะทัดรัดแบบรูปที่ 2) */
 .hero {
     padding: 80px 8%;
     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
@@ -68,7 +69,6 @@ nav {
     background-attachment: fixed;
     color: var(--light);
     text-align: center;
-    display: block;
 }
 
 .hero-content {
@@ -91,7 +91,6 @@ nav {
     color: var(--primary);
     margin: 0;
     line-height: 1.2;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
 }
 
 .hero-text p {
@@ -101,15 +100,17 @@ nav {
     margin-top: 8px;
 }
 
-/* 5. Grid System (เอากลับคืนมา) */
+/* 5. Grid System (กู้คืน Grid ข่าวและบุคลากร) */
 .container { padding: 3rem 8%; }
+
 .grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
     gap: 2rem; 
+    margin-bottom: 3rem;
 }
 
-/* 6. Card Style (เอากลับคืนมา) */
+/* 6. Card Style (กู้คืน Card ข่าวสาร) */
 .card {
     background: var(--light);
     border-radius: 15px;
@@ -124,35 +125,45 @@ nav {
 .card-body { padding: 1.5rem; }
 .card-date { font-size: 0.85rem; color: #777; margin-bottom: 0.5rem; }
 
-/* 7. Personnel Specific (สำหรับหน้าบุคลากร) */
+/* 7. Personnel Specific (กู้คืน Card บุคลากร) */
 .p-grid { 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 2rem;
+    margin-bottom: 3rem;
 }
-.p-card { text-align: center; padding: 2rem; background: var(--light); border-radius: 15px; box-shadow: var(--shadow); }
-.p-card img { width: 140px; height: 140px; border-radius: 50%; margin-bottom: 1rem; border: 4px solid var(--primary); object-fit: cover; }
+.p-card { 
+    text-align: center; 
+    padding: 2rem; 
+    background: var(--light); 
+    border-radius: 15px; 
+    box-shadow: var(--shadow);
+    border: 1px solid #eee;
+}
+.p-card img { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    margin-bottom: 1rem; 
+    border: 3px solid var(--primary); 
+    object-fit: cover; 
+}
+.p-card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+.p-card p { font-size: 0.9rem; color: #666; }
 
-/* 8. Utility & Modal */
+/* 8. Utility */
 .title-border {
     border-left: 6px solid var(--primary);
     padding-left: 15px;
     margin: 40px 0 25px;
-    font-size: 2rem;
+    font-size: 1.8rem;
 }
-
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { background: white; padding: 3rem; border-radius: 20px; max-width: 500px; width: 90%; position: relative; }
 
 /* 9. Responsive */
 @media (max-width: 768px) {
-    .nav-links { 
-        display: none !important; /* ซ่อนเมนูบนมือถือ (ใช้ Hamburger แทนถ้ามี) */
-    }
-    .hero { padding: 60px 5%; }
+    nav { padding: 1rem 5%; }
+    .nav-links { display: none !important; } /* ซ่อนเมนูบนมือถือเพื่อไม่ให้ทับกัน */
     .hero-text h1 { font-size: 2.2rem; }
     .hero-text p { font-size: 1.1rem; }
+    .grid, .p-grid { grid-template-columns: 1fr; }
 }
