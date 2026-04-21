@@ -185,3 +185,27 @@ nav {
     .p-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
     .p-card img { width: 100px !important; height: 133px !important; }
 }
+/* --- ชุดคำสั่งปราบฟอนต์ Basic (วางล่างสุด) --- */
+
+/* 1. บังคับทุกอย่างที่อยู่ใน Modal ให้เป็น Anakotmai */
+#memberModal, 
+#memberModal *, 
+.modal, 
+.modal * {
+    font-family: 'Anakotmai', sans-serif !important;
+}
+
+/* 2. เจาะจงไปที่ปุ่มปิด (ถ้าเป็นตัว X) */
+.close, 
+.close-btn, 
+[onclick*="closeModal"], 
+[class*="close"] {
+    font-family: 'Anakotmai', sans-serif !important;
+    font-weight: 700 !important;
+    font-style: normal !important;
+}
+
+/* 3. กรณีที่เป็นปุ่ม Button ธรรมดา */
+button {
+    font-family: 'Anakotmai', sans-serif !important;
+}
