@@ -196,3 +196,35 @@ button, span, a, div, .close-btn, [class*="close"], p, h1, h2, h3 {
     display: inline-block;
     line-height: 1;
 }
+/* --- ไม้ตายสุดท้าย: ปราบอาการตัวหนังสือชิดขอบจอ --- */
+
+/* บังคับให้ Container ในหน้าอ่านข่าวมีระยะห่าง */
+.news-wrapper, 
+#full-post, 
+.container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* บังคับให้ตัวหนังสือข้างในไม่เบียดขอบ */
+.news-wrapper h1, 
+.news-wrapper p, 
+.news-wrapper div,
+.article-text,
+.content {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+}
+
+/* บังคับให้รูปภาพสมส่วน ไม่ดันจนจอบาน */
+#full-post img, 
+.news-wrapper img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-radius: 15px !important;
+}
