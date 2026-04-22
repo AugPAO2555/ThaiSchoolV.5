@@ -147,133 +147,66 @@ nav {
     font-size: 1.8rem;
     font-family: 'Anakotmai', sans-serif !important;
 }
-
-/* --- 9. Responsive (แก้ไข Navbar มือถือ และอาการติดขอบ) --- */
+/* --- 9. Responsive & Fix ชิดขอบ (ฉบับจบงาน) --- */
 @media (max-width: 768px) {
     nav {
-        padding: 1rem 15px; /* บังคับระยะห่างขอบบนมือถือ */
-        flex-direction: column; 
+        padding: 1rem 15px !important;
+        flex-direction: column;
         align-items: center;
         gap: 10px;
     }
 
     .nav-links {
-        display: flex !important; 
-        gap: 12px; 
+        display: flex !important;
+        gap: 12px;
         width: 100%;
-        justify-content: center; 
-        overflow-x: auto; 
+        justify-content: center;
+        overflow-x: auto;
         padding: 5px 10px;
-        white-space: nowrap; 
+        white-space: nowrap;
     }
 
-    .container {
-        padding: 20px 15px; /* ระยะห่างขอบจอสำหรับเนื้อหาบนมือถือ */
+    /* บังคับดันเนื้อหาทุกหน้าให้ห่างจากขอบจอ 25px */
+    .container, 
+    .news-wrapper, 
+    .news-container, 
+    #full-post {
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    .hero { height: 250px; } 
-    .grid { grid-template-columns: 1fr; }
-    
-    .p-grid { 
-        grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 12px !important; 
-        padding: 0 5px;
-    } 
-    .p-card { padding: 15px 10px; }
-    .p-card img { width: 95px !important; height: 127px !important; }
-    .p-card h3 { font-size: 0.9rem; }
-    .p-card p { font-size: 0.75rem; }
+    .hero { height: 200px; }
 }
 
-/* --- ชุดคำสั่งเผด็จการฟอนต์ (Anti-Basic V.2) --- */
-button, span, a, div, .close-btn, [class*="close"], p, h1, h2, h3 {
-    font-family: 'Anakotmai', sans-serif !important;
-}
+/* --- ไม้ตายเผด็จการ (ห้ามลบ) --- */
 
-.close-btn, .close {
-    font-weight: 700 !important;
-    font-style: normal !important;
-    display: inline-block;
-    line-height: 1;
-}
-/* --- ไม้ตายสุดท้าย: ปราบอาการตัวหนังสือชิดขอบจอ --- */
-
-/* บังคับให้ Container ในหน้าอ่านข่าวมีระยะห่าง */
-.news-wrapper, 
-#full-post, 
-.container {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
-    box-sizing: border-box !important;
-}
-
-/* บังคับให้ตัวหนังสือข้างในไม่เบียดขอบ */
-.news-wrapper h1, 
-.news-wrapper p, 
-.news-wrapper div,
-.article-text,
-.content {
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    white-space: normal !important;
-}
-
-/* บังคับให้รูปภาพสมส่วน ไม่ดันจนจอบาน */
-#full-post img, 
-.news-wrapper img {
-    max-width: 100% !important;
-    height: auto !important;
-    display: block !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    border-radius: 15px !important;
-}
-
-/* ล้างบางค่า Container เดิมเฉพาะหน้าข่าว */
-.news-wrapper {
-    display: block !important;
-    width: 100% !important;
-    max-width: 800px !important; /* บีบให้เนื้อหาไม่บานเกินไป */
-    margin: 0 auto !important;
-    padding: 30px 25px !important; /* ดันตัวหนังสือออกจากขอบจอซ้าย-ขวา 25px */
-    box-sizing: border-box !important;
-}
-
-/* ป้องกันตัวหนังสือล้นขอบจอ */
-.news-wrapper * {
-    word-wrap: break-word !important;
-    white-space: normal !important;
-}
-
-/* บังคับรูปภาพให้มีขอบ */
-.news-wrapper img {
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: 15px !important;
-}
-/* --- ปราบอาการตัวหนังสือชิดขอบในหน้าข่าว --- */
-.news-container {
-    width: 100% !important;
+/* บังคับให้หน้าอ่านข่าวสารมีระยะห่างที่สวยงาม */
+.news-container, .news-wrapper {
     max-width: 800px !important;
     margin: 0 auto !important;
-    /* หัวใจสำคัญ: ดันตัวหนังสือออกจากขอบจอข้างละ 25px */
-    padding-left: 25px !important;
-    padding-right: 25px !important;
-    padding-top: 30px !important;
-    padding-bottom: 50px !important;
-    box-sizing: border-box !important;
-    background: #fff;
+    padding: 30px 25px !important; /* ดันขอบ 25px */
+    display: block !important;
 }
 
-.news-container * {
-    /* ป้องกันตัวหนังสือยาวๆ ดันจอบาน */
+/* ป้องกันตัวหนังสือจูบขอบจอ */
+.news-container *, .news-wrapper *, #full-post * {
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
+    white-space: normal !important;
 }
 
-.news-container img {
-    width: 100% !important;
+/* รูปภาพในข่าวต้องไม่บานเกินจอ */
+#full-post img, .news-container img, .news-wrapper img {
+    max-width: 100% !important;
     height: auto !important;
     border-radius: 15px !important;
-    margin-bottom: 25px !important;
+    display: block !important;
+    margin: 0 auto 20px auto !important;
+}
+
+/* ดักคอฟอนต์อนาคตใหม่ */
+button, span, a, div, p, h1, h2, h3 {
+    font-family: 'Anakotmai', sans-serif !important;
 }
