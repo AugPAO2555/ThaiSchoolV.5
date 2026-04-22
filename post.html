@@ -6,9 +6,47 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ดักคอฟอนต์อีกรอบกันพลาด */
-        * { font-family: 'Anakotmai', sans-serif !important; }
-        body { background-color: #f4f4f4; margin: 0; }
+        /* ดักคอทุกจุด ห้ามใช้ค่าจากที่อื่น */
+        * { 
+            font-family: 'Anakotmai', sans-serif !important; 
+            box-sizing: border-box !important;
+        }
+
+        /* กล่องคุมเนื้อหาใหม่ (ห้ามติดขอบจอ) */
+        .super-container {
+            width: 100% !important;
+            max-width: 800px !important;
+            margin: 0 auto !important;
+            /* ดันเนื้อหาออกจากขอบจอข้างละ 30px แบบบังคับ */
+            padding-left: 30px !important;
+            padding-right: 30px !important;
+            padding-top: 20px !important;
+            padding-bottom: 100px !important;
+            background: #ffffff !important;
+        }
+
+        .super-container img {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 15px !important;
+            margin-bottom: 25px !important;
+        }
+
+        .super-container h1 {
+            font-size: 1.8rem !important;
+            line-height: 1.4 !important;
+            margin-bottom: 10px !important;
+            color: #1a1a1a !important;
+        }
+
+        .super-container .content-text {
+            font-size: 1.1rem !important;
+            line-height: 1.8 !important;
+            color: #333 !important;
+            /* ป้องกันตัวหนังสือยาวเกินจนดันจอ */
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+        }
     </style>
 </head>
 <body>
@@ -22,8 +60,8 @@
         </ul>
     </nav>
 
-    <main class="news-container" id="full-post">
-        </main>
+    <div class="super-container" id="full-post">
+        </div>
 
     <script>
         async function loadFullPost() {
@@ -34,19 +72,20 @@
 
             if(post) {
                 document.getElementById('full-post').innerHTML = `
-                    <img src="${post.img}" alt="News Image">
-                    <h1 style="margin-bottom:10px; line-height:1.4;">${post.title}</h1>
-                    <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
+                    <img src="${post.img}">
+                    <h1>${post.title}</h1>
+                    <p style="color:#888; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
                     <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-                    <div style="font-size:1.1rem; line-height:1.8; color:#333; margin-bottom:40px;">
+                    <div class="content-text">
                         ${post.desc}
                     </div>
+                    <br><br>
                     <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border:2px solid var(--primary); padding:10px 25px; border-radius:50px; display:inline-block;">
-                        ← กลับหน้าหลัก
+                        ← กลับหน้าแรก
                     </a>
                 `;
             } else {
-                document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><a href="index.html">กลับหน้าหลัก</a>`;
+                document.getElementById('full-post').innerHTML = `<div style="padding:50px;"><h2>ไม่พบข้อมูลข่าวสาร</h2><a href="index.html">กลับหน้าหลัก</a></div>`;
             }
         }
         window.onload = loadFullPost;
