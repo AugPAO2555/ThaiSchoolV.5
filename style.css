@@ -193,3 +193,23 @@ nav {
     .p-card h3 { font-size: 0.9rem; }
     .p-card p { font-size: 0.75rem; }
 }
+
+/* --- ชุดคำสั่งเผด็จการฟอนต์ (Anti-Basic V.2) --- */
+
+/* 1. บังคับทุกปุ่ม ทุกสัญลักษณ์ ให้ใช้ Anakotmai เท่านั้น */
+button, 
+span, 
+a, 
+div,
+.close-btn,
+[class*="close"] {
+    font-family: 'Anakotmai', sans-serif !important;
+}
+
+/* 2. ถ้าใช้เครื่องหมายคณิตศาสตร์เป็นปุ่มปิด ให้บังคับน้ำหนักฟอนต์ด้วย */
+.close-btn, .close {
+    font-weight: 700 !important;
+    font-style: normal !important;
+    display: inline-block;
+    line-height: 1;
+}
