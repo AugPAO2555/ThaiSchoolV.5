@@ -251,3 +251,29 @@ button, span, a, div, .close-btn, [class*="close"], p, h1, h2, h3 {
     height: auto !important;
     border-radius: 15px !important;
 }
+/* --- ปราบอาการตัวหนังสือชิดขอบในหน้าข่าว --- */
+.news-container {
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    /* หัวใจสำคัญ: ดันตัวหนังสือออกจากขอบจอข้างละ 25px */
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+    padding-top: 30px !important;
+    padding-bottom: 50px !important;
+    box-sizing: border-box !important;
+    background: #fff;
+}
+
+.news-container * {
+    /* ป้องกันตัวหนังสือยาวๆ ดันจอบาน */
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}
+
+.news-container img {
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 15px !important;
+    margin-bottom: 25px !important;
+}
