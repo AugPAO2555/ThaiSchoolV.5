@@ -228,3 +228,26 @@ button, span, a, div, .close-btn, [class*="close"], p, h1, h2, h3 {
     margin-right: auto !important;
     border-radius: 15px !important;
 }
+
+/* ล้างบางค่า Container เดิมเฉพาะหน้าข่าว */
+.news-wrapper {
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important; /* บีบให้เนื้อหาไม่บานเกินไป */
+    margin: 0 auto !important;
+    padding: 30px 25px !important; /* ดันตัวหนังสือออกจากขอบจอซ้าย-ขวา 25px */
+    box-sizing: border-box !important;
+}
+
+/* ป้องกันตัวหนังสือล้นขอบจอ */
+.news-wrapper * {
+    word-wrap: break-word !important;
+    white-space: normal !important;
+}
+
+/* บังคับรูปภาพให้มีขอบ */
+.news-wrapper img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 15px !important;
+}
