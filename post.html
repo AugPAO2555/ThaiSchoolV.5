@@ -8,30 +8,49 @@
     <style>
         /* บังคับฟอนต์ทั้งหน้า */
         * { font-family: 'Anakotmai', sans-serif !important; }
-        
-        /* สร้างช่องว่างให้ตัวหนังสือไม่ติดขอบจอ */
-        .article-body {
-            padding: 0 25px; /* ดันเนื้อหาซ้าย-ขวา 25px */
-            margin-bottom: 60px;
-        }
-        
-        .article-body h1 {
-            font-size: 1.6rem;
-            line-height: 1.4;
-            margin-top: 20px;
+
+        /* แก้ไข Container หลักให้มีระยะห่างจากขอบจอ (หัวใจสำคัญ) */
+        .container-fixed {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px 20px; /* ดันเนื้อหาทุกอย่างออกจากขอบซ้าย-ขวา 20px */
         }
 
-        .article-body p.date {
+        .article-title {
+            font-size: 1.7rem;
+            line-height: 1.4;
+            margin: 20px 0 10px 0;
+            font-weight: 700;
+        }
+
+        .article-date {
             color: #888;
-            font-size: 0.9rem;
-            margin: 10px 0 20px 0;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
         }
 
         .article-text {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             line-height: 1.8;
             color: #333;
-            word-wrap: break-word; /* ป้องกันตัวหนังสือยาวเกินจนดันขอบ */
+            word-wrap: break-word;
+            margin-bottom: 40px;
+        }
+
+        /* ตกแต่งปุ่มให้ดูแพง */
+        .btn-return {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: bold;
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-return:hover {
+            background: var(--primary);
+            color: white;
         }
     </style>
 </head>
@@ -46,7 +65,7 @@
         </ul>
     </nav>
 
-    <div class="container" id="full-post" style="max-width: 800px; margin: auto; padding-top: 30px;">
+    <div class="container-fixed" id="full-post">
         </div>
 
     <script>
@@ -58,22 +77,17 @@
 
             if(post) {
                 document.getElementById('full-post').innerHTML = `
-                    <div class="article-body">
-                        <img src="${post.img}" style="width:100%; border-radius:15px; box-shadow: var(--shadow); display: block;">
-                        <h1>${post.title}</h1>
-                        <p class="date">วันที่เผยแพร่: ${post.date}</p>
-                        <hr style="margin:20px 0; border: 0; border-top: 1px solid #eee;">
-                        <div class="article-text">
-                            ${post.desc}
-                        </div>
-                        <br><br>
-                        <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border: 1.5px solid var(--primary); padding: 10px 25px; border-radius: 30px; display: inline-block;">
-                            ← กลับหน้าแรก
-                        </a>
+                    <img src="${post.img}" style="width:100%; border-radius:20px; box-shadow: var(--shadow); display: block;">
+                    <h1 class="article-title">${post.title}</h1>
+                    <p class="article-date">เผยแพร่เมื่อ: ${post.date}</p>
+                    <hr style="margin:20px 0; border: 0; border-top: 1px solid #eee;">
+                    <div class="article-text">
+                        ${post.desc}
                     </div>
+                    <a href="index.html" class="btn-return">← กลับหน้าแรก</a>
                 `;
             } else {
-                document.getElementById('full-post').innerHTML = `<div class="article-body"><h2>ไม่พบข้อมูลข่าวสาร</h2></div>`;
+                document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><br><a href="index.html">กลับหน้าแรก</a>`;
             }
         }
 
