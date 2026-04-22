@@ -355,4 +355,54 @@ button, span, a, div, p, h1, h2, h3 {
     .p-card h4 { font-size: 0.9rem !important; margin: 5px 0 !important; }
     .p-card p { font-size: 0.75rem !important; }
 }
+/* --- ชุดกู้คืนสัดส่วนรูปถ่ายบุคลากร (ฉบับสมบูรณ์) --- */
+
+/* 1. คุมขนาดรูปภาพให้เหมือนรูปถ่าย ไม่ให้โดนยืดหรือตัดหัว */
+.p-card img {
+    width: 120px !important;    /* บังคับความกว้างเท่าคอม */
+    height: 160px !important;   /* บังคับความสูงเท่าคอม */
+    object-fit: cover !important; 
+    border-radius: 4px !important;
+    border: 3px solid #ffffff !important; 
+    outline: 1px solid #ddd !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    margin-bottom: 15px !important;
+    display: block !important;
+}
+
+/* 2. จัดระเบียบ Grid ในมือถือ (ให้เป็น 2 คน และรูปไม่เบี้ยว) */
+@media (max-width: 768px) {
+    .p-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* บังคับ 2 คอลัมน์ */
+        gap: 15px !important;
+        padding: 10px !important;
+    }
+
+    .p-card {
+        padding: 15px 10px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* จัดรูปให้อยู่กลางการ์ด */
+        justify-content: flex-start !important;
+    }
+
+    /* บังคับรูปในมือถือให้ขนาดเท่าเดิม ไม่ให้มันขยายตามหน้าจอ */
+    .p-card img {
+        width: 100px !important;  /* ย่อลงนิดนึงให้พอดี 2 คนในมือถือ */
+        height: 135px !important; 
+    }
+
+    .p-card h4 {
+        font-size: 0.85rem !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+
+    .p-card p {
+        font-size: 0.75rem !important;
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
 
