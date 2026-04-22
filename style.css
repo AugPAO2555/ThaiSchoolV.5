@@ -80,12 +80,12 @@ nav {
 }
 .p-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Desktop: ล็อกขนาดขั้นต่ำ */
     gap: 25px;
     margin-bottom: 50px;
 }
 
-/* --- 6. Card Styles (ฉบับแก้ไขภาพแตก) --- */
+/* --- 6. Card Styles --- */
 .card {
     background: white;
     border-radius: 12px;
@@ -93,72 +93,58 @@ nav {
     box-shadow: var(--shadow);
     transition: 0.3s;
     border: 1px solid #eee;
-    height: 100%; /* ให้ card สูงเท่ากันหมดในแถวเดียว */
+    height: 100%;
 }
-
-.card:hover { transform: translateY(-5px); }
-
 .card img { 
-    width: 100%; 
-    height: 220px; /* เพิ่มความสูงอีกนิดให้ดูเด่น */
-    object-fit: cover; /* ตัดภาพให้พอดีกรอบ (ห้ามลบอันนี้) */
-    object-position: center; /* เอาตรงกลางภาพเสมอ */
-    
-    /* เพิ่ม 2 บรรทัดนี้เพื่อลดความแตกของภาพ */
-    image-rendering: -webkit-optimize-contrast; 
-    display: block; 
+    width: 100%; height: 220px; object-fit: cover; 
+    image-rendering: -webkit-optimize-contrast; display: block; 
 }
 
-.card-body { 
-    padding: 20px; 
+/* --- แก้ไข p-card (จัดกลาง + ไม่ชิดขอบ) --- */
+.p-card {
+    background: white;
+    padding: 20px 15px; /* เพิ่มพื้นที่หายใจด้านข้าง */
+    border-radius: 15px;
+    text-align: center; /* บังคับตัวอักษรอยู่กลางเสมอ */
+    box-shadow: var(--shadow);
+    border: 1px solid #eee;
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center; /* จัดรูปให้อยู่กลาง */
+}
+.p-card:hover { transform: translateY(-5px); }
+
+.p-card img {
+    width: 120px !important;  
+    height: 160px !important; 
+    border-radius: 4px !important; 
+    border: 3px solid #ffffff; 
+    outline: 1px solid #ddd; 
+    margin-bottom: 15px;
+    object-fit: cover; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* --- 7. Modal & Font Fix (จุดที่แก้ล่าสุด) --- */
+/* คุมเนื้อหาใน p-card ให้เรียบร้อย */
+.p-card h3 { font-size: 1.1rem; margin-bottom: 5px; width: 100%; }
+.p-card p { font-size: 0.9rem; color: #666; width: 100%; }
+
+/* --- 7. Modal & Font Fix --- */
 .modal {
-    display: none; 
-    position: fixed; 
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); 
-    z-index: 2000; 
-    justify-content: center; 
-    align-items: center;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
-
 .modal-content { 
-    background: white; 
-    padding: 2.5rem; 
-    border-radius: 20px; 
-    max-width: 550px; 
-    width: 90%; 
-    font-family: 'Anakotmai', sans-serif !important; /* บังคับฟอนต์ */
-    position: relative;
+    background: white; padding: 2.5rem; border-radius: 20px; max-width: 550px; width: 90%; 
+    font-family: 'Anakotmai', sans-serif !important; position: relative; text-align: center;
 }
-
-/* แก้ฟอนต์ปุ่มปิด และข้อความใน Modal */
-.modal-content h2, 
-.modal-content h3, 
-.modal-content p, 
-.modal-content span,
-.modal-content div {
+.modal-content h2, .modal-content h3, .modal-content p, .modal-content span, .modal-content div {
     font-family: 'Anakotmai', sans-serif !important;
 }
-
 .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    cursor: pointer;
-    font-family: 'Anakotmai', sans-serif !important; /* บังคับฟอนต์ปุ่มปิด */
-    transition: 0.3s;
-}
-.close-btn:hover {
-    color: var(--primary);
+    position: absolute; top: 15px; right: 20px; font-size: 24px; font-weight: 700;
+    color: #333; cursor: pointer; font-family: 'Anakotmai', sans-serif !important;
 }
 
 /* --- 8. Utility --- */
@@ -170,35 +156,26 @@ nav {
     font-family: 'Anakotmai', sans-serif !important;
 }
 
-/* --- 9. Responsive --- */
+/* --- 9. Responsive (แก้หน้าจอมือถือบาน) --- */
 @media (max-width: 768px) {
     .nav-links { display: none !important; }
     .hero { height: 250px; } 
     .grid { grid-template-columns: 1fr; }
-    .p-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } 
-    .p-card img { width: 100px !important; height: 133px !important; }
-}
-/* --- ชุดคำสั่งปราบฟอนต์ Basic (วางล่างสุด) --- */
-
-/* 1. บังคับทุกอย่างที่อยู่ใน Modal ให้เป็น Anakotmai */
-#memberModal, 
-#memberModal *, 
-.modal, 
-.modal * {
-    font-family: 'Anakotmai', sans-serif !important;
-}
-
-/* 2. เจาะจงไปที่ปุ่มปิด (ถ้าเป็นตัว X) */
-.close, 
-.close-btn, 
-[onclick*="closeModal"], 
-[class*="close"] {
-    font-family: 'Anakotmai', sans-serif !important;
-    font-weight: 700 !important;
-    font-style: normal !important;
+    
+    /* แก้ Grid มือถือให้เป็น 2 แถวแบบพอดี ไม่บานข้ามโลก */
+    .p-grid { 
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 12px !important; 
+    } 
+    .p-card { padding: 15px 10px; }
+    .p-card img { width: 95px !important; height: 127px !important; }
+    .p-card h3 { font-size: 0.95rem; }
+    .p-card p { font-size: 0.8rem; }
 }
 
-/* 3. กรณีที่เป็นปุ่ม Button ธรรมดา */
-button {
-    font-family: 'Anakotmai', sans-serif !important;
+/* --- ชุดคำสั่งปราบฟอนต์ Basic --- */
+#memberModal, #memberModal *, .modal, .modal * { font-family: 'Anakotmai', sans-serif !important; }
+.close, .close-btn, [onclick*="closeModal"], [class*="close"] {
+    font-family: 'Anakotmai', sans-serif !important; font-weight: 700 !important;
 }
+button { font-family: 'Anakotmai', sans-serif !important; }
