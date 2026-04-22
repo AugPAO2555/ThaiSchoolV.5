@@ -323,3 +323,36 @@ button, span, a, div, p, h1, h2, h3 {
     align-items: center !important;
     text-align: center !important;
 }
+/* --- ชุดปราบ Grid ดื้อแพ่งในหน้าบุคลากร (ฉบับจบงาน) --- */
+
+/* 1. สำหรับจอคอม: บังคับขั้นต่ำ 220px ต่อคน (ตาม CSS เดิมพี่) */
+.p-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    gap: 25px !important;
+}
+
+/* 2. สำหรับมือถือ (ฉบับบังคับ): ต้องได้ 2 คนเสมอ! */
+@media (max-width: 768px) {
+    .p-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* บังคับ 2 คอลัมน์ตายตัว */
+        gap: 12px !important; /* บีบระยะห่างลงเพื่อให้พอดี */
+        padding: 0 5px !important; /* เพิ่มระยะห่างขอบจอเล็กน้อย */
+    }
+
+    /* คุมสัดส่วนรูปในการ์ดบุคลากรไม่ให้เพี้ยน */
+    .p-card img {
+        width: 100% !important; /* กางเต็มความกว้างของการ์ด */
+        height: auto !important; /* ความสูงปรับตามสัดส่วนจริง */
+        aspect-ratio: 3/4 !important; /* บังคับสัดส่วนแนวตั้ง (ตัวอย่าง 3:4) */
+        object-fit: contain !important; /* รูปทั้งรูปต้องอยู่ในกรอบ (ไม่โดนตัด) */
+        border-radius: 4px !important;
+        background: #f0f0f0 !important; /* พื้นหลังสีเทาอ่อนเผื่อรูปไม่เต็ม */
+    }
+
+    /* ปรับตัวหนังสือในการ์ดบุคลากรให้เล็กตามหน้าจอ */
+    .p-card h4 { font-size: 0.9rem !important; margin: 5px 0 !important; }
+    .p-card p { font-size: 0.75rem !important; }
+}
+
