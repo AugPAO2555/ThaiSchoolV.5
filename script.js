@@ -1,21 +1,25 @@
-// ฟังก์ชันโหลดข่าวสาร
+// ฟังก์ชันโหลดข่าวสาร (ฉบับแก้ไขโครงสร้างให้ไม่ชิดขอบ)
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
 
-    const res = await fetch('news.json');
-    const data = await res.json();
+    try {
+        const res = await fetch('news.json');
+        const data = await res.json();
 
-    box.innerHTML = data.map(n => `
-        <div class="card">
-            <img src="${n.img}">
-            <div class="card-body">
-                <p class="card-date">${n.date}</p>
-                <h3>${n.title}</h3>
-                <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
+        box.innerHTML = data.map(n => `
+            <div class="card">
+                <img src="${n.img}">
+                <div class="card-body">
+                    <p class="card-date">${n.date}</p>
+                    <h3>${n.title}</h3>
+                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
+                </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    } catch (err) {
+        console.error("โหลดข่าวไม่สำเร็จ:", err);
+    }
 }
 
 // ฟังก์ชันโหลดบุคลากร
