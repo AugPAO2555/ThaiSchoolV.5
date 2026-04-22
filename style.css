@@ -85,22 +85,7 @@ nav {
     margin-bottom: 50px;
 }
 
-/* --- 6. Card Styles --- */
-.card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: 0.3s;
-    border: 1px solid #eee;
-    height: 100%;
-}
-.card img { 
-    width: 100%; height: 220px; object-fit: cover; 
-    image-rendering: -webkit-optimize-contrast; display: block; 
-}
-
-/* --- 6. Card Styles (ฉบับแก้ไขตัวหนังสือติดขอบ) --- */
+/* --- 6. Card Styles (ฉบับแก้ตัวหนังสือชิดขอบ) --- */
 .card {
     background: white;
     border-radius: 12px;
@@ -115,37 +100,40 @@ nav {
 
 .card img { 
     width: 100%; 
-    height: 220px; 
+    height: auto; 
+    aspect-ratio: 16/9; /* คุมสัดส่วนรูป */
     object-fit: cover; 
     display: block; 
 }
 
-/* สร้างกล่องครอบตัวหนังสือเพื่อเว้นระยะห่าง */
-.card-content {
-    padding: 20px; /* ดันตัวหนังสือเขยิบออกจากขอบการ์ดทุกด้าน 20px */
+/* หัวใจสำคัญ: กล่องนี้จะดันตัวหนังสือเข้าข้างใน */
+.card-body {
+    padding: 20px !important; /* ดันจากขอบซ้าย ขวา บน ล่าง เข้ามา 20px */
     display: flex;
     flex-direction: column;
-    gap: 10px; /* ระยะห่างระหว่าง วันที่ -> หัวข้อ -> อ่านต่อ */
+    gap: 8px; /* เว้นระยะห่างระหว่างบรรทัด */
+    text-align: left; /* บังคับชิดซ้ายแบบมีระเบียบ */
 }
 
-.card h3 { 
-    font-size: 1.15rem; 
-    margin: 0; 
+.card-date {
+    color: #888;
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.card-body h3 {
+    font-size: 1.1rem;
     line-height: 1.4;
     color: var(--dark);
+    margin: 0;
 }
 
-.card p { 
-    font-size: 0.9rem; 
-    color: #888; 
-    margin: 0; 
-}
-
-.card a {
-    color: var(--primary);
+.card-body .btn {
     text-decoration: none;
+    color: var(--primary);
     font-weight: bold;
     font-size: 0.9rem;
+    margin-top: 5px;
 }
 
 /* --- 7. Modal --- */
