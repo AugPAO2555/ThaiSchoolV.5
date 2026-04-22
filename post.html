@@ -6,47 +6,11 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ดักคอทุกจุด ห้ามติดขอบ */
-        * { 
-            font-family: 'Anakotmai', sans-serif !important; 
-            box-sizing: border-box;
-        }
-        body { 
-            background-color: #f9f9f9; 
-            margin: 0; 
-            padding: 0;
-        }
-        /* บังคับ Navbar ให้มีที่ว่างซ้ายขวา */
-        nav {
-            padding: 1rem 5% !important;
-        }
-        /* ตัวควบคุมเนื้อหาข่าว ห้ามชิดขอบจอเด็ดขาด */
-        .news-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 30px 25px !important; /* ดันซ้าย-ขวา 25px แบบบังคับ */
-        }
-        .news-wrapper img {
-            width: 100%;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .news-wrapper h1 {
-            font-size: 1.7rem;
-            line-height: 1.4;
-            margin-bottom: 10px;
-        }
-        .news-wrapper .date {
-            color: #888;
-            margin-bottom: 20px;
-        }
-        .news-wrapper .content {
-            font-size: 1.15rem;
-            line-height: 1.8;
-            color: #333;
-            word-wrap: break-word;
-        }
+        /* บังคับฟอนต์ซ้ำอีกรอบกันพลาด */
+        * { font-family: 'Anakotmai', sans-serif !important; }
+        
+        /* สไตล์พิเศษสำหรับหน้าข่าวโดยเฉพาะ */
+        body { overflow-x: hidden; } /* ป้องกันจอเลื่อนซ้ายขวา */
     </style>
 </head>
 <body>
@@ -60,8 +24,8 @@
         </ul>
     </nav>
 
-    <div id="full-post" class="news-wrapper">
-        </div>
+    <main class="news-wrapper" id="full-post">
+        </main>
 
     <script>
         async function loadFullPost() {
@@ -71,17 +35,16 @@
             const post = data.find(p => p.id == id);
 
             if(post) {
-                // พ่นข้อมูลออกมาโดยตรง ไม่ต้องมี div ซ้อนเยอะเกินไป
                 document.getElementById('full-post').innerHTML = `
-                    <img src="${post.img}">
-                    <h1>${post.title}</h1>
-                    <p class="date">เผยแพร่เมื่อ: ${post.date}</p>
-                    <hr style="margin:20px 0; border: 0; border-top: 1px solid #eee;">
-                    <div class="content">
+                    <img src="${post.img}" alt="news image">
+                    <h1 style="margin-top:20px;">${post.title}</h1>
+                    <p class="date" style="color:#888;">เผยแพร่เมื่อ: ${post.date}</p>
+                    <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+                    <div class="content" style="font-size:1.15rem; line-height:1.8;">
                         ${post.desc}
                     </div>
                     <br><br>
-                    <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border: 2px solid var(--primary); padding: 10px 25px; border-radius: 50px; display: inline-block;">
+                    <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border:2px solid var(--primary); padding:10px 25px; border-radius:50px; display:inline-block;">
                         ← กลับหน้าแรก
                     </a>
                 `;
