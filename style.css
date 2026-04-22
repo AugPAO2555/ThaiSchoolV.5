@@ -156,26 +156,40 @@ nav {
     font-family: 'Anakotmai', sans-serif !important;
 }
 
-/* --- 9. Responsive (แก้หน้าจอมือถือบาน) --- */
+/* --- 9. Responsive (แก้ไขให้ Navbar แสดงผลบนมือถือ) --- */
 @media (max-width: 768px) {
-    .nav-links { display: none !important; }
+    /* ปรับ Navbar ให้เมนูไม่หาย */
+    nav {
+        padding: 0.8rem 5%;
+        flex-direction: column; /* โลโก้อยู่บน เมนูอยู่ล่าง */
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nav-links {
+        display: flex !important; /* บังคับแสดงเมนู */
+        gap: 15px; 
+        width: 100%;
+        justify-content: center; /* จัดให้อยู่กลางหน้าจอ */
+        overflow-x: auto; /* ถ้าเมนูยาวเกิน ให้ใช้นิ้วปัดซ้าย-ขวาได้ */
+        padding-bottom: 5px;
+        white-space: nowrap; /* ห้ามเมนูตัดขึ้นบรรทัดใหม่ */
+    }
+
+    .nav-links a {
+        font-size: 0.9rem; /* ลดขนาดตัวอักษรเมนูลงนิดนึง */
+    }
+
     .hero { height: 250px; } 
     .grid { grid-template-columns: 1fr; }
     
-    /* แก้ Grid มือถือให้เป็น 2 แถวแบบพอดี ไม่บานข้ามโลก */
+    /* แก้ Grid มือถือให้เป็น 2 แถวแบบพอดี */
     .p-grid { 
         grid-template-columns: repeat(2, 1fr) !important; 
         gap: 12px !important; 
     } 
     .p-card { padding: 15px 10px; }
     .p-card img { width: 95px !important; height: 127px !important; }
-    .p-card h3 { font-size: 0.95rem; }
-    .p-card p { font-size: 0.8rem; }
+    .p-card h3 { font-size: 0.9rem; }
+    .p-card p { font-size: 0.75rem; }
 }
-
-/* --- ชุดคำสั่งปราบฟอนต์ Basic --- */
-#memberModal, #memberModal *, .modal, .modal * { font-family: 'Anakotmai', sans-serif !important; }
-.close, .close-btn, [onclick*="closeModal"], [class*="close"] {
-    font-family: 'Anakotmai', sans-serif !important; font-weight: 700 !important;
-}
-button { font-family: 'Anakotmai', sans-serif !important; }
