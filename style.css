@@ -262,3 +262,28 @@ button, span, a, div, p, h1, h2, h3 {
         padding: 1rem 20px !important;
     }
 }
+/* --- บังคับถ่างขอบซ้าย-ขวาของการ์ดข่าว --- */
+.card-body {
+    display: flex !important;
+    flex-direction: column !important;
+    padding-left: 25px !important;  /* ดันขอบซ้ายออกมา 25px */
+    padding-right: 25px !important; /* ดันขอบขวาออกมา 25px */
+    padding-top: 15px !important;
+    padding-bottom: 20px !important;
+    text-align: left !important;    /* บังคับจัดชิดซ้ายแบบมีระเบียบ */
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* ดักคอหัวข้อข่าว */
+.card-body h3 {
+    margin: 5px 0 !important;
+    padding: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* ดักคอปุ่มอ่านต่อ */
+.card-body .btn {
+    margin-top: 10px !important;
+    display: inline-block !important;
+}
