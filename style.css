@@ -210,3 +210,48 @@ nav {
 button, span, a, div, p, h1, h2, h3 {
     font-family: 'Anakotmai', sans-serif !important;
 }
+/* --- 10. สุดยอดไม้ตายปราบอาการชิดขอบจอ (ฉบับจบงานจริง) --- */
+
+/* บังคับให้หน้าอ่านข่าวสารและเนื้อหาหลักเว้นขอบ 25px เสมอ */
+.container, 
+.news-wrapper, 
+.news-container, 
+.super-container,
+#full-post {
+    display: block !important;
+    width: 100% !important;
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding-left: 25px !important; /* ดันตัวหนังสือออกจากขอบซ้าย */
+    padding-right: 25px !important; /* ดันตัวหนังสือออกจากขอบขวา */
+    box-sizing: border-box !important;
+}
+
+/* ป้องกันตัวหนังสือยาวเกินจนดันขอบจอบาน */
+.news-wrapper *, 
+.news-container *, 
+.super-container *,
+#full-post * {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+}
+
+/* บังคับรูปภาพให้มีขอบและไม่ล้นจอ */
+#full-post img, 
+.news-container img, 
+.news-wrapper img, 
+.super-container img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 15px !important;
+    margin-bottom: 25px !important;
+    display: block !important;
+}
+
+/* ปรับระยะห่าง Navbar บนมือถือเพิ่ม */
+@media (max-width: 768px) {
+    nav {
+        padding: 1rem 20px !important;
+    }
+}
