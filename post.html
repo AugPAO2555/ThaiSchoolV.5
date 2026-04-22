@@ -5,19 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* ดักคอเผื่อ CSS โหลดช้า บังคับฟอนต์ที่นี่อีกชั้น */
+        * { font-family: 'Anakotmai', sans-serif !important; }
+    </style>
 </head>
 <body>
     <nav>
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="index.html#news">ข่าวสาร</a></li> <li><a href="personnel.html">บุคลากร</a></li>
+            <li><a href="index.html#news">ข่าวสาร</a></li> 
+            <li><a href="personnel.html">บุคลากร</a></li>
             <li><a href="contact.html">ติดต่อเรา</a></li>
         </ul>
     </nav>
 
     <div class="container" id="full-post" style="max-width: 800px; margin: auto; padding-top: 40px;">
         </div>
+
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">X</span>
+            <div id="modal-detail"></div>
+        </div>
+    </div>
 
     <script>
         async function loadFullPost() {
@@ -39,7 +51,14 @@
                 document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><a href="index.html">กลับหน้าหลัก</a>`;
             }
         }
-        loadFullPost();
+
+        // ฟังก์ชันปิด Modal (เผื่อมีการเรียกใช้ในหน้านี้)
+        function closeModal() {
+            document.getElementById('memberModal').style.display = 'none';
+        }
+
+        // บังคับให้หน้าเว็บเช็กฟอนต์อีกรอบหลังจากโหลดข้อมูลข่าวเสร็จ
+        window.onload = loadFullPost;
     </script>
 </body>
 </html>
