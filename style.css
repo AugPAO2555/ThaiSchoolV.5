@@ -287,3 +287,39 @@ button, span, a, div, p, h1, h2, h3 {
     margin-top: 10px !important;
     display: inline-block !important;
 }
+/* --- ชุดปราบอาการชิดขอบซ้าย (หน้าหลัก) --- */
+
+/* 1. คุมกล่องข้อความในการ์ดข่าว */
+.card-body {
+    padding: 15px 22px !important; /* ดันขอบซ้าย-ขวาออกมา 22px */
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: left !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. คุมตัวหนังสือหัวข้อข่าว */
+.card-body h3 {
+    margin: 8px 0 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.4 !important;
+    color: #1a1a1a !important;
+}
+
+/* 3. คุมปุ่มอ่านต่อ */
+.card-body .btn {
+    margin-top: 5px !important;
+    color: var(--primary) !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+}
+
+/* 4. ปรับส่วน p-card (บุคลากร) ให้สมดุลด้วย */
+.p-card {
+    padding: 20px 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+}
