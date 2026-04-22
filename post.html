@@ -6,11 +6,9 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* บังคับฟอนต์ซ้ำอีกรอบกันพลาด */
+        /* ดักคอฟอนต์อีกรอบกันพลาด */
         * { font-family: 'Anakotmai', sans-serif !important; }
-        
-        /* สไตล์พิเศษสำหรับหน้าข่าวโดยเฉพาะ */
-        body { overflow-x: hidden; } /* ป้องกันจอเลื่อนซ้ายขวา */
+        body { background-color: #f4f4f4; margin: 0; }
     </style>
 </head>
 <body>
@@ -24,7 +22,7 @@
         </ul>
     </nav>
 
-    <main class="news-wrapper" id="full-post">
+    <main class="news-container" id="full-post">
         </main>
 
     <script>
@@ -36,16 +34,15 @@
 
             if(post) {
                 document.getElementById('full-post').innerHTML = `
-                    <img src="${post.img}" alt="news image">
-                    <h1 style="margin-top:20px;">${post.title}</h1>
-                    <p class="date" style="color:#888;">เผยแพร่เมื่อ: ${post.date}</p>
+                    <img src="${post.img}" alt="News Image">
+                    <h1 style="margin-bottom:10px; line-height:1.4;">${post.title}</h1>
+                    <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
                     <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-                    <div class="content" style="font-size:1.15rem; line-height:1.8;">
+                    <div style="font-size:1.1rem; line-height:1.8; color:#333; margin-bottom:40px;">
                         ${post.desc}
                     </div>
-                    <br><br>
                     <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border:2px solid var(--primary); padding:10px 25px; border-radius:50px; display:inline-block;">
-                        ← กลับหน้าแรก
+                        ← กลับหน้าหลัก
                     </a>
                 `;
             } else {
