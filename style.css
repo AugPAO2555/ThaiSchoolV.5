@@ -1,4 +1,4 @@
-/* --- 1. Font Setup --- */
+/* --- 1. Font & Root Settings --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -15,7 +15,6 @@
     font-weight: 700;
 }
 
-/* --- 2. Root Settings --- */
 :root {
     --primary: #00a859;
     --dark: #1a1a1a;
@@ -25,384 +24,107 @@
 }
 
 * { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
+    margin: 0; padding: 0; box-sizing: border-box; 
+    font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body {
-    background: var(--light);
-    color: var(--dark);
-    line-height: 1.6;
-    font-family: 'Anakotmai', sans-serif !important;
-}
+body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
-/* --- 3. Navigation (แก้ให้ไม่ชิดขอบ) --- */
+/* --- 2. Navigation --- */
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 8%; /* ให้ระยะห่างด้านข้าง 8% เพื่อไม่ให้ชิดขอบจอเกินไป */
-    background: white;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 8%; background: white; box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 1000;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
 .nav-links { display: flex !important; list-style: none; gap: 2rem; }
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 4. Hero Section --- */
+/* --- 3. Hero Section --- */
 .hero {
-    width: 100%;
-    height: 450px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    width: 100%; height: 450px; 
+    display: flex; justify-content: center; align-items: center;
+    background: url('https://cdn.discordapp.com/attachments/1293404792814571552/1495995508181831760/252_20260421105016.jpg?ex=69e845e3&is=69e6f463&hm=1a6ccaa58993ce9e52cc6fd80cc7a920b25ce0153f633369174716bc669ce0fc&') center/cover no-repeat;
 }
 
-/* --- 5. Grid System (แก้พื้นที่เนื้อหา) --- */
-.container { 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 40px 25px; /* เพิ่มระยะห่างข้างจาก 20 เป็น 25px */
-}
-.grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-}
-.p-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* ปรับขนาดเล็กน้อยเพื่อความสมดุล */
-    gap: 25px;
-    margin-bottom: 50px;
+/* --- 4. Container & Grid --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+
+.grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 25px; 
 }
 
-/* --- 6. Card Styles (ฉบับแก้ตัวหนังสือชิดขอบ) --- */
-.card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: 0.3s;
-    border: 1px solid #eee;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.card img { 
-    width: 100%; 
-    height: auto; 
-    aspect-ratio: 16/9; /* คุมสัดส่วนรูป */
-    object-fit: cover; 
-    display: block; 
-}
-
-/* หัวใจสำคัญ: กล่องนี้จะดันตัวหนังสือเข้าข้างใน */
-.card-body {
-    padding: 20px !important; /* ดันจากขอบซ้าย ขวา บน ล่าง เข้ามา 20px */
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* เว้นระยะห่างระหว่างบรรทัด */
-    text-align: left; /* บังคับชิดซ้ายแบบมีระเบียบ */
-}
-
-.card-date {
-    color: #888;
-    font-size: 0.85rem;
-    margin: 0;
-}
-
-.card-body h3 {
-    font-size: 1.1rem;
-    line-height: 1.4;
-    color: var(--dark);
-    margin: 0;
-}
-
-.card-body .btn {
-    text-decoration: none;
-    color: var(--primary);
-    font-weight: bold;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-/* --- 7. Modal --- */
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; max-width: 550px; width: 90%; 
-    font-family: 'Anakotmai', sans-serif !important; position: relative; text-align: center;
-}
-
-/* --- 8. Utility --- */
-.title-border {
-    border-left: 6px solid var(--primary);
-    padding-left: 15px;
-    margin: 30px 0;
-    font-size: 1.8rem;
-    font-family: 'Anakotmai', sans-serif !important;
-}
-/* --- 9. Responsive & Fix ชิดขอบ (ฉบับจบงาน) --- */
-@media (max-width: 768px) {
-    nav {
-        padding: 1rem 15px !important;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .nav-links {
-        display: flex !important;
-        gap: 12px;
-        width: 100%;
-        justify-content: center;
-        overflow-x: auto;
-        padding: 5px 10px;
-        white-space: nowrap;
-    }
-
-    /* บังคับดันเนื้อหาทุกหน้าให้ห่างจากขอบจอ 25px */
-    .container, 
-    .news-wrapper, 
-    .news-container, 
-    #full-post {
-        padding-left: 25px !important;
-        padding-right: 25px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    .hero { height: 200px; }
-}
-
-/* --- ไม้ตายเผด็จการ (ห้ามลบ) --- */
-
-/* บังคับให้หน้าอ่านข่าวสารมีระยะห่างที่สวยงาม */
-.news-container, .news-wrapper {
-    max-width: 800px !important;
-    margin: 0 auto !important;
-    padding: 30px 25px !important; /* ดันขอบ 25px */
-    display: block !important;
-}
-
-/* ป้องกันตัวหนังสือจูบขอบจอ */
-.news-container *, .news-wrapper *, #full-post * {
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    white-space: normal !important;
-}
-
-/* รูปภาพในข่าวต้องไม่บานเกินจอ */
-#full-post img, .news-container img, .news-wrapper img {
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: 15px !important;
-    display: block !important;
-    margin: 0 auto 20px auto !important;
-}
-
-/* ดักคอฟอนต์อนาคตใหม่ */
-button, span, a, div, p, h1, h2, h3 {
-    font-family: 'Anakotmai', sans-serif !important;
-}
-/* --- 10. สุดยอดไม้ตายปราบอาการชิดขอบจอ (ฉบับจบงานจริง) --- */
-
-/* บังคับให้หน้าอ่านข่าวสารและเนื้อหาหลักเว้นขอบ 25px เสมอ */
-.container, 
-.news-wrapper, 
-.news-container, 
-.super-container,
-#full-post {
-    display: block !important;
-    width: 100% !important;
-    max-width: 800px !important;
-    margin: 0 auto !important;
-    padding-left: 25px !important; /* ดันตัวหนังสือออกจากขอบซ้าย */
-    padding-right: 25px !important; /* ดันตัวหนังสือออกจากขอบขวา */
-    box-sizing: border-box !important;
-}
-
-/* ป้องกันตัวหนังสือยาวเกินจนดันขอบจอบาน */
-.news-wrapper *, 
-.news-container *, 
-.super-container *,
-#full-post * {
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    white-space: normal !important;
-}
-
-/* บังคับรูปภาพให้มีขอบและไม่ล้นจอ */
-#full-post img, 
-.news-container img, 
-.news-wrapper img, 
-.super-container img {
-    max-width: 100% !important;
-    height: auto !important;
-    border-radius: 15px !important;
-    margin-bottom: 25px !important;
-    display: block !important;
-}
-
-/* ปรับระยะห่าง Navbar บนมือถือเพิ่ม */
-@media (max-width: 768px) {
-    nav {
-        padding: 1rem 20px !important;
-    }
-}
-/* --- บังคับถ่างขอบซ้าย-ขวาของการ์ดข่าว --- */
-.card-body {
-    display: flex !important;
-    flex-direction: column !important;
-    padding-left: 25px !important;  /* ดันขอบซ้ายออกมา 25px */
-    padding-right: 25px !important; /* ดันขอบขวาออกมา 25px */
-    padding-top: 15px !important;
-    padding-bottom: 20px !important;
-    text-align: left !important;    /* บังคับจัดชิดซ้ายแบบมีระเบียบ */
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-/* ดักคอหัวข้อข่าว */
-.card-body h3 {
-    margin: 5px 0 !important;
-    padding: 0 !important;
-    line-height: 1.4 !important;
-}
-
-/* ดักคอปุ่มอ่านต่อ */
-.card-body .btn {
-    margin-top: 10px !important;
-    display: inline-block !important;
-}
-/* --- ชุดปราบอาการชิดขอบซ้าย (หน้าหลัก) --- */
-
-/* 1. คุมกล่องข้อความในการ์ดข่าว */
-.card-body {
-    padding: 15px 22px !important; /* ดันขอบซ้าย-ขวาออกมา 22px */
-    display: flex !important;
-    flex-direction: column !important;
-    text-align: left !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. คุมตัวหนังสือหัวข้อข่าว */
-.card-body h3 {
-    margin: 8px 0 !important;
-    font-size: 1.1rem !important;
-    line-height: 1.4 !important;
-    color: #1a1a1a !important;
-}
-
-/* 3. คุมปุ่มอ่านต่อ */
-.card-body .btn {
-    margin-top: 5px !important;
-    color: var(--primary) !important;
-    font-weight: bold !important;
-    text-decoration: none !important;
-}
-
-/* 4. ปรับส่วน p-card (บุคลากร) ให้สมดุลด้วย */
-.p-card {
-    padding: 20px 15px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    text-align: center !important;
-}
-/* --- ชุดปราบ Grid ดื้อแพ่งในหน้าบุคลากร (ฉบับจบงาน) --- */
-
-/* 1. สำหรับจอคอม: บังคับขั้นต่ำ 220px ต่อคน (ตาม CSS เดิมพี่) */
+/* Grid สำหรับบุคลากร */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
     gap: 25px !important;
+    margin-bottom: 50px;
 }
 
-/* 2. สำหรับมือถือ (ฉบับบังคับ): ต้องได้ 2 คนเสมอ! */
-@media (max-width: 768px) {
-    .p-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* บังคับ 2 คอลัมน์ตายตัว */
-        gap: 12px !important; /* บีบระยะห่างลงเพื่อให้พอดี */
-        padding: 0 5px !important; /* เพิ่มระยะห่างขอบจอเล็กน้อย */
-    }
-
-    /* คุมสัดส่วนรูปในการ์ดบุคลากรไม่ให้เพี้ยน */
-    .p-card img {
-        width: 100% !important; /* กางเต็มความกว้างของการ์ด */
-        height: auto !important; /* ความสูงปรับตามสัดส่วนจริง */
-        aspect-ratio: 3/4 !important; /* บังคับสัดส่วนแนวตั้ง (ตัวอย่าง 3:4) */
-        object-fit: contain !important; /* รูปทั้งรูปต้องอยู่ในกรอบ (ไม่โดนตัด) */
-        border-radius: 4px !important;
-        background: #f0f0f0 !important; /* พื้นหลังสีเทาอ่อนเผื่อรูปไม่เต็ม */
-    }
-
-    /* ปรับตัวหนังสือในการ์ดบุคลากรให้เล็กตามหน้าจอ */
-    .p-card h4 { font-size: 0.9rem !important; margin: 5px 0 !important; }
-    .p-card p { font-size: 0.75rem !important; }
+/* --- 5. Card Styles (ข่าวสาร) --- */
+.card {
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
+    height: 100%; display: flex; flex-direction: column;
 }
-/* --- ชุดกู้คืนสัดส่วนรูปถ่ายบุคลากร (ฉบับสมบูรณ์) --- */
+.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 
-/* 1. คุมขนาดรูปภาพให้เหมือนรูปถ่าย ไม่ให้โดนยืดหรือตัดหัว */
+.card-body {
+    padding: 20px 25px !important; /* ดันขอบซ้าย-ขวา 25px */
+    display: flex !important; flex-direction: column !important;
+    gap: 10px !important; text-align: left !important;
+}
+.card-date { color: #888; font-size: 0.85rem; }
+.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
+.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
+
+/* --- 6. Personnel Card (รูปถ่าย) --- */
+.p-card {
+    padding: 20px !important; display: flex !important;
+    flex-direction: column !important; align-items: center !important;
+    text-align: center !important; cursor: pointer;
+}
 .p-card img {
-    width: 120px !important;    /* บังคับความกว้างเท่าคอม */
-    height: 160px !important;   /* บังคับความสูงเท่าคอม */
-    object-fit: cover !important; 
-    border-radius: 4px !important;
-    border: 3px solid #ffffff !important; 
-    outline: 1px solid #ddd !important;
+    width: 120px !important; height: 160px !important;
+    object-fit: cover !important; border-radius: 4px !important;
+    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     margin-bottom: 15px !important;
-    display: block !important;
 }
 
-/* 2. จัดระเบียบ Grid ในมือถือ (ให้เป็น 2 คน และรูปไม่เบี้ยว) */
+/* --- 7. Footer (กดได้ & สวย) --- */
+footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
+.footer-links { margin-bottom: 10px; font-weight: 500; }
+.footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
+.link-discord { color: #5865F2 !important; }
+.link-roblox { color: #000 !important; }
+.link-map { color: var(--primary) !important; }
+footer a:hover { text-decoration: underline !important; opacity: 0.8; }
+
+/* --- 8. Modal & Utility --- */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+}
+.modal-content { background: white; padding: 2.5rem; border-radius: 20px; max-width: 550px; width: 90%; text-align: center; }
+.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
+
+/* --- 9. Responsive (Mobile) --- */
 @media (max-width: 768px) {
-    .p-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* บังคับ 2 คอลัมน์ */
-        gap: 15px !important;
-        padding: 10px !important;
-    }
+    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
+    .nav-links { gap: 15px; font-size: 0.9rem; }
+    .hero { height: 200px; }
+    
+    /* บังคับ 2 คอลัมน์สำหรับบุคลากร */
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    .p-card img { width: 100px !important; height: 135px !important; }
 
-    .p-card {
-        padding: 15px 10px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important; /* จัดรูปให้อยู่กลางการ์ด */
-        justify-content: flex-start !important;
-    }
-
-    /* บังคับรูปในมือถือให้ขนาดเท่าเดิม ไม่ให้มันขยายตามหน้าจอ */
-    .p-card img {
-        width: 100px !important;  /* ย่อลงนิดนึงให้พอดี 2 คนในมือถือ */
-        height: 135px !important; 
-    }
-
-    .p-card h4 {
-        font-size: 0.85rem !important;
-        width: 100% !important;
-        text-align: center !important;
-    }
-
-    .p-card p {
-        font-size: 0.75rem !important;
-        width: 100% !important;
-        text-align: center !important;
+    /* ป้องกันชิดขอบจอ */
+    .container, .news-container, #full-post {
+        padding-left: 20px !important; padding-right: 20px !important;
     }
 }
-
