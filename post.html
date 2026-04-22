@@ -6,51 +6,46 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* บังคับฟอนต์ทั้งหน้า */
-        * { font-family: 'Anakotmai', sans-serif !important; }
-
-        /* แก้ไข Container หลักให้มีระยะห่างจากขอบจอ (หัวใจสำคัญ) */
-        .container-fixed {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px 20px; /* ดันเนื้อหาทุกอย่างออกจากขอบซ้าย-ขวา 20px */
+        /* ดักคอทุกจุด ห้ามติดขอบ */
+        * { 
+            font-family: 'Anakotmai', sans-serif !important; 
+            box-sizing: border-box;
         }
-
-        .article-title {
+        body { 
+            background-color: #f9f9f9; 
+            margin: 0; 
+            padding: 0;
+        }
+        /* บังคับ Navbar ให้มีที่ว่างซ้ายขวา */
+        nav {
+            padding: 1rem 5% !important;
+        }
+        /* ตัวควบคุมเนื้อหาข่าว ห้ามชิดขอบจอเด็ดขาด */
+        .news-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 25px !important; /* ดันซ้าย-ขวา 25px แบบบังคับ */
+        }
+        .news-wrapper img {
+            width: 100%;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .news-wrapper h1 {
             font-size: 1.7rem;
             line-height: 1.4;
-            margin: 20px 0 10px 0;
-            font-weight: 700;
+            margin-bottom: 10px;
         }
-
-        .article-date {
+        .news-wrapper .date {
             color: #888;
-            font-size: 0.95rem;
             margin-bottom: 20px;
         }
-
-        .article-text {
+        .news-wrapper .content {
             font-size: 1.15rem;
             line-height: 1.8;
             color: #333;
             word-wrap: break-word;
-            margin-bottom: 40px;
-        }
-
-        /* ตกแต่งปุ่มให้ดูแพง */
-        .btn-return {
-            text-decoration: none;
-            color: var(--primary);
-            font-weight: bold;
-            border: 2px solid var(--primary);
-            padding: 10px 25px;
-            border-radius: 50px;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        .btn-return:hover {
-            background: var(--primary);
-            color: white;
         }
     </style>
 </head>
@@ -65,7 +60,7 @@
         </ul>
     </nav>
 
-    <div class="container-fixed" id="full-post">
+    <div id="full-post" class="news-wrapper">
         </div>
 
     <script>
@@ -76,21 +71,24 @@
             const post = data.find(p => p.id == id);
 
             if(post) {
+                // พ่นข้อมูลออกมาโดยตรง ไม่ต้องมี div ซ้อนเยอะเกินไป
                 document.getElementById('full-post').innerHTML = `
-                    <img src="${post.img}" style="width:100%; border-radius:20px; box-shadow: var(--shadow); display: block;">
-                    <h1 class="article-title">${post.title}</h1>
-                    <p class="article-date">เผยแพร่เมื่อ: ${post.date}</p>
+                    <img src="${post.img}">
+                    <h1>${post.title}</h1>
+                    <p class="date">เผยแพร่เมื่อ: ${post.date}</p>
                     <hr style="margin:20px 0; border: 0; border-top: 1px solid #eee;">
-                    <div class="article-text">
+                    <div class="content">
                         ${post.desc}
                     </div>
-                    <a href="index.html" class="btn-return">← กลับหน้าแรก</a>
+                    <br><br>
+                    <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold; border: 2px solid var(--primary); padding: 10px 25px; border-radius: 50px; display: inline-block;">
+                        ← กลับหน้าแรก
+                    </a>
                 `;
             } else {
-                document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><br><a href="index.html">กลับหน้าแรก</a>`;
+                document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><a href="index.html">กลับหน้าหลัก</a>`;
             }
         }
-
         window.onload = loadFullPost;
     </script>
 </body>
