@@ -1,22 +1,23 @@
-<nav>
-    <a href="index.html" class="logo">Thai School V.5</a>
-    <ul class="nav-links">
-        <li><a href="index.html">หน้าแรก</a></li>
-        <li><a href="news.html">ข่าวสาร</a></li>
-        <li><a href="personnel.html">บุคลากร</a></li>
-        <li><a href="contact.html">ติดต่อเรา</a></li>
-    </ul>
-</nav>
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>รายละเอียดข่าว</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav><a href="index.html" class="logo">Thai School V.5</a></nav>
-    <div class="container" id="full-post" style="max-width: 800px; margin: auto;"></div>
+    <nav>
+        <a href="index.html" class="logo">Thai School V.5</a>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="index.html#news">ข่าวสาร</a></li> <li><a href="personnel.html">บุคลากร</a></li>
+            <li><a href="contact.html">ติดต่อเรา</a></li>
+        </ul>
+    </nav>
+
+    <div class="container" id="full-post" style="max-width: 800px; margin: auto; padding-top: 40px;">
+        </div>
 
     <script>
         async function loadFullPost() {
@@ -24,20 +25,21 @@
             const res = await fetch('news.json');
             const data = await res.json();
             const post = data.find(p => p.id == id);
-            
+
             if(post) {
                 document.getElementById('full-post').innerHTML = `
-                    <img src="${post.img}" style="width:100%; border-radius:20px; margin-bottom:30px;">
-                    <h1>${post.title}</h1>
-                    <p style="color:#888;">${post.date}</p>
-                    <hr style="margin:20px 0;">
-                    <div style="font-size:1.2rem;">${post.desc}</div>
-                    <a href="index.html" class="btn">กลับหน้าหลัก</a>
+                    <img src="${post.img}" style="width:100%; border-radius:20px; margin-bottom:30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <h1 style="margin-bottom:10px;">${post.title}</h1>
+                    <p style="color:#888; margin-bottom:20px;">${post.date}</p>
+                    <hr style="margin:20px 0; border: 0; border-top: 1px solid #eee;">
+                    <div style="font-size:1.1rem; line-height:1.8; color:#333; margin-bottom:40px;">${post.desc}</div>
+                    <a href="index.html" style="text-decoration:none; color:var(--primary); font-weight:bold;">← กลับหน้าหลัก</a>
                 `;
+            } else {
+                document.getElementById('full-post').innerHTML = `<h2>ไม่พบข้อมูลข่าวสาร</h2><a href="index.html">กลับหน้าหลัก</a>`;
             }
         }
         loadFullPost();
     </script>
 </body>
 </html>
-
