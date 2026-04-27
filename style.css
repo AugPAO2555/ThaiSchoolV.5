@@ -104,14 +104,14 @@ footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; t
 .link-map { color: var(--primary) !important; }
 footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 
-/* --- 8. New Modal Design (Minimal Green) --- */
+/* --- 8. Modal & Bio Details --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
 .modal-content { 
-    background: white; padding: 2rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; /* เปลี่ยนเป็นชิดซ้ายตาม Ref */
+    background: white; padding: 2.5rem; border-radius: 20px; 
+    max-width: 500px; width: 90%; text-align: left; 
     max-height: 90vh; overflow-y: auto;
 }
 .modal-header-tag {
@@ -124,6 +124,27 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 .bio-item span { font-size: 1.2rem; }
 .bio-item b { display: block; font-size: 0.95rem; color: #333; }
 .bio-item small { color: #777; font-size: 0.85rem; }
+
+/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
+.btn-close-modal {
+    width: 100% !important;
+    background-color: #00a859 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 16px !important;
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    margin-top: 25px !important;
+    transition: 0.3s !important;
+    display: block !important;
+    text-align: center !important;
+}
+.btn-close-modal:hover {
+    background-color: #008f4c !important;
+    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
+}
 
 .title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
 
