@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +17,7 @@
         </ul>
     </nav>
 
-    <div class="container">
+    <div class="container" style="margin-bottom: 50px;">
         <h2 class="title-border">คณะผู้บริหาร</h2>
         <div class="p-grid" id="founder-list"></div>
 
@@ -32,17 +31,23 @@
     <div class="modal" id="bio-modal">
         <div class="modal-content">
             <h2 id="m-name"></h2>
-            <p style="color: var(--primary); font-weight: bold;" id="m-role"></p>
-            <p id="m-dept" style="font-size: 0.9rem; margin-bottom: 15px;"></p>
-            <p id="m-bio"></p>
-            <button class="btn" onclick="closeModal()" style="width: 100%; border: none; cursor: pointer; background: var(--primary); color: white; padding: 10px; border-radius: 5px; margin-top: 20px;">ปิดหน้าต่าง</button>
+            <p id="m-role" style="color: #15803d; font-weight: bold; margin-bottom: 2px;"></p>
+            <p id="m-dept" style="color: #777; font-size: 0.85rem; margin-bottom: 15px;"></p>
+            <p id="m-bio" style="line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; color: #444;"></p>
+
+            <div class="modal-header-tag">ประวัติการศึกษา</div>
+            <div id="m-edu-list" class="bio-list"></div>
+
+            <div class="modal-header-tag">ประวัติการทำงาน</div>
+            <div id="m-exp-list" class="bio-list"></div>
+
+            <p style="color: #dc2626; font-weight: bold; text-align: center; margin-top: 20px; font-size: 0.8rem; border-top: 1px dashed #eee; padding-top: 15px;">
+                * เป็นการจำลองสวมบทบาทในเกมเพียงเท่านั้น !!
+            </p>
+
+            <button class="btn" onclick="closeModal()" style="width: 100%; margin-top: 15px; background: #15803d;">ปิดหน้าต่าง</button>
         </div>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
-    </main>
 
     <footer class="main-footer">
         <div class="container" style="text-align: center;">
@@ -59,4 +64,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
