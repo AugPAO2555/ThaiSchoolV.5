@@ -18,12 +18,8 @@
     "dept": "ฝ่าย: โคตรเก",
     "bio": "ผู้สร้างและพัฒนาโมเดลรถ รวมถึงระบบยานพาหนะภายในแมพ...",
     "img":"https://i.postimg.cc/7YtnkYd1/mi-m-ch-x-255-20260421161544.jpg",
-    "education": [
-      { "level": "ปริญญาตรี", "place": "มหาวิทยาลัย..." }
-    ],
-    "experience": [
-      { "year": "ปัจจุบัน", "desc": "พัฒนาโปรเจกต์ Thai School V.5" }
-    ]
+    "education": [],
+    "experience": []
   },
   {
     "id": 3,
