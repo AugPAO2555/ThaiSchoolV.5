@@ -1,3 +1,4 @@
+// ฟังก์ชันโหลดข่าวสาร (ข่าวใหม่ขึ้นก่อน)
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
@@ -17,6 +18,7 @@ async function fetchNews() {
     } catch (err) { console.error("โหลดข่าวไม่สำเร็จ:", err); }
 }
 
+// ฟังก์ชันโหลดบุคลากร แยกตามหมวดหมู่
 async function fetchPersonnel() {
     try {
         const res = await fetch('members.json');
@@ -38,35 +40,53 @@ async function fetchPersonnel() {
     } catch (err) { console.error("โหลดบุคลากรไม่สำเร็จ:", err); }
 }
 
+// ระบบเปิด Modal แสดงประวัติ (รองรับ ID)
 function openBio(id) {
     fetch('members.json')
     .then(res => res.json())
     .then(data => {
         const m = data.find(item => item.id === id);
         if (!m) return;
+        
+        // ใส่ข้อมูลพื้นฐาน
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role').innerText = m.role;
         document.getElementById('m-dept').innerText = m.dept;
         document.getElementById('m-bio').innerText = m.bio;
 
-        // โหลดประวัติการศึกษา
+        // จัดการประวัติการศึกษา (ถ้าไม่มีให้โชว์ว่าไม่มีข้อมูล)
         const eduBox = document.getElementById('m-edu-list');
-        eduBox.innerHTML = m.education.length > 0 ? m.education.map(e => `
-            <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
-        `).join('') : '<p style="color:#999; font-size:0.8rem;">ไม่มีข้อมูลประวัติการศึกษา</p>';
+        eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
+            <div class="bio-item">
+                <span>🎓</span> 
+                <div><b>${e.level}</b><small>${e.place}</small></div>
+            </div>
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
 
-        // โหลดประวัติการทำงาน
+        // จัดการประวัติการทำงาน (ถ้าไม่มีให้โชว์ว่าไม่มีข้อมูล)
         const expBox = document.getElementById('m-exp-list');
-        expBox.innerHTML = m.experience.length > 0 ? m.experience.map(ex => `
-            <div class="bio-item"><span>💼</span> <div><b>ปี ${ex.year}</b><small>${ex.desc}</small></div></div>
-        `).join('') : '<p style="color:#999; font-size:0.8rem;">ไม่มีข้อมูลประวัติการทำงาน</p>';
+        expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
+            <div class="bio-item">
+                <span>💼</span> 
+                <div><b>ปี ${ex.year}</b><small>${ex.desc}</small></div>
+            </div>
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการทำงาน</p>';
 
-        document.getElementById('bio-modal').style.display = 'flex';
+        // แสดง Modal และสั่งให้เลื่อนกลับไปบนสุด
+        const modal = document.getElementById('bio-modal');
+        modal.style.display = 'flex';
+        const modalContent = document.querySelector('.modal-content');
+        if (modalContent) modalContent.scrollTop = 0;
     });
 }
 
-function closeModal() { document.getElementById('bio-modal').style.display = 'none'; }
+// ฟังก์ชันปิด Modal
+function closeModal() {
+    const modal = document.getElementById('bio-modal');
+    if (modal) modal.style.display = 'none';
+}
 
+// รันฟังก์ชันทั้งหมดเมื่อหน้าเว็บโหลดเสร็จ
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
