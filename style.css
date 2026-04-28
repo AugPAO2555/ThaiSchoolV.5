@@ -50,7 +50,11 @@ nav {
 }
 
 /* --- 4. Container & Grid --- */
-.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+.container { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 40px 25px; /* เพิ่มระยะห่างให้หนังสือไม่ชิดขอบ */
+}
 
 .grid { 
     display: grid !important; 
@@ -74,81 +78,40 @@ nav {
     gap: 10px !important; text-align: left !important;
 }
 
-/* --- 6. Verify System & Overlay --- */
+/* --- 6. Personnel Card (แก้หัวขาด/ยืด) --- */
+.p-card img {
+    width: 140px !important;
+    height: 180px !important;
+    object-fit: cover !important; 
+    object-position: top !important; /* เน้นช่วงบน กันหัวขาด */
+    border-radius: 8px !important;
+    border: 3px solid #fff !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    margin-bottom: 15px !important;
+}
+
+/* --- 7. Verify System & Overlay --- */
 .verify-status-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    z-index: 3000;
-    justify-content: center; align-items: center;
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 3000; justify-content: center; align-items: center;
     backdrop-filter: blur(5px);
 }
-
 .status-card {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 20px;
-    width: 90%;
-    max-width: 450px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    background: white; padding: 40px 30px; border-radius: 20px;
+    width: 90%; max-width: 450px; text-align: center; position: relative;
+    overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
-
-.loading-bar {
-    position: absolute;
-    top: 0; right: 0;
-    height: 6px;
-    width: 100%;
-    transition: width 2s linear;
-}
-
+.loading-bar { position: absolute; top: 0; right: 0; height: 6px; width: 100%; transition: width 2s linear; }
 .bg-success { background-color: var(--primary); }
 .bg-error { background-color: var(--error); }
-
 .status-icon { font-size: 60px; margin-bottom: 15px; display: block; }
-.status-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
-.status-msg { color: #666; margin-bottom: 20px; }
 
-/* ปุ่มตกลงและปุ่มทั่วไป */
 .btn-status {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 14px 40px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    font-size: 1rem;
-}
-.btn-status:hover {
-    background: #008f4c;
-    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3);
+    background: var(--primary); color: white; border: none; padding: 14px 40px;
+    border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
 }
 
-/* --- 7. Copy Box Layout --- */
-.copy-box {
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #eee;
-}
-.copy-box b { font-size: 0.85rem; color: #555; }
-
-/* --- 8. Modal & Bio Details --- */
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-}
-
-/* --- 9. Responsive --- */
+/* --- 8. Responsive --- */
 @media (max-width: 768px) {
     nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
     .nav-links { gap: 15px; font-size: 0.9rem; }
