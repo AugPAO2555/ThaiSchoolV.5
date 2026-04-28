@@ -5,6 +5,8 @@
     "dept_key": "school",
     "doc_type": "ปพ.1พ (ระเบียนแสดงผลการเรียน)",
     "status": "ตรวจสอบแล้ว - ถูกต้อง",
+    "img_front": "https://link-to-your-image/front.jpg",
+    "img_back": "https://link-to-your-image/back.jpg",
     "issue_date": "01/04/2547",
     "expiry_date": "ไม่มีวันหมดอายุ",
     "detail": "เกรดเฉลี่ยสะสม 3.96 (มัธยมศึกษาตอนปลาย)",
