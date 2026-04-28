@@ -28,7 +28,7 @@
     font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body { background: var(--light); color: var(--dark); line-height: 1.6; }
+body { background: var(--light); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
 
 /* --- 2. Navigation --- */
 nav {
@@ -59,187 +59,101 @@ nav {
 
 .p-grid {
     display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
     gap: 25px !important;
     margin-bottom: 50px;
 }
 
-/* --- 5. Card Styles --- */
+/* --- 5. Card Styles (News) --- */
 .card {
     background: white; border-radius: 12px; overflow: hidden;
     box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
     height: 100%; display: flex; flex-direction: column;
 }
 .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+.card-body { padding: 20px !important; display: flex !important; flex-direction: column !important; gap: 10px !important; flex-grow: 1; }
+.card-body h3 { font-size: 1.1rem; color: #000 !important; font-weight: 700; } /* ล็อกสีดำ */
+.card-body .btn { color: var(--primary) !important; font-weight: bold; text-decoration: none; margin-top: auto; }
 
-.card-body {
-    padding: 20px 25px !important;
-    display: flex !important; flex-direction: column !important;
-    gap: 10px !important; text-align: left !important;
-}
-.card-date { color: #888; font-size: 0.85rem; }
-.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
-.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
-
-/* --- 6. Personnel Card --- */
+/* --- 6. Personnel Card (ชุดแก้ไข) --- */
 .p-card {
-    padding: 20px !important; display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
+    background: white !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    border: 1px solid #eee !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    transition: 0.3s !important;
+    cursor: pointer;
 }
+.p-card:hover { transform: translateY(-5px); border-color: var(--primary) !important; box-shadow: var(--shadow); }
+
 .p-card img {
     width: 120px !important; height: 160px !important;
-    object-fit: cover !important; border-radius: 4px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    object-fit: cover !important; border-radius: 8px !important;
     margin-bottom: 15px !important;
+    background: #f4f4f4;
 }
 
-/* --- 7. Footer --- */
-footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
-.footer-links { margin-bottom: 10px; font-weight: 500; }
-.footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
-.link-discord { color: #5865F2 !important; }
-.link-roblox { color: #000 !important; }
-.link-map { color: var(--primary) !important; }
-footer a:hover { text-decoration: underline !important; opacity: 0.8; }
+.p-card h4 { color: var(--primary) !important; font-size: 1rem; margin-bottom: 5px; } /* ชื่อเขียว */
+.p-card p { color: #000 !important; font-weight: 700 !important; font-size: 0.85rem; } /* ตำแหน่งดำ */
 
-/* --- 8. Modal & Bio Details --- */
+/* --- 7. Footer (ชุดแก้ไข) --- */
+footer { padding: 40px 0; border-top: 1px solid #eee; text-align: center; background: white; }
+.footer-links a { text-decoration: underline !important; color: #000 !important; font-weight: bold; margin: 0 10px; }
+footer p { color: #888; font-size: 0.85rem; margin-top: 10px; }
+
+/* --- 8. Modal & Bio (ชุดแก้ไขป้องกันไส้ไหล) --- */
 .modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+    display: none; 
+    position: fixed !important; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); 
+    z-index: 9999; 
+    justify-content: center; align-items: center;
 }
 .modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
+    background: white; padding: 2rem; border-radius: 20px; 
+    max-width: 450px; width: 90%; 
+    max-height: 85vh; overflow-y: auto; 
+    position: relative; animation: slideUp 0.4s ease-out;
 }
-.modal-header-tag {
-    background: var(--primary); color: white; padding: 5px 15px;
-    border-radius: 8px; display: inline-block; font-weight: 700;
-    margin-bottom: 12px; font-size: 0.9rem;
-}
-.bio-list { margin-bottom: 20px; }
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item span { font-size: 1.2rem; }
-.bio-item b { display: block; font-size: 0.95rem; color: #333; }
-.bio-item small { color: #777; font-size: 0.85rem; }
 
-/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
 .btn-close-modal {
-    width: 100% !important;
-    background-color: #00a859 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
-    transition: 0.3s !important;
-    display: block !important;
-    text-align: center !important;
-}
-.btn-close-modal:hover {
-    background-color: #008f4c !important;
-    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
+    width: 100% !important; background-color: var(--primary) !important;
+    color: #fff !important; border: none; padding: 14px;
+    border-radius: 12px; font-weight: bold; cursor: pointer;
+    margin-top: 20px; display: block;
 }
 
-.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
-
-/* --- 9. Responsive --- */
-@media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
-    .nav-links { gap: 15px; font-size: 0.9rem; }
-    .hero { height: 200px; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
-    .p-card img { width: 100px !important; height: 135px !important; }
-    .container { padding-left: 20px !important; padding-right: 20px !important; }
-}
-/* --- 10. Verify Result Card Modern --- */
+/* --- 9. Verify Result Card --- */
 .result-card-modern {
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px;
-    margin-top: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    border: 1px solid #eee;
-    animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    position: relative;
-    overflow: hidden;
+    background: #fff; border-radius: 20px; padding: 25px; margin-top: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #eee;
+    animation: slideUp 0.5s ease-out;
 }
 
-/* เอฟเฟกต์ Fade In และ Slide Up ตอนโชว์ผลลัพธ์ */
+.res-item { padding: 10px 0; border-bottom: 1px dashed #eee; }
+.res-item:last-child { border-bottom: none; }
+.res-item span { display: block; font-size: 0.75rem; color: #888; margin-bottom: 2px; }
+.res-item b { font-size: 1rem; color: var(--dark); }
+
+.result-images { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+.result-images img { width: 100%; border-radius: 10px; border: 1px solid #eee; cursor: zoom-in; }
+
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* จัดระเบียบข้อมูลเป็นคู่ (Item Label & Value) */
-.res-item {
-    padding: 10px 0;
-    border-bottom: 1px dashed #f0f0f0;
-}
-
-.res-item:last-child {
-    border-bottom: none;
-}
-
-.res-item span {
-    display: block;
-    font-size: 0.8rem;
-    color: #888;
-    margin-bottom: 2px;
-    font-weight: 500;
-}
-
-.res-item b {
-    display: block;
-    font-size: 1rem;
-    color: var(--dark);
-    word-break: break-all; /* กันชื่อยาวแล้วข้อความทะลุ */
-}
-
-/* ส่วนแสดงรูปภาพเอกสาร */
-.result-images {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.result-images img {
-    width: 100%;
-    aspect-ratio: 4/3; /* บังคับสัดส่วนรูปให้เท่ากัน */
-    object-fit: cover;
-    border-radius: 12px;
-    border: 2px solid #f8f8f8;
-    transition: 0.3s;
-    cursor: zoom-in;
-}
-
-.result-images img:hover {
-    transform: scale(1.03);
-    border-color: var(--primary);
-}
-
-/* สถานะตัวหนังสือใน Footer ของการ์ด */
-.result-footer {
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid #f4f4f4;
-    text-align: center;
-    font-size: 0.75rem;
-    color: #bbb;
-}
-
-/* Responsive สำหรับมือถือ (ถ้าจอเล็กให้รูปซ้อนกัน) */
-@media (max-width: 480px) {
-    .result-images {
-        grid-template-columns: 1fr;
-    }
-    .result-card-modern {
-        padding: 20px;
-    }
+/* --- 10. Responsive --- */
+@media (max-width: 768px) {
+    nav { padding: 1rem 20px !important; }
+    .nav-links { gap: 15px; font-size: 0.85rem; }
+    .hero { height: 220px; }
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    .p-card img { width: 100px !important; height: 135px !important; }
+    .result-images { grid-template-columns: 1fr; }
 }
