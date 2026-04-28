@@ -6,14 +6,7 @@
     <title>ระบบตรวจสอบเอกสารราชการ | Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* สไตล์เพิ่มเติมเฉพาะหน้าตรวจสอบ (ถ้าพี่มีใน style.css อยู่แล้วก็ข้ามได้ครับ) */
-        :root {
-            --primary: #00a859;
-            --error: #dc2626;
-            --gray: #f4f4f4;
-            --shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
+        /* สไตล์เพิ่มเติมเฉพาะหน้าตรวจสอบ */
         .search-section {
             background: var(--gray);
             padding: 30px;
@@ -54,6 +47,7 @@
             background: rgba(0,0,0,0.8);
             z-index: 3000;
             justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
         }
 
         .status-card {
@@ -90,6 +84,12 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
+            transition: 0.3s;
+        }
+        
+        .btn-status:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -98,9 +98,18 @@
 </head>
 <body>
 
+    <nav>
+        <a href="index.html" class="logo">Thai School V.5</a>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="personnel.html">บุคลากร</a></li>
+            <li><a href="verify.html">ตรวจสอบเอกสาร</a></li>
+        </ul>
+    </nav>
+
     <div class="container" style="max-width: 800px; margin: 50px auto; padding: 0 20px;">
-        <h2 class="title-border" style="text-align: center; margin-bottom: 30px;">ระบบตรวจสอบเอกสารราชการส่วนกลาง</h2>
-        
+        <h2 class="title-border" style="margin-bottom: 30px;">ระบบตรวจสอบเอกสารราชการส่วนกลาง</h2>
+
         <div class="search-section">
             <div class="form-group">
                 <label>คุณต้องการที่จะตรวจสอบเอกสารของหน่วยงานใด</label>
@@ -125,11 +134,9 @@
     <div id="status-overlay" class="verify-status-overlay">
         <div class="status-card">
             <div id="load-bar" class="loading-bar"></div>
-            
             <span id="status-icon" class="status-icon">🔍</span>
             <h3 id="status-title" class="status-title" style="margin-bottom: 10px;">กำลังตรวจสอบ</h3>
             <p id="status-msg" class="status-msg" style="color: #666; line-height: 1.6;"></p>
-            
             <button id="status-btn" class="btn-status" onclick="closeStatus()" style="display: none;">ตกลง</button>
         </div>
     </div>
