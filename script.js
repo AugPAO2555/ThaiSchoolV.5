@@ -1,4 +1,4 @@
-// --- 1. โหลดข่าว (หัวข้อดำ/ปุ่มเขียว) ---
+// ฟังก์ชันโหลดข่าวสาร
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
@@ -11,14 +11,14 @@ async function fetchNews() {
                 <div class="card-body">
                     <p class="card-date">${n.date}</p>
                     <h3>${n.title}</h3>
-                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ →</a>
+                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
                 </div>
             </div>
         `).join('');
-    } catch (err) { console.error("News Load Error:", err); }
+    } catch (err) { console.error("โหลดข่าวไม่สำเร็จ:", err); }
 }
 
-// --- 2. โหลดบุคลากร (ชื่อเขียว/ตำแหน่งดำ) ---
+// ฟังก์ชันโหลดบุคลากร
 async function fetchPersonnel() {
     try {
         const res = await fetch('members.json');
@@ -27,43 +27,62 @@ async function fetchPersonnel() {
             const el = document.getElementById(listId);
             if (!el) return;
             el.innerHTML = data.filter(m => m.category === cat).map(m => `
-                <div class="p-card" onclick="openBio(${m.id})">
+                <div class="card p-card" onclick="openBio(${m.id})">
                     <img src="${m.img}">
-                    <div class="p-card-body">
-                        <h4>${m.name}</h4>
-                        <p>${m.role}</p>
-                    </div>
+                    <h4>${m.name}</h4>
+                    <p style="color:#777; font-size:0.9rem;">${m.role}</p>
                 </div>
             `).join('');
         };
         render('founder-list', 'founder');
         render('school-list', 'school');
         render('police-list', 'police');
-    } catch (err) { console.error("Personnel Load Error:", err); }
+    } catch (err) { console.error("โหลดบุคลากรไม่สำเร็จ:", err); }
 }
 
-// --- 3. ระบบ Modal (เปิดแบบเด้งกลางจอ) ---
+// ระบบ Modal (ฉบับแก้ไขเรื่อง ปีปัจจุบัน)
 function openBio(id) {
-    fetch('members.json').then(res => res.json()).then(data => {
+    fetch('members.json')
+    .then(res => res.json())
+    .then(data => {
         const m = data.find(item => item.id === id);
         if (!m) return;
         
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role').innerText = m.role;
         document.getElementById('m-dept').innerText = m.dept;
-        document.getElementById('m-bio').innerText = m.bio || "ไม่มีข้อมูล";
+        document.getElementById('m-bio').innerText = m.bio;
+
+        // ประวัติการศึกษา
+        const eduBox = document.getElementById('m-edu-list');
+        eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
+            <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
+
+        // ประวัติการทำงาน (เช็กคำว่า ปัจจุบัน)
+        const expBox = document.getElementById('m-exp-list');
+        expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
+            <div class="bio-item">
+                <span>💼</span> 
+                <div>
+                    <b>${ex.year === "ปัจจุบัน" ? "ปัจจุบัน" : "ปี " + ex.year}</b>
+                    <small>${ex.desc}</small>
+                </div>
+            </div>
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการทำงาน</p>';
 
         const modal = document.getElementById('bio-modal');
-        modal.style.display = "flex"; // เปิดหน้าต่าง
-        document.querySelector('.modal-content').scrollTop = 0;
+        modal.style.display = 'flex';
+        const modalContent = document.querySelector('.modal-content');
+        if (modalContent) modalContent.scrollTop = 0;
     });
 }
 
 function closeModal() {
-    document.getElementById('bio-modal').style.display = "none";
+    const modal = document.getElementById('bio-modal');
+    if (modal) modal.style.display = 'none';
 }
 
-// --- เริ่มทำงาน ---
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
