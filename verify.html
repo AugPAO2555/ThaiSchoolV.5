@@ -11,9 +11,8 @@
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="index.html#news">ข่าวสาร</a></li>
             <li><a href="personnel.html">บุคลากร</a></li>
-            <li><a href="contact.html">ติดต่อเรา</a></li>
+            <li><a href="verify.html">ตรวจสอบเอกสาร</a></li>
         </ul>
     </nav>
 
@@ -24,26 +23,46 @@
                 <label>หน่วยงานที่ออกเอกสาร:</label>
                 <select id="agency-select">
                     <option value="school">โรงเรียนกราชวิทยา (การศึกษา)</option>
-                    <option value="police">สำนักงานตำรวจภูธรพระนครศรีอยุธยา</option>
-                    <option value="military">กองทัพบก (งานทะเบียนทหาร)</option>
+                    <option value="military">กองทัพบก (ทะเบียนทหาร/รด.)</option>
                 </select>
             </div>
 
             <div class="input-field-group">
                 <label>ประเภทเอกสาร:</label>
-                <select id="doc-type">
-                    <optgroup label="ด้านการศึกษา">
+                <select id="doc-type" onchange="toggleExtraFields()">
+                    <optgroup label="ด้านการศึกษา (ปพ.)">
                         <option value="pp1">ปพ.1 - ระเบียนแสดงผลการเรียน</option>
                         <option value="pp2">ปพ.2 - ประกาศนียบัตร</option>
-                        <option value="pp7">ปพ.7 - ใบรับรองสถานภาพนักเรียน</option>
+                        <option value="pp3">ปพ.3 - แบบรายงานผู้สำเร็จการศึกษา</option>
+                        <option value="pp5">ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพ</option>
+                        <option value="pp6">ปพ.6 - รายงานผลพัฒนาคุณภาพรายบุคคล</option>
+                        <option value="pp7-a">ปพ.7 - ใบรับรองสถานภาพ (รูปแบบ ก.)</option>
+                        <option value="pp7-b">ปพ.7 - ใบรับรองสถานภาพ (รูปแบบ ข.)</option>
                     </optgroup>
-                    <optgroup label="ด้านทหาร">
-                        <option value="sd8">สด.8 (สมุดทหารกองหนุน)</option>
-                        <option value="sd9">สด.9 (ใบสำคัญทหารกองเกิน)</option>
-                        <option value="sd35">สด.35 (หมายเรียกทหาร)</option>
-                        <option value="sd43">สด.43 (ใบรับรองการตรวจเลือก)</option>
+                    <optgroup label="ด้านทหาร / รด.">
+                        <option value="rotc-3">ใบวิทยฐานะ รด. (ปี 3)</option>
+                        <option value="rotc-5">ใบวิทยฐานะ รด. (ปี 5)</option>
+                        <option value="sd-all">สด.8 / สด.9 / สด.35 / สด.43</option>
                     </optgroup>
                 </select>
+            </div>
+
+            <div id="extra-fields" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--primary);">
+                <div id="field-year" class="input-field-group">
+                    <label>ปีการศึกษา:</label>
+                    <input type="number" id="input-year" placeholder="เช่น 2569">
+                </div>
+                <div id="field-term" class="input-field-group" style="display:none;">
+                    <label>เทอม:</label>
+                    <select id="input-term">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+                <div id="field-subject" class="input-field-group" style="display:none;">
+                    <label>รายวิชา:</label>
+                    <input type="text" id="input-subject" placeholder="ระบุชื่อวิชา">
+                </div>
             </div>
 
             <div class="input-field-group">
@@ -58,13 +77,16 @@
 
     <div id="status-overlay" class="verify-status-overlay">
         <div class="status-card">
-            <div id="load-bar" class="loading-bar"></div>
+            <div class="loading-container">
+                <div id="load-bar" class="loading-bar"></div>
+            </div>
             <span id="status-icon" class="status-icon">🔍</span>
             <h3 id="status-title">กำลังตรวจสอบ</h3>
-            <p id="status-msg"></p>
-            <button id="status-btn" class="btn-verify-modern" onclick="closeStatus()" style="display: none;">ตกลง</button>
+            <p id="status-msg">เตรียมการเชื่อมต่อระบบ...</p>
+            <button id="status-btn" class="btn-verify-modern" onclick="closeStatus()" style="display: none; width: auto; padding: 10px 40px;">ตกลง</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
