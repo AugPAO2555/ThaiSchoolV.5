@@ -1,4 +1,4 @@
-/* --- 1. Font Settings (ดึงอนาคตใหม่กลับมา) --- */
+/* --- 1. Font & Root Settings --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -19,7 +19,7 @@
     --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
-    --gray: #f8f9fa;
+    --gray: #f4f4f4;
     --shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
@@ -28,7 +28,7 @@
     font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body { background: var(--gray); color: var(--dark); overflow-x: hidden; }
+body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
 /* --- 2. Navigation --- */
 nav {
@@ -37,72 +37,123 @@ nav {
     position: sticky; top: 0; z-index: 1000;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex; list-style: none; gap: 2rem; }
-.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
+.nav-links { display: flex !important; list-style: none; gap: 2rem; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Personnel Grid (แก้บุคลากรเรียงแถวซื้อข้าว) --- */
-.container { 
-    max-width: 1200px; 
-    margin: 0 auto; 
-    padding: 40px 20px; 
+/* --- 3. Hero Section --- */
+.hero {
+    width: 100%; height: 450px; 
+    display: flex; justify-content: center; align-items: center;
+    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
 }
 
-/* แก้ชื่อ Class ให้ตรงกับ HTML ของพี่ (p-grid) */
-.p-grid { 
+/* --- 4. Container & Grid --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+
+.grid { 
     display: grid !important; 
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; 
-    gap: 20px !important; 
-    margin-bottom: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 25px; 
 }
 
-.p-card {
+.p-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+    gap: 25px !important;
+    margin-bottom: 50px;
+}
+
+/* --- 5. Card Styles --- */
+.card {
     background: white; border-radius: 12px; overflow: hidden;
     box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
-    text-align: center; cursor: pointer;
+    height: 100%; display: flex; flex-direction: column;
 }
+.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 
-.p-card:hover { transform: translateY(-5px); }
+.card-body {
+    padding: 20px 25px !important;
+    display: flex !important; flex-direction: column !important;
+    gap: 10px !important; text-align: left !important;
+}
+.card-date { color: #888; font-size: 0.85rem; }
+.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
+.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
 
+/* --- 6. Personnel Card --- */
+.p-card {
+    padding: 20px !important; display: flex !important;
+    flex-direction: column !important; align-items: center !important;
+    text-align: center !important; cursor: pointer;
+}
 .p-card img {
-    width: 100% !important;
-    aspect-ratio: 1/1 !important;
-    object-fit: cover !important;
-    object-position: top !important;
-    border-bottom: 3px solid var(--primary);
+    width: 120px !important; height: 160px !important;
+    object-fit: cover !important; border-radius: 4px !important;
+    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    margin-bottom: 15px !important;
 }
 
-.p-card-body { padding: 15px; }
-.p-card h4 { font-size: 1rem; margin-bottom: 5px; }
-.p-card p { font-size: 0.8rem; color: #666; }
+/* --- 7. Footer --- */
+footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
+.footer-links { margin-bottom: 10px; font-weight: 500; }
+.footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
+.link-discord { color: #5865F2 !important; }
+.link-roblox { color: #000 !important; }
+.link-map { color: var(--primary) !important; }
+footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 
-/* --- 4. Modal System (แก้ข้อมูลโผล่ด้านล่าง) --- */
+/* --- 8. Modal & Bio Details --- */
 .modal {
-    display: none; /* ซ่อนไว้ก่อน ห้ามโผล่มาข้างล่าง */
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000;
-    justify-content: center; align-items: center;
-    backdrop-filter: blur(5px);
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
-
-.modal-content {
-    background: white; padding: 30px; border-radius: 15px;
-    width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;
-    position: relative;
+.modal-content { 
+    background: white; padding: 2.5rem; border-radius: 20px; 
+    max-width: 500px; width: 90%; text-align: left; 
+    max-height: 90vh; overflow-y: auto;
 }
+.modal-header-tag {
+    background: var(--primary); color: white; padding: 5px 15px;
+    border-radius: 8px; display: inline-block; font-weight: 700;
+    margin-bottom: 12px; font-size: 0.9rem;
+}
+.bio-list { margin-bottom: 20px; }
+.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.bio-item span { font-size: 1.2rem; }
+.bio-item b { display: block; font-size: 0.95rem; color: #333; }
+.bio-item small { color: #777; font-size: 0.85rem; }
 
+/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
 .btn-close-modal {
-    background: var(--primary); color: white; border: none;
-    padding: 10px 20px; border-radius: 8px; cursor: pointer;
-    margin-top: 20px; width: 100%; font-weight: bold;
+    width: 100% !important;
+    background-color: #00a859 !important;
+    color: #ffffff !important;
+    border: none !important;
+    padding: 16px !important;
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    margin-top: 25px !important;
+    transition: 0.3s !important;
+    display: block !important;
+    text-align: center !important;
+}
+.btn-close-modal:hover {
+    background-color: #008f4c !important;
+    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
 }
 
-/* --- 5. Responsive --- */
+.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
+
+/* --- 9. Responsive --- */
 @media (max-width: 768px) {
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
-    nav { padding: 1rem 20px; flex-direction: column; gap: 10px; }
+    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
+    .nav-links { gap: 15px; font-size: 0.9rem; }
+    .hero { height: 200px; }
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    .p-card img { width: 100px !important; height: 135px !important; }
+    .container { padding-left: 20px !important; padding-right: 20px !important; }
 }
-
-.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.6rem; }
-
-/* --- 6. Footer --- */
-.main-footer { background: white; padding: 30px 0; border-top: 1px solid #eee; margin-top: 50px; }
