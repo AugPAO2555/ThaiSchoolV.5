@@ -25,9 +25,10 @@ async function fetchPersonnel() {
         const render = (listId, cat) => {
             const el = document.getElementById(listId);
             if (!el) return;
+            // แก้ไข: เพิ่ม Class p-card และ onclick เพื่อให้กดดูประวัติได้เหมือนในรูปที่ 4
             el.innerHTML = data.filter(m => m.category === cat).map(m => `
-                <div class="p-card" onclick="openBio(${m.id})">
-                    <img src="${m.img}">
+                <div class="p-card" onclick="openBio(${m.id})" style="cursor:pointer;">
+                    <img src="${m.img}" alt="${m.name}">
                     <div class="p-card-body">
                         <h4>${m.name}</h4>
                         <p>${m.role}</p>
@@ -64,7 +65,6 @@ function closeModal() { document.getElementById('bio-modal').classList.remove('a
 
 // --- 3. ระบบตรวจสอบเอกสาร (Verify System) ---
 
-// ฟังก์ชันเปิด-ปิดช่องกรอกพิเศษ (ปี/เทอม/วิชา)
 function toggleExtraFields() {
     const docType = document.getElementById('doc-type').value;
     const extraBox = document.getElementById('extra-fields');
@@ -99,14 +99,17 @@ async function verifyDocument() {
 
     if (!username) { alert("กรุณากรอก Username Roblox"); return; }
 
-    // เริ่มต้นแอนิเมชั่นแถบโหลด
+    // แก้ไข: Reset ค่าทุกอย่างก่อนเริ่มโหลด เพื่อไม่ให้ข้อความเก่าค้าง (รูปที่ 5-6)
     resultArea.innerHTML = "";
     overlay.classList.add('active');
     btn.style.display = "none";
     icon.innerHTML = "🔍";
+    title.innerText = "กำลังตรวจสอบ";
+    msg.innerText = "กำลังเตรียมการเชื่อมต่อระบบกลาง...";
     bar.style.width = "0%";
 
-    setTimeout(() => { bar.style.width = "35%"; msg.innerText = "กำลังเชื่อมต่อระบบฐานข้อมูลกลาง..."; }, 300);
+    // แถบโหลดแอนิเมชั่น 0-100%
+    setTimeout(() => { bar.style.width = "35%"; msg.innerText = "กำลังเข้าถึงฐานข้อมูลกลาง..."; }, 300);
     setTimeout(() => { bar.style.width = "75%"; msg.innerText = "กำลังตรวจสอบความถูกต้องของเอกสาร..."; }, 1000);
 
     try {
@@ -120,13 +123,14 @@ async function verifyDocument() {
         setTimeout(() => {
             bar.style.width = "100%";
             if (record) {
+                // แก้ไข: เปลี่ยนสถานะเมื่อโหลดเสร็จจริงเท่านั้น
                 icon.innerHTML = "✅";
                 title.innerText = "พบข้อมูลเอกสาร";
-                msg.innerText = "ยืนยันความถูกต้องเรียบร้อย";
+                msg.innerText = "ตรวจสอบลายเซ็นดิจิทัลสำเร็จ";
                 setTimeout(() => { 
                     overlay.classList.remove('active'); 
                     showVerifyResult(record, docTypeName); 
-                }, 1200);
+                }, 1000);
             } else {
                 icon.innerHTML = "❌";
                 title.innerText = "ไม่พบข้อมูล";
@@ -137,12 +141,11 @@ async function verifyDocument() {
     } catch (err) { console.error("Verify Error:", err); }
 }
 
-// --- 4. ฟังก์ชันแสดงผลลัพธ์ (ข้อมูลที่พี่กรอกจะมาโชว์ที่นี่) ---
+// --- 4. ฟังก์ชันแสดงผลลัพธ์ ---
 function showVerifyResult(record, selectedDocName) {
     const resultArea = document.getElementById('verify-result-area');
     const statusColor = record.status.includes("ไม่") ? "#dc2626" : "#00a859";
     
-    // ดึงค่าจากช่องกรอกพิเศษ (ถ้ามี)
     const extraYear = document.getElementById('input-year').value || "-";
     const extraTerm = document.getElementById('input-term').value || "-";
     const extraSub = document.getElementById('input-subject').value || "-";
@@ -156,19 +159,19 @@ function showVerifyResult(record, selectedDocName) {
 
             <div class="res-item"><span>ชื่อผู้ใช้ Roblox</span><b>${record.roblox_username}</b></div>
             <div class="res-item"><span>รหัสเอกสาร</span><b>${record.doc_id}</b></div>
-            <div class="res-item"><span>ประเภทเอกสารที่เลือก</span><b>${selectedDocName}</b></div>
-            <div class="res-item"><span>ปีการศึกษาที่ระบุ</span><b>${extraYear}</b></div>
+            <div class="res-item"><span>ประเภทเอกสาร</span><b>${selectedDocName}</b></div>
+            <div class="res-item"><span>ปีการศึกษา</span><b>${extraYear}</b></div>
             
             ${selectedDocName.includes("ปพ.5") || selectedDocName.includes("ปพ.6") ? 
                 `<div class="res-item"><span>เทอม</span><b>${extraTerm}</b></div>` : ''}
-            ${selectedDocName.includes("ปพ.5") ? 
+            ${selectedDocName.includes("pp5") || selectedDocName.includes("ปพ.5") ? 
                 `<div class="res-item"><span>รายวิชา</span><b>${extraSub}</b></div>` : ''}
 
             <div class="res-item"><span>ผู้ออกเอกสาร</span><b>${record.issuer}</b></div>
             <div class="res-item"><span>วันที่ออก</span><b>${record.issue_date}</b></div>
 
             <div style="grid-column: 1 / -1; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-top:10px;">
-                <span style="font-size:0.8rem; color:#888;">รายละเอียดในฐานข้อมูล:</span>
+                <span style="font-size:0.8rem; color:#888;">รายละเอียดเพิ่มเติม:</span>
                 <p style="margin-top:5px; font-size:0.95rem;">${record.detail}</p>
             </div>
             
