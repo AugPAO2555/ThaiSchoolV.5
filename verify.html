@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <nav>
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
@@ -20,7 +19,6 @@
 
     <div class="verify-container">
         <h2 class="title-border">ระบบตรวจสอบเอกสารราชการส่วนกลาง</h2>
-
         <div class="search-section">
             <div class="input-field-group">
                 <label>หน่วยงานที่ออกเอกสาร:</label>
@@ -34,22 +32,26 @@
             <div class="input-field-group">
                 <label>ประเภทเอกสาร:</label>
                 <select id="doc-type">
-                    <option value="pp1">ปพ.1 - ระเบียนแสดงผลการเรียน</option>
-                    <option value="pp2">ปพ.2 - ประกาศนียบัตร</option>
-                    <option value="pp3">ปพ.3 - แบบรายงานผู้สำเร็จการศึกษา</option>
-                    <option value="pp7">ปพ.7 - ใบรับรองสถานภาพนักเรียน</option>
-                    <option value="military-doc">สด.8 / สด.9 / สด.35 / สด.43</option>
-                    <option value="other">เอกสารราชการอื่นๆ</option>
+                    <optgroup label="ด้านการศึกษา">
+                        <option value="pp1">ปพ.1 - ระเบียนแสดงผลการเรียน</option>
+                        <option value="pp2">ปพ.2 - ประกาศนียบัตร</option>
+                        <option value="pp7">ปพ.7 - ใบรับรองสถานภาพนักเรียน</option>
+                    </optgroup>
+                    <optgroup label="ด้านทหาร">
+                        <option value="sd8">สด.8 (สมุดทหารกองหนุน)</option>
+                        <option value="sd9">สด.9 (ใบสำคัญทหารกองเกิน)</option>
+                        <option value="sd35">สด.35 (หมายเรียกทหาร)</option>
+                        <option value="sd43">สด.43 (ใบรับรองการตรวจเลือก)</option>
+                    </optgroup>
                 </select>
             </div>
 
             <div class="input-field-group">
                 <label>ชื่อผู้ใช้บัญชี Roblox (Username):</label>
-                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้เพื่อค้นหาข้อมูลเอกสาร...">
+                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้...">
             </div>
 
             <button class="btn-verify-modern" onclick="verifyDocument()">เริ่มการตรวจสอบ</button>
-            
             <div id="verify-result-area"></div>
         </div>
     </div>
@@ -63,7 +65,6 @@
             <button id="status-btn" class="btn-verify-modern" onclick="closeStatus()" style="display: none;">ตกลง</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
