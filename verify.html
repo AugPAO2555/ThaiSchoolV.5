@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบตรวจสอบเอกสารราชการ | Thai School V.5</title>
+    <title>ตรวจสอบเอกสาร | Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,16 +11,18 @@
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="index.html#news">ข่าวสาร</a></li>
             <li><a href="personnel.html">บุคลากร</a></li>
-            <li><a href="verify.html">ตรวจสอบเอกสาร</a></li>
+            <li><a href="contact.html">ติดต่อเรา</a></li>
         </ul>
     </nav>
 
-    <div class="verify-container">
-        <h2 class="title-border">ระบบตรวจสอบเอกสารราชการส่วนกลาง</h2>
-        <div class="search-section">
+    <main class="container" style="min-height: 80vh;">
+        <h2 class="title-border">ตรวจสอบเอกสาร</h2>
+        
+        <div class="verify-box">
             <div class="input-field-group">
-                <label>หน่วยงานที่ออกเอกสาร:</label>
+                <label>หน่วยงานที่ออกเอกสาร</label>
                 <select id="agency-select">
                     <option value="school">โรงเรียนกราชวิทยา (การศึกษา)</option>
                     <option value="military">กองทัพบก (ทะเบียนทหาร/รด.)</option>
@@ -28,64 +30,38 @@
             </div>
 
             <div class="input-field-group">
-                <label>ประเภทเอกสาร:</label>
-                <select id="doc-type" onchange="toggleExtraFields()">
-                    <optgroup label="ด้านการศึกษา (ปพ.)">
-                        <option value="pp1">ปพ.1 - ระเบียนแสดงผลการเรียน</option>
-                        <option value="pp2">ปพ.2 - ประกาศนียบัตร</option>
-                        <option value="pp3">ปพ.3 - แบบรายงานผู้สำเร็จการศึกษา</option>
-                        <option value="pp5">ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพ</option>
-                        <option value="pp6">ปพ.6 - รายงานผลพัฒนาคุณภาพรายบุคคล</option>
-                        <option value="pp7-a">ปพ.7 - ใบรับรองสถานภาพ (รูปแบบ ก.)</option>
-                        <option value="pp7-b">ปพ.7 - ใบรับรองสถานภาพ (รูปแบบ ข.)</option>
-                    </optgroup>
-                    <optgroup label="ด้านทหาร / รด.">
-                        <option value="rotc-3">ใบวิทยฐานะ รด. (ปี 3)</option>
-                        <option value="rotc-5">ใบวิทยฐานะ รด. (ปี 5)</option>
-                        <option value="sd-all">สด.8 / สด.9 / สด.35 / สด.43</option>
-                    </optgroup>
-                </select>
-            </div>
-
-            <div id="extra-fields" style="display: none; background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px dashed var(--primary);">
-                <div id="field-year" class="input-field-group">
-                    <label>ปีการศึกษา:</label>
-                    <input type="number" id="input-year" placeholder="เช่น 2569">
-                </div>
-                <div id="field-term" class="input-field-group" style="display:none;">
-                    <label>เทอม:</label>
-                    <select id="input-term">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                    </select>
-                </div>
-                <div id="field-subject" class="input-field-group" style="display:none;">
-                    <label>รายวิชา:</label>
-                    <input type="text" id="input-subject" placeholder="ระบุชื่อวิชา">
-                </div>
-            </div>
-
-            <div class="input-field-group">
-                <label>ชื่อผู้ใช้บัญชี Roblox (Username):</label>
-                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้...">
+                <label>ชื่อผู้ใช้ Roblox (Username)</label>
+                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้เพื่อค้นหา...">
             </div>
 
             <button class="btn-verify-modern" onclick="verifyDocument()">เริ่มการตรวจสอบ</button>
-            <div id="verify-result-area"></div>
+        </div>
+
+        <div id="verify-result-area"></div>
+    </main>
+
+    <div id="status-overlay" class="modal" style="display:none; background: rgba(0,0,0,0.5);">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <div class="loading-container" style="background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 20px;">
+                <div id="load-bar" style="background: var(--primary); width: 0%; height: 100%; transition: 0.3s;"></div>
+            </div>
+            <h3 id="status-title" style="margin-bottom: 10px;">กำลังตรวจสอบ</h3>
+            <p id="status-msg" style="color: #777; font-size: 0.9rem;">เตรียมการเชื่อมต่อระบบ...</p>
+            <button id="status-btn" class="btn-close-modal" onclick="closeStatus()" style="display: none;">ตกลง</button>
         </div>
     </div>
 
-    <div id="status-overlay" class="verify-status-overlay">
-        <div class="status-card">
-            <div class="loading-container">
-                <div id="load-bar" class="loading-bar"></div>
+    <footer class="main-footer">
+        <div class="container" style="text-align: center;">
+            <div class="footer-links">
+                <span>ติดตามเราได้ที่: </span>
+                <a href="https://discord.gg/3W7YecYCAT" target="_blank" class="link-discord">Discord</a> | 
+                <a href="https://www.roblox.com/th/communities/34820923/ThaiSchool-V4#!/about" target="_blank" class="link-roblox">Roblox Group</a> | 
+                <a href="https://www.roblox.com/th/games/84066328709254/13-2547-Reborn" target="_blank" class="link-map">Roblox Map</a>
             </div>
-            <span id="status-icon" class="status-icon">🔍</span>
-            <h3 id="status-title">กำลังตรวจสอบ</h3>
-            <p id="status-msg">เตรียมการเชื่อมต่อระบบ...</p>
-            <button id="status-btn" class="btn-verify-modern" onclick="closeStatus()" style="display: none; width: auto; padding: 10px 40px;">ตกลง</button>
+            <p class="copyright">© 2026 Thai School V.5 สงวนลิขสิทธิ์ทุกประการ</p>
         </div>
-    </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
