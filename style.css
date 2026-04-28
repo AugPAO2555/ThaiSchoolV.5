@@ -1,4 +1,4 @@
-/* --- 1. Font Anakotmai (อ้างอิงของเดิม) --- */
+/* --- 1. Font Anakotmai (หัวใจหลัก ห้ามหาย) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -19,7 +19,7 @@
     --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
-    --gray: #f4f4f4;
+    --gray: #777777; /* สีเทาสำหรับประวัติ */
     --shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
@@ -30,82 +30,85 @@
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
-/* --- 2. Navigation (ล็อกให้เหมือนกันทุกหน้า รวมถึงหน้า Verify) --- */
+/* --- 2. Navigation (แก้ให้หน้า Verify และทุกหน้าเหมือนกันเป๊ะ) --- */
 nav {
-    display: flex !important; justify-content: space-between !important; align-items: center !important;
-    padding: 1rem 8% !important; background: white !important; box-shadow: var(--shadow) !important;
-    position: sticky !important; top: 0 !important; z-index: 1000 !important;
+    display: flex !important; 
+    justify-content: space-between !important; 
+    align-items: center !important;
+    padding: 1rem 8% !important; 
+    background: white !important; 
+    box-shadow: var(--shadow) !important;
+    position: sticky !important; 
+    top: 0 !important; 
+    z-index: 1000 !important;
     width: 100% !important;
 }
-.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary) !important; text-decoration: none; }
 .nav-links { display: flex !important; list-style: none !important; gap: 2rem !important; margin: 0 !important; }
 .nav-links a { text-decoration: none !important; color: var(--dark) !important; font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary) !important; }
 
-/* --- 3. หัวข้อหลัก (Title Border) --- */
-.title-border, h2 { 
-    border-left: 6px solid var(--primary) !important; padding-left: 15px !important; 
-    margin: 30px 0 !important; font-size: 1.8rem !important; 
-    font-weight: 700 !important; color: var(--dark) !important;
-}
-
-/* --- 4. Modal & Bio Details (แก้จุดที่พี่ติ) --- */
+/* --- 3. Modal & ประวัติสีเทา (แก้ตามรูป 1000004925) --- */
 #bio-modal {
     display: none; position: fixed !important; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 9999 !important; justify-content: center; align-items: center;
+    background: rgba(0,0,0,0.85); z-index: 9999 !important; justify-content: center; align-items: center;
 }
 .modal-content { 
     background: white !important; padding: 2.5rem !important; border-radius: 20px !important; 
-    max-width: 500px !important; width: 90% !important; max-height: 90vh !important; overflow-y: auto !important;
+    max-width: 500px !important; width: 92% !important; max-height: 90vh !important; overflow-y: auto !important;
+    text-align: left !important;
 }
 
-/* กรอบเขียวข้างชื่อใน Modal */
+/* เส้นเขียวข้างชื่อใน Modal */
 .modal-header-container {
-    border-left: 5px solid var(--primary) !important;
-    padding-left: 15px !important;
-    margin-bottom: 20px !important;
+    border-left: 6px solid var(--primary) !important;
+    padding-left: 18px !important;
+    margin-bottom: 25px !important;
 }
 
-#m-name { color: #000 !important; font-weight: 700 !important; font-size: 1.6rem !important; line-height: 1.2; }
-#m-role { color: var(--primary) !important; font-weight: bold !important; display: block; margin: 5px 0; }
+#m-name { color: #000 !important; font-weight: 700 !important; font-size: 1.8rem !important; line-height: 1.1; }
+#m-role { color: var(--primary) !important; font-weight: bold !important; font-size: 1.1rem; margin-top: 5px; display: block; }
 
-/* ส่วนประวัติ (ดึงสีเทาและรูปแบบเดิมกลับมา) */
-.bio-list { margin-top: 20px !important; }
-.bio-item { display: flex !important; gap: 12px !important; margin-bottom: 15px !important; align-items: flex-start !important; }
-.bio-item b { display: block !important; font-size: 1rem !important; color: #000 !important; font-weight: 700 !important; }
-.bio-item small { color: #777 !important; font-size: 0.85rem !important; display: block !important; }
+/* ส่วนประวัติ: หัวข้อดำ / เนื้อหาสีเทา */
+.bio-section { margin-top: 20px; }
+.bio-item { margin-bottom: 15px; }
+.bio-item b { display: block !important; color: #000 !important; font-size: 1rem !important; font-weight: 700 !important; }
+.bio-item p, .bio-item small { 
+    display: block !important; 
+    color: var(--gray) !important; /* สีเทาตามสั่ง */
+    font-size: 0.9rem !important; 
+    margin-top: 2px !important;
+}
 
+/* --- 4. หน้า Verify (แก้ระยะห่างและฟอร์ม) --- */
+.verify-container { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
+.verify-container h1 { font-weight: 800; margin-bottom: 25px; }
+
+/* --- 5. หัวข้อหน้าหลัก (เส้นเขียว) --- */
+.title-border, h2 { 
+    border-left: 6px solid var(--primary) !important; padding-left: 15px !important; 
+    margin: 35px 0 25px 0 !important; font-size: 1.8rem !important; 
+    font-weight: 700 !important; color: var(--dark) !important; display: block !important;
+}
+
+/* --- 6. Personnel Card (ชื่อดำ/ตำแหน่งดำ) --- */
+.p-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; gap: 25px !important; }
+.p-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #eee; text-align: center; }
+.p-card h4 { color: #000 !important; font-weight: 700 !important; margin-bottom: 5px; }
+.p-card p { color: #000 !important; font-size: 0.85rem; opacity: 0.8; }
+
+/* --- 7. ปุ่มปิดและ Footer --- */
 .btn-close-modal {
     width: 100% !important; background-color: var(--primary) !important; color: #fff !important;
     padding: 16px !important; border-radius: 12px !important; font-weight: bold !important; 
-    border: none !important; cursor: pointer !important; margin-top: 25px !important;
+    border: none !important; cursor: pointer !important; margin-top: 30px !important;
 }
+footer { padding: 40px 0 !important; border-top: 1px solid #eee !important; text-align: center !important; }
+.footer-links a { text-decoration: underline !important; color: #000 !important; font-weight: bold !important; margin: 0 10px !important; }
 
-/* --- 5. Document Verify Page (หน้าตรวจสอบเอกสาร) --- */
-.verify-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-.result-card-modern {
-    background: #fff; border-radius: 20px; padding: 30px; margin-top: 30px;
-    box-shadow: var(--shadow); border: 1px solid #eee;
-}
-.res-item { padding: 12px 0; border-bottom: 1px dashed #eee; }
-.res-item span { display: block; font-size: 0.8rem; color: #888; }
-.res-item b { font-size: 1rem; color: var(--dark); }
-
-/* --- 6. Personnel Grid --- */
-.p-grid {
-    display: grid !important; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
-    gap: 25px !important; margin-bottom: 50px !important;
-}
-.p-card {
-    background: white !important; border-radius: 12px !important; padding: 20px !important;
-    border: 1px solid #eee !important; text-align: center !important; transition: 0.3s !important;
-}
-.p-card h4 { color: #000 !important; font-weight: 700 !important; margin-bottom: 5px !important; }
-.p-card p { color: #000 !important; font-size: 0.85rem !important; opacity: 0.8; }
-
-/* --- 7. Responsive --- */
+/* --- 8. Responsive --- */
 @media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; }
-    .nav-links { gap: 10px !important; font-size: 0.8rem !important; }
+    nav { padding: 1rem 5% !important; }
+    .nav-links { gap: 1rem !important; font-size: 0.85rem !important; }
     .p-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
