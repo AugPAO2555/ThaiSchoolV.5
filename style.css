@@ -85,3 +85,31 @@ nav {
     nav { padding: 1rem 20px; flex-direction: column; gap: 10px; }
     .p-grid { grid-template-columns: repeat(2, 1fr); }
 }
+/* --- บล็อกสีเขียวข้างชื่อใน Modal (ที่ผมเผลอลบ) --- */
+.modal-header-container {
+    border-left: 6px solid var(--primary) !important;
+    padding-left: 15px !important;
+    margin-bottom: 20px !important;
+}
+
+/* ปรับให้ชื่อดำและหนาตามบรีฟเก่า */
+#m-name { 
+    color: #000 !important; 
+    font-weight: 700 !important; 
+    font-size: 1.6rem !important; 
+    display: block;
+}
+
+/* ประวัติ: หัวข้อดำ / รายละเอียดเทา */
+.bio-item b { 
+    display: block !important; 
+    color: #000 !important; 
+    font-size: 0.95rem !important; 
+    font-weight: 700 !important; 
+}
+.bio-item small { 
+    color: #777 !important; 
+    font-size: 0.85rem !important; 
+    display: block !important;
+    margin-top: 2px;
+}
