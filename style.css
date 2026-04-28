@@ -1,27 +1,10 @@
-/* --- 1. Font & Root Settings --- */
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-light.woff2') format('woff2');
-    font-weight: 300;
-}
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-medium.woff2') format('woff2');
-    font-weight: 500;
-}
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-bold.woff2') format('woff2');
-    font-weight: 700;
-}
-
+/* --- 1. Font & Root --- */
 :root {
     --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
-    --gray: #f4f4f4;
+    --gray: #f8f9fa;
     --shadow: 0 4px 15px rgba(0,0,0,0.1);
-    --error: #dc2626;
 }
 
 * { 
@@ -29,89 +12,90 @@
     font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body { background: var(--light); color: var(--dark); line-height: 1.6; }
+body { background: var(--gray); color: var(--dark); line-height: 1.6; }
 
-/* --- 2. Navigation --- */
+/* --- 2. Navigation (ปรับให้เล็กลงในมือถือ) --- */
 nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 8%; background: white; box-shadow: var(--shadow);
+    padding: 1rem 5%; background: white; box-shadow: var(--shadow);
     position: sticky; top: 0; z-index: 1000;
 }
-.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex !important; list-style: none; gap: 2rem; }
-.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
-.nav-links a:hover { color: var(--primary); }
+.logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 1.5rem; }
+.nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; }
 
-/* --- 3. Hero Section --- */
-.hero {
-    width: 100%; height: 450px; 
-    display: flex; justify-content: center; align-items: center;
-    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
-}
-
-/* --- 4. Container & Grid (ปรับระยะห่างใหม่ ไม่ให้ชิดขอบ) --- */
+/* --- 3. Container & Layout (แก้เรื่องชิดขอบ) --- */
 .container { 
     max-width: 1100px; 
     margin: 0 auto; 
-    padding: 20px 20px; /* เพิ่มพื้นที่หายใจให้เนื้อหา */
+    padding: 25px 20px; /* เพิ่ม Padding กันเนื้อหาติดขอบจอ */
 }
 
-/* ปรับ Grid ให้เรียง 2 คนในมือถือ และ 3-4 คนในคอม โดยที่ Card ไม่ยืดเกินเหตุ */
+/* แก้ Grid: คอมเรียง 4 / แท็บเล็ตเรียง 3 / มือถือเรียง 2 (ห้ามเรียง 1 เพราะรูปจะยืด) */
 .grid { 
     display: grid !important; 
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; 
-    gap: 20px !important; 
-    padding: 10px 0;
+    grid-template-columns: repeat(4, 1fr) !important; 
+    gap: 15px !important; 
+    padding: 15px 0;
 }
 
-/* --- 6. Personnel Card (คืนค่าสี่เหลี่ยม + กันภาพยืด/ขาด) --- */
+/* --- 4. Personnel Card (แก้หัวขาดและรูปยืด) --- */
 .p-card {
     background: white;
-    border-radius: 10px; /* สี่เหลี่ยมมุมมนนิดๆ แบบเดิม */
-    padding: 0 !important; /* ให้รูปชิดขอบ Card ด้านบนจะสวยกว่า */
-    text-align: center;
-    border: 1px solid #eee;
-    overflow: hidden; /* กันรูปล้น */
+    border-radius: 12px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow);
-    transition: 0.3s;
+    border: 1px solid rgba(0,0,0,0.05);
+    height: 100%;
 }
 
 .p-card img {
-    width: 100% !important; /* ให้รูปกว้างเต็ม Card */
-    height: 180px !important; /* ล็อคความสูงไว้ ไม่ให้ยืดตามไฟล์ภาพ */
-    object-fit: cover !important; /* บังคับให้รูปพอดีกรอบ */
-    object-position: top !important; /* ล็อคที่ส่วนหัว กันหัวขาด */
+    width: 100% !important;
+    aspect-ratio: 1/1 !important; /* บังคับให้เป็นสี่เหลี่ยมจัตุรัสกันยืด */
+    object-fit: cover !important; 
+    object-position: top !important; /* ล็อคส่วนหัวไว้เสมอ */
     display: block;
-    border-bottom: 3px solid var(--primary); /* เพิ่มเส้นใต้รูปให้ดูเป็นระเบียบ */
+}
+
+.p-card-body {
+    padding: 12px;
+    text-align: center;
+    background: white;
 }
 
 .p-card h4 {
-    font-size: 0.95rem;
-    margin: 10px 5px 2px 5px;
-    color: var(--dark);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* กันชื่อยาวทะลุการ์ด */
 }
 
 .p-card p {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #666;
-    margin-bottom: 15px;
 }
 
-/* --- 8. Responsive (จูนมือถือให้เป๊ะ) --- */
-@media (max-width: 768px) {
-    /* บังคับเรียง 2 แถวเสมอ ไม่ให้รูปใหญ่เบิ้มคนเดียวเต็มจอ */
-    .grid { 
-        grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 12px !important; 
-    }
-    
-    .container {
-        padding: 15px 15px !important;
-    }
+/* --- 5. Responsive (ดัดหลังมือถือ) --- */
+@media (max-width: 992px) {
+    .grid { grid-template-columns: repeat(3, 1fr) !important; }
+}
 
-    .p-card img {
-        height: 150px !important; /* ลดความสูงลงนิดนึงสำหรับมือถือ */
+@media (max-width: 768px) {
+    .grid { 
+        grid-template-columns: repeat(2, 1fr) !important; /* มือถือเรียง 2 คนต่อแถวเท่านั้น */
+        gap: 10px !important; 
     }
+    .container { padding: 15px 10px !important; }
+    nav { flex-direction: column; gap: 10px; padding: 10px !important; }
+}
+
+/* --- 6. Title --- */
+.title-border { 
+    border-left: 5px solid var(--primary); 
+    padding-left: 12px; 
+    margin: 20px 0; 
+    font-size: 1.4rem; 
 }
