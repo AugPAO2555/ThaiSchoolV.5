@@ -81,130 +81,107 @@ nav {
 .card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
 .card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
 
-/* --- 6. Personnel Card --- */
+/* --- 6. Personnel Card (ปรับให้มีกรอบ Card ชัดเจน) --- */
 .p-card {
-    padding: 20px !important; display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
+    background: white !important; /* เพิ่มพื้นหลังขาว */
+    border-radius: 12px !important;
+    padding: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    cursor: pointer;
+    border: 1px solid #eee !important; /* เพิ่มเส้นขอบ */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important; /* ใส่เงานิดๆ */
+    transition: 0.3s ease-in-out !important;
 }
+
+/* เอฟเฟกต์ตอนเอาเมาส์วาง (Hover) */
+.p-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+    border-color: var(--primary) !important;
+}
+
 .p-card img {
-    width: 120px !important; height: 160px !important;
-    object-fit: cover !important; border-radius: 4px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    width: 120px !important; 
+    height: 160px !important;
+    object-fit: cover !important; 
+    border-radius: 8px !important; /* มนขึ้นนิดนึง */
+    border: 3px solid #fff !important; 
+    outline: 1px solid #eee !important;
     margin-bottom: 15px !important;
 }
 
-/* --- 7. Footer --- */
-footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
-.footer-links { margin-bottom: 10px; font-weight: 500; }
-.footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
-.link-discord { color: #5865F2 !important; }
-.link-roblox { color: #000 !important; }
-.link-map { color: var(--primary) !important; }
-footer a:hover { text-decoration: underline !important; opacity: 0.8; }
-
-/* --- 8. Modal & Bio Details --- */
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
-}
-.modal-header-tag {
-    background: var(--primary); color: white; padding: 5px 15px;
-    border-radius: 8px; display: inline-block; font-weight: 700;
-    margin-bottom: 12px; font-size: 0.9rem;
-}
-.bio-list { margin-bottom: 20px; }
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item span { font-size: 1.2rem; }
-.bio-item b { display: block; font-size: 0.95rem; color: #333; }
-.bio-item small { color: #777; font-size: 0.85rem; }
-
-/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
-.btn-close-modal {
-    width: 100% !important;
-    background-color: #00a859 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
+.p-card-body h4 {
+    margin: 5px 0 !important;
     font-size: 1rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
-    transition: 0.3s !important;
-    display: block !important;
-    text-align: center !important;
-}
-.btn-close-modal:hover {
-    background-color: #008f4c !important;
-    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
+    color: var(--dark) !important;
 }
 
-.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
-
-/* --- 9. Responsive --- */
-@media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
-    .nav-links { gap: 15px; font-size: 0.9rem; }
-    .hero { height: 200px; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
-    .p-card img { width: 100px !important; height: 135px !important; }
-    .container { padding-left: 20px !important; padding-right: 20px !important; }
+.p-card-body p {
+    font-size: 0.85rem !important;
+    color: var(--primary) !important; /* ปรับสีตำแหน่งให้เด่น */
+    font-weight: 500 !important;
 }
-/* --- 10. Verify System (Full Patch) --- */
-.verify-container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
-.search-section { background: #fff; padding: 30px; border-radius: 20px; box-shadow: var(--shadow); margin: 40px auto; max-width: 700px; border: 1px solid #eee; text-align: left; }
-.input-field-group { margin-bottom: 20px; }
-.input-field-group label { display: block; font-weight: 700; font-size: 0.95rem; color: var(--dark); margin-bottom: 8px; border-left: 4px solid var(--primary); padding-left: 10px; }
-.input-field-group select, .input-field-group input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; transition: 0.3s; }
 
-.btn-verify-modern { width: 100%; background: var(--primary); color: #fff; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-.btn-verify-modern:hover { background: #008f4c; transform: translateY(-2px); }
+/* --- 10. Verify System (Fix Loading & Result) --- */
 
-/* แก้ปัญหา Overlay ปลิ้น */
-.verify-status-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; padding: 20px; }
-.verify-status-overlay.active { display: flex !important; }
-.status-card { background: white; width: 90%; max-width: 400px; padding: 30px; border-radius: 20px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-/* แก้ปุ่มตกลงไม่ให้ยาวทะลุโลก */
-#status-btn { width: auto !important; min-width: 150px; margin: 20px auto 0 auto; display: none; }
-
-/* ผลลัพธ์ (ไส้ไม่ไหล) */
-.result-card-modern { margin-top: 30px; padding: 25px; border-radius: 15px; border-left: 10px solid var(--primary); background: #fff; box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.res-item { display: flex; flex-direction: column; text-align: left; }
-.res-item span { color: #888; font-size: 0.8rem; }
-.res-item b { font-size: 1rem; color: var(--dark); }
-
-@media (max-width: 768px) { .result-card-modern { grid-template-columns: 1fr; } .search-section { margin: 20px 10px; } }
-/* ล็อคขนาด Card ไม่ให้ปลิ้น และปุ่มตกลงไม่ยาวเกินไป */
+/* ล็อคหน้าจอไม่ให้ไหล */
 .verify-status-overlay {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center;
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); 
+    z-index: 9999; 
+    justify-content: center; 
+    align-items: center;
 }
+
 .verify-status-overlay.active { display: flex !important; }
 
+/* การ์ดสถานะใน Overlay */
 .status-card {
-    background: white; width: 90%; max-width: 400px; padding: 30px;
-    border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: white; 
+    width: 90%; 
+    max-width: 380px; /* กระชับขึ้น */
+    padding: 35px 25px;
+    border-radius: 20px; 
+    text-align: center; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
 }
 
+/* แถบโหลด 0-100% (แบบในรูปที่ 5) */
 .loading-container {
-    width: 100%; height: 10px; background: #eee; border-radius: 10px;
-    overflow: hidden; margin-bottom: 20px;
+    width: 100%; 
+    height: 8px; 
+    background: #f0f0f0; 
+    border-radius: 10px;
+    overflow: hidden; 
+    margin-bottom: 25px;
 }
 
 .loading-bar {
-    height: 100%; width: 0%; background: var(--primary);
-    transition: width 0.4s ease;
+    height: 100%; 
+    width: 0%; 
+    background: var(--primary);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* แก้ไขให้ Input และ Select สวยงาม */
-.input-field-group input, .input-field-group select {
-    width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-top: 5px;
+.status-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+/* ปุ่มตกลง (ล็อคขนาดไม่ให้ปลิ้น) */
+#status-btn {
+    display: none;
+    margin: 20px auto 0;
+    padding: 12px 40px !important;
+    width: auto !important;
+    min-width: 120px;
+    background: var(--primary);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
 }
