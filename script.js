@@ -30,7 +30,7 @@ async function fetchPersonnel() {
                 <div class="card p-card" onclick="openBio(${m.id})">
                     <img src="${m.img}">
                     <h4>${m.name}</h4>
-                    <p class="p-role-text">${m.role}</p>
+                    <p style="color:#777; font-size:0.9rem;">${m.role}</p>
                 </div>
             `).join('');
         };
@@ -40,7 +40,7 @@ async function fetchPersonnel() {
     } catch (err) { console.error("โหลดบุคลากรไม่สำเร็จ:", err); }
 }
 
-// ระบบ Modal (ฉบับแก้ประวัติสีเทา + หัวข้อดำ)
+// ระบบ Modal
 function openBio(id) {
     fetch('members.json')
     .then(res => res.json())
@@ -53,19 +53,11 @@ function openBio(id) {
         document.getElementById('m-dept').innerText = m.dept;
         document.getElementById('m-bio').innerText = m.bio;
 
-        // ประวัติการศึกษา (ใช้ b สำหรับหัวข้อ และ small สำหรับรายละเอียดสีเทา)
         const eduBox = document.getElementById('m-edu-list');
         eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
-            <div class="bio-item">
-                <span>🎓</span> 
-                <div>
-                    <b>${e.level}</b>
-                    <small>${e.place}</small>
-                </div>
-            </div>
-        `).join('') : '<p class="no-data">ไม่มีข้อมูลประวัติการศึกษา</p>';
+            <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
 
-        // ประวัติการทำงาน
         const expBox = document.getElementById('m-exp-list');
         expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
             <div class="bio-item">
@@ -75,7 +67,7 @@ function openBio(id) {
                     <small>${ex.desc}</small>
                 </div>
             </div>
-        `).join('') : '<p class="no-data">ไม่มีข้อมูลประวัติการทำงาน</p>';
+        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการทำงาน</p>';
 
         const modal = document.getElementById('bio-modal');
         modal.style.display = 'flex';
