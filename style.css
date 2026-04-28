@@ -1,4 +1,20 @@
-/* --- 1. Font & Root --- */
+/* --- 1. Font Settings (ดึงอนาคตใหม่กลับมา) --- */
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/anakotmai-light.woff2') format('woff2');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/anakotmai-medium.woff2') format('woff2');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'Anakotmai';
+    src: url('./fonts/anakotmai-bold.woff2') format('woff2');
+    font-weight: 700;
+}
+
 :root {
     --primary: #00a859;
     --dark: #1a1a1a;
@@ -12,79 +28,81 @@
     font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body { background: var(--gray); color: var(--dark); line-height: 1.6; }
+body { background: var(--gray); color: var(--dark); overflow-x: hidden; }
 
 /* --- 2. Navigation --- */
 nav {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 1rem 5%; background: white; box-shadow: var(--shadow);
+    padding: 1rem 8%; background: white; box-shadow: var(--shadow);
     position: sticky; top: 0; z-index: 1000;
 }
-.logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex; list-style: none; gap: 1.5rem; }
-.nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 2rem; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
 
-/* --- 3. Container & Layout --- */
+/* --- 3. Personnel Grid (แก้บุคลากรเรียงแถวซื้อข้าว) --- */
 .container { 
-    max-width: 1100px; 
+    max-width: 1200px; 
     margin: 0 auto; 
-    padding: 20px 20px; /* เพิ่ม Padding กันเนื้อหาชนขอบจอ */
+    padding: 40px 20px; 
 }
 
-/* แก้ไข p-grid: ล็อคให้เรียง 1 คนต่อแถวตามคำสั่งพี่ */
+/* แก้ชื่อ Class ให้ตรงกับ HTML ของพี่ (p-grid) */
 .p-grid { 
     display: grid !important; 
-    grid-template-columns: 1fr !important; /* เรียง 1 คนต่อแถว */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; 
     gap: 20px !important; 
-    padding: 10px 0;
+    margin-bottom: 40px;
 }
 
-/* --- 4. Personnel Card (ล็อคไม่ให้ยืด) --- */
 .p-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(0,0,0,0.05);
-    max-width: 500px; /* ล็อคความกว้าง Card ไม่ให้บานเต็มจอ */
-    margin: 0 auto; /* จัดกลาง */
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
+    text-align: center; cursor: pointer;
 }
+
+.p-card:hover { transform: translateY(-5px); }
 
 .p-card img {
     width: 100% !important;
-    height: 300px !important; /* ล็อคความสูงภาพ ไม่ให้ยืดตามไฟล์รูป */
-    object-fit: cover !important; 
-    object-position: top !important; /* กันหัวขาด */
-    display: block;
+    aspect-ratio: 1/1 !important;
+    object-fit: cover !important;
+    object-position: top !important;
+    border-bottom: 3px solid var(--primary);
 }
 
-.p-card-body {
-    padding: 15px;
-    text-align: center;
+.p-card-body { padding: 15px; }
+.p-card h4 { font-size: 1rem; margin-bottom: 5px; }
+.p-card p { font-size: 0.8rem; color: #666; }
+
+/* --- 4. Modal System (แก้ข้อมูลโผล่ด้านล่าง) --- */
+.modal {
+    display: none; /* ซ่อนไว้ก่อน ห้ามโผล่มาข้างล่าง */
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white; padding: 30px; border-radius: 15px;
+    width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;
+    position: relative;
+}
+
+.btn-close-modal {
+    background: var(--primary); color: white; border: none;
+    padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    margin-top: 20px; width: 100%; font-weight: bold;
 }
 
 /* --- 5. Responsive --- */
 @media (max-width: 768px) {
-    .container { padding: 15px 15px !important; }
-    
-    .p-card img {
-        height: 250px !important; /* ปรับความสูงรูปในมือถือให้พอดี */
-    }
-    
-    .title-border { font-size: 1.2rem; }
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    nav { padding: 1rem 20px; flex-direction: column; gap: 10px; }
 }
 
-/* --- 6. Title --- */
-.title-border { 
-    border-left: 5px solid var(--primary); 
-    padding-left: 12px; 
-    margin: 25px 0 15px 0; 
-    font-size: 1.4rem; 
-}
+.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.6rem; }
 
-/* --- 7. Footer --- */
-.main-footer { padding: 30px 0; background: white; margin-top: 50px; border-top: 1px solid #eee; }
-.footer-links a { color: var(--primary); text-decoration: none; font-weight: bold; }
-.copyright { margin-top: 10px; color: #888; font-size: 0.8rem; }
+/* --- 6. Footer --- */
+.main-footer { background: white; padding: 30px 0; border-top: 1px solid #eee; margin-top: 50px; }
