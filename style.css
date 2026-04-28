@@ -157,3 +157,89 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
     .p-card img { width: 100px !important; height: 135px !important; }
     .container { padding-left: 20px !important; padding-right: 20px !important; }
 }
+/* --- 10. Verify Result Card Modern --- */
+.result-card-modern {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* เอฟเฟกต์ Fade In และ Slide Up ตอนโชว์ผลลัพธ์ */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* จัดระเบียบข้อมูลเป็นคู่ (Item Label & Value) */
+.res-item {
+    padding: 10px 0;
+    border-bottom: 1px dashed #f0f0f0;
+}
+
+.res-item:last-child {
+    border-bottom: none;
+}
+
+.res-item span {
+    display: block;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 2px;
+    font-weight: 500;
+}
+
+.res-item b {
+    display: block;
+    font-size: 1rem;
+    color: var(--dark);
+    word-break: break-all; /* กันชื่อยาวแล้วข้อความทะลุ */
+}
+
+/* ส่วนแสดงรูปภาพเอกสาร */
+.result-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.result-images img {
+    width: 100%;
+    aspect-ratio: 4/3; /* บังคับสัดส่วนรูปให้เท่ากัน */
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid #f8f8f8;
+    transition: 0.3s;
+    cursor: zoom-in;
+}
+
+.result-images img:hover {
+    transform: scale(1.03);
+    border-color: var(--primary);
+}
+
+/* สถานะตัวหนังสือใน Footer ของการ์ด */
+.result-footer {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #f4f4f4;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #bbb;
+}
+
+/* Responsive สำหรับมือถือ (ถ้าจอเล็กให้รูปซ้อนกัน) */
+@media (max-width: 480px) {
+    .result-images {
+        grid-template-columns: 1fr;
+    }
+    .result-card-modern {
+        padding: 20px;
+    }
+}
