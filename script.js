@@ -1,4 +1,4 @@
-// ฟังก์ชันโหลดข่าวสาร
+// --- 1. โหลดข่าวสาร ---
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
@@ -18,7 +18,7 @@ async function fetchNews() {
     } catch (err) { console.error("โหลดข่าวไม่สำเร็จ:", err); }
 }
 
-// ฟังก์ชันโหลดบุคลากร
+// --- 2. โหลดบุคลากร ---
 async function fetchPersonnel() {
     try {
         const res = await fetch('members.json');
@@ -40,48 +40,137 @@ async function fetchPersonnel() {
     } catch (err) { console.error("โหลดบุคลากรไม่สำเร็จ:", err); }
 }
 
-// ระบบ Modal (ฉบับแก้ไขเรื่อง ปีปัจจุบัน)
+// --- 3. ระบบ Modal ประวัติบุคลากร ---
 function openBio(id) {
-    fetch('members.json')
-    .then(res => res.json())
-    .then(data => {
+    fetch('members.json').then(res => res.json()).then(data => {
         const m = data.find(item => item.id === id);
         if (!m) return;
-        
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role').innerText = m.role;
         document.getElementById('m-dept').innerText = m.dept;
         document.getElementById('m-bio').innerText = m.bio;
-
-        // ประวัติการศึกษา
         const eduBox = document.getElementById('m-edu-list');
-        eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
-            <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
-        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
-
-        // ประวัติการทำงาน (เช็กคำว่า ปัจจุบัน)
+        eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `<div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>`).join('') : '<p>ไม่มีข้อมูล</p>';
         const expBox = document.getElementById('m-exp-list');
-        expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
-            <div class="bio-item">
-                <span>💼</span> 
-                <div>
-                    <b>${ex.year === "ปัจจุบัน" ? "ปัจจุบัน" : "ปี " + ex.year}</b>
-                    <small>${ex.desc}</small>
-                </div>
-            </div>
-        `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการทำงาน</p>';
-
+        expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `<div class="bio-item"><span>💼</span> <div><b>${ex.year === "ปัจจุบัน" ? "ปัจจุบัน" : "ปี " + ex.year}</b><small>${ex.desc}</small></div></div>`).join('') : '<p>ไม่มีข้อมูล</p>';
         const modal = document.getElementById('bio-modal');
         modal.style.display = 'flex';
-        const modalContent = document.querySelector('.modal-content');
-        if (modalContent) modalContent.scrollTop = 0;
+        const content = document.querySelector('.modal-content');
+        if (content) content.scrollTop = 0;
     });
 }
 
-function closeModal() {
-    const modal = document.getElementById('bio-modal');
-    if (modal) modal.style.display = 'none';
+function closeModal() { document.getElementById('bio-modal').style.display = 'none'; }
+
+// --- 4. ระบบตรวจสอบเอกสาร (New!) ---
+async function verifyDocument() {
+    const username = document.getElementById('roblox-username').value.trim();
+    const dept = document.getElementById('department-select').value;
+    const overlay = document.getElementById('status-overlay');
+    const bar = document.getElementById('load-bar');
+    const icon = document.getElementById('status-icon');
+    const title = document.getElementById('status-title');
+    const msg = document.getElementById('status-msg');
+    const btn = document.getElementById('status-btn');
+    const resultDiv = document.getElementById('verify-result');
+
+    if (!username) {
+        overlay.style.display = "flex";
+        bar.className = "loading-bar bg-error";
+        bar.style.width = "100%";
+        icon.innerHTML = "❌";
+        title.innerText = "พบข้อผิดพลาด";
+        msg.innerHTML = "กรุณาตรวจสอบ : ข้อมูลชื่อผู้ใช้บัญชีโรบล็อคที่ท่านป้อนไม่ถูกต้องหรือว่างเปล่า";
+        btn.style.display = "inline-block";
+        return;
+    }
+
+    resultDiv.innerHTML = "";
+    overlay.style.display = "flex";
+    btn.style.display = "none";
+    bar.className = "loading-bar bg-success";
+    bar.style.width = "100%";
+    icon.innerHTML = "🔍";
+    title.innerText = "กำลังตรวจสอบ";
+    msg.innerText = "ระบบกำลังค้นหาข้อมูลในฐานข้อมูลกลาง...";
+    setTimeout(() => { bar.style.width = "0%"; }, 100);
+
+    try {
+        const res = await fetch('documents.json');
+        const data = await res.json();
+        const record = data.find(item => item.roblox_username.toLowerCase() === username.toLowerCase() && item.dept_key === dept);
+
+        setTimeout(() => {
+            if (record) {
+                icon.innerHTML = "✅";
+                title.innerText = "พบเอกสาร";
+                msg.innerHTML = "กรุณารอสักครู่ : ระบบกำลังนำพาท่านไปยังข้อมูลเอกสาร";
+                setTimeout(() => { overlay.style.display = "none"; showVerifyResult(record); }, 1500);
+            } else {
+                bar.className = "loading-bar bg-error";
+                icon.innerHTML = "❌";
+                title.innerText = "ไม่พบเอกสาร";
+                msg.innerHTML = "กรุณาตรวจสอบ : ข้อมูลชื่อผู้ใช้บัญชีโรบล็อคอีกครั้ง<br>/ ข้อมูลที่ท่านกรอกอีกครั้ง";
+                btn.style.display = "inline-block";
+            }
+        }, 2100);
+    } catch (err) { console.error(err); }
 }
+
+function showVerifyResult(record) {
+    const resultDiv = document.getElementById('verify-result');
+    const statusColor = record.status.includes("ไม่") || record.status.includes("หมดอายุ") ? "#dc2626" : "#00a859";
+    
+    resultDiv.innerHTML = `
+        <div style="background: white; border-radius: 15px; padding: 30px; border-top: 8px solid var(--primary); box-shadow: var(--shadow); animation: fadeIn 0.5s; text-align: left; margin-top:20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: var(--primary); margin: 0;">📋 รายละเอียดเอกสาร</h3>
+                <span style="background: ${statusColor}; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">${record.status}</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 0.95rem; margin-bottom:20px;">
+                <div class="copy-box">
+                    <b>ชื่อผู้ใช้ Roblox:</b>
+                    <div style="display:flex; gap:5px; align-items:center; margin-top:5px;">
+                        <input type="text" readonly value="${record.roblox_username}" id="copy-user" style="flex:1; border:1px solid #ddd; padding:5px; border-radius:5px;">
+                        <button onclick="copyText('copy-user')" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">คัดลอก</button>
+                    </div>
+                </div>
+                <div class="copy-box">
+                    <b>รหัสเอกสาร:</b>
+                    <div style="display:flex; gap:5px; align-items:center; margin-top:5px;">
+                        <input type="text" readonly value="${record.doc_id}" id="copy-id" style="flex:1; border:1px solid #ddd; padding:5px; border-radius:5px;">
+                        <button onclick="copyText('copy-id')" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer; font-size:0.8rem;">คัดลอก</button>
+                    </div>
+                </div>
+                <p><b>ประเภท:</b> <br>${record.doc_type}</p>
+                <p><b>ออกเมื่อ:</b> <br>${record.issue_date}</p>
+                <p><b>หมดอายุ:</b> <br><span style="color:${record.expiry_date === 'ไม่มีวันหมดอายุ' ? '#777' : '#dc2626'}">${record.expiry_date}</span></p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <img src="${record.img_front || 'https://via.placeholder.com/300x200?text=Front'}" style="width:100%; border-radius:8px; border:1px solid #ddd;" onclick="window.open(this.src)">
+                <img src="${record.img_back || 'https://via.placeholder.com/300x200?text=Back'}" style="width:100%; border-radius:8px; border:1px solid #ddd;" onclick="window.open(this.src)">
+            </div>
+
+            <div style="padding: 15px; background: #f9f9f9; border-radius: 10px; border-left: 4px solid var(--primary);">
+                <p><b>รายละเอียด:</b> ${record.detail}</p>
+                <p><b>ผู้ออก:</b> ${record.issuer}</p>
+                <p style="margin-top:10px; color:#666; font-size:0.8rem;"><i>หมายเหตุ: ${record.note}</i></p>
+            </div>
+        </div>
+    `;
+}
+
+// ฟังก์ชันคัดลอกข้อความ
+function copyText(id) {
+    const input = document.getElementById(id);
+    input.select();
+    document.execCommand("copy");
+    alert("คัดลอกแล้ว: " + input.value);
+}
+
+function closeStatus() { document.getElementById('status-overlay').style.display = "none"; }
 
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
