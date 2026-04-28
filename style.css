@@ -49,79 +49,69 @@ nav {
     background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
 }
 
-/* --- 4. Container & Grid (แก้ไขให้ยืดหยุ่นและไม่ชิดขอบ) --- */
+/* --- 4. Container & Grid (ปรับระยะห่างใหม่ ไม่ให้ชิดขอบ) --- */
 .container { 
     max-width: 1100px; 
     margin: 0 auto; 
-    padding: 20px 20px; /* เพิ่ม Padding กันเนื้อหาชนขอบจอ */
+    padding: 20px 20px; /* เพิ่มพื้นที่หายใจให้เนื้อหา */
 }
 
-/* ปรับ Grid ใหม่: ในคอมเรียงสวย ในมือถือจะบีบให้เรียง 2 คนอัตโนมัติ */
+/* ปรับ Grid ให้เรียง 2 คนในมือถือ และ 3-4 คนในคอม โดยที่ Card ไม่ยืดเกินเหตุ */
 .grid { 
     display: grid !important; 
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; 
-    gap: 15px !important; 
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; 
+    gap: 20px !important; 
     padding: 10px 0;
 }
 
-/* --- 6. Personnel Card (ล็อคขนาดรูป ไม่ให้ฆาตกรรมบุคลากร) --- */
+/* --- 6. Personnel Card (คืนค่าสี่เหลี่ยม + กันภาพยืด/ขาด) --- */
 .p-card {
     background: white;
-    border-radius: 12px;
-    padding: 12px !important;
+    border-radius: 10px; /* สี่เหลี่ยมมุมมนนิดๆ แบบเดิม */
+    padding: 0 !important; /* ให้รูปชิดขอบ Card ด้านบนจะสวยกว่า */
     text-align: center;
     border: 1px solid #eee;
-    height: auto;
+    overflow: hidden; /* กันรูปล้น */
     display: flex;
     flex-direction: column;
-    align-items: center;
     box-shadow: var(--shadow);
+    transition: 0.3s;
 }
 
 .p-card img {
-    width: 100px !important;  /* ล็อคความกว้างให้พอดีมือถือ */
-    height: 100px !important; /* ล็อคความสูงเป็นจัตุรัส */
-    object-fit: cover !important; 
-    object-position: top !important; /* เน้นใบหน้า กันหัวขาด */
-    border-radius: 50% !important; /* ทำเป็นวงกลมสไตล์โปรไฟล์ จะดูเป็นระเบียบกว่ามาก */
-    border: 3px solid var(--primary) !important;
-    margin-bottom: 10px !important;
+    width: 100% !important; /* ให้รูปกว้างเต็ม Card */
+    height: 180px !important; /* ล็อคความสูงไว้ ไม่ให้ยืดตามไฟล์ภาพ */
+    object-fit: cover !important; /* บังคับให้รูปพอดีกรอบ */
+    object-position: top !important; /* ล็อคที่ส่วนหัว กันหัวขาด */
     display: block;
+    border-bottom: 3px solid var(--primary); /* เพิ่มเส้นใต้รูปให้ดูเป็นระเบียบ */
 }
 
 .p-card h4 {
-    font-size: 0.9rem;
-    margin: 5px 0;
-    line-height: 1.2;
+    font-size: 0.95rem;
+    margin: 10px 5px 2px 5px;
+    color: var(--dark);
 }
 
 .p-card p {
-    font-size: 0.75rem;
-    color: #777;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 15px;
 }
 
-/* --- 8. Responsive (ปรับจูนสำหรับมือถือเล็ก) --- */
+/* --- 8. Responsive (จูนมือถือให้เป๊ะ) --- */
 @media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; }
-    .nav-links { gap: 10px; font-size: 0.8rem; }
-    .hero { height: 180px; }
-    
-    /* ในมือถือบังคับเรียง 2 คนต่อแถวเสมอ ไม่ให้เหลือคนเดียวเบิ้มๆ */
+    /* บังคับเรียง 2 แถวเสมอ ไม่ให้รูปใหญ่เบิ้มคนเดียวเต็มจอ */
     .grid { 
         grid-template-columns: repeat(2, 1fr) !important; 
-        gap: 10px !important; 
+        gap: 12px !important; 
     }
     
     .container {
-        padding: 15px 15px !important; /* กันชิดขอบจอ */
+        padding: 15px 15px !important;
     }
 
-    .p-card {
-        padding: 10px !important;
-    }
-    
     .p-card img {
-        width: 80px !important;
-        height: 80px !important;
+        height: 150px !important; /* ลดความสูงลงนิดนึงสำหรับมือถือ */
     }
 }
