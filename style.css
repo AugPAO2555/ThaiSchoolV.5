@@ -1,4 +1,4 @@
-/* --- 1. Font & Root Settings --- */
+/* --- 1. Font Anakotmai (หัวใจหลัก) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -20,7 +20,7 @@
     --dark: #1a1a1a;
     --light: #ffffff;
     --gray: #f4f4f4;
-    --gray-text: #777777; /* สีเทาสำหรับรายละเอียด */
+    --gray-text: #777777;
     --shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
@@ -31,14 +31,14 @@
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
-/* --- 2. Navigation (ล็อกให้เหมือนกันทุกหน้า รวมถึงหน้า Verify) --- */
+/* --- 2. Navigation (ล็อกให้ตายตัวทุกหน้า) --- */
 nav {
     display: flex !important; justify-content: space-between !important; align-items: center !important;
     padding: 1rem 8% !important; background: white !important; box-shadow: var(--shadow) !important;
     position: sticky !important; top: 0 !important; z-index: 1000 !important; width: 100% !important;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex !important; list-style: none !important; gap: 2rem !important; }
+.nav-links { display: flex !important; list-style: none; gap: 2rem; }
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
@@ -50,7 +50,7 @@ nav {
 }
 .container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
 
-/* --- 4. หัวข้อหลัก (เส้นเขียว) --- */
+/* --- 4. หัวข้อที่มีเส้นสีเขียว --- */
 .title-border, h2 { 
     border-left: 6px solid var(--primary) !important; 
     padding-left: 15px !important; 
@@ -59,16 +59,16 @@ nav {
     font-weight: 700 !important;
 }
 
-/* --- 5. Personnel Card (ชื่อต้องดำ) --- */
+/* --- 5. Personnel Card (ชื่อดำ/ตำแหน่งดำ) --- */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
-    gap: 25px !important; margin-bottom: 50px;
+    gap: 25px !important;
 }
 .p-card {
     padding: 20px !important; display: flex !important;
     flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer; border: 1px solid #eee; border-radius: 12px;
+    text-align: center !important; cursor: pointer;
 }
 .p-card img {
     width: 120px !important; height: 160px !important;
@@ -77,9 +77,9 @@ nav {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; margin-bottom: 15px !important;
 }
 .p-card h4 { color: #000000 !important; font-weight: 700 !important; margin-bottom: 5px !important; }
-.p-card p { color: #000000 !important; font-size: 0.85rem !important; opacity: 0.8; }
+.p-role-text { color: #000000 !important; font-size: 0.9rem !important; font-weight: 500 !important; opacity: 0.8; }
 
-/* --- 6. Modal & ประวัติ (หัวข้อดำ / รายละเอียดเทา) --- */
+/* --- 6. Modal (หัวข้อดำ/รายละเอียดเทา/เส้นเขียว) --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
@@ -90,25 +90,26 @@ nav {
     max-height: 90vh; overflow-y: auto;
 }
 
-/* เส้นเขียวข้างชื่อใน Modal */
+/* เส้นสีเขียวข้างชื่อบุคคลากรใน Modal */
 .modal-header-container {
     border-left: 6px solid var(--primary) !important;
-    padding-left: 18px !important;
+    padding-left: 15px !important;
     margin-bottom: 20px !important;
 }
 #m-name { color: #000 !important; font-weight: 700 !important; font-size: 1.6rem !important; }
 #m-role { color: var(--primary) !important; font-weight: bold; display: block; margin-bottom: 10px; }
 
-.bio-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-.bio-item b { display: block; font-size: 1rem; color: #000 !important; font-weight: 700; }
-.bio-item small { color: var(--gray-text) !important; font-size: 0.85rem; display: block; margin-top: 2px; }
+.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.bio-item b { display: block; font-size: 0.95rem; color: #000 !important; font-weight: 700; }
+.bio-item small { color: var(--gray-text) !important; font-size: 0.85rem; display: block; }
+.no-data { color: #999; font-size: 0.8rem; margin-bottom: 15px; }
 
 /* ปุ่มปิด Modal */
 .btn-close-modal {
     width: 100% !important; background-color: var(--primary) !important;
-    color: #fff !important; padding: 16px !important; border-radius: 12px !important;
-    font-weight: bold !important; border: none !important; margin-top: 25px !important;
-    cursor: pointer !important; display: block !important;
+    color: #ffffff !important; border: none !important; padding: 16px !important;
+    border-radius: 12px !important; font-weight: bold !important; cursor: pointer !important;
+    margin-top: 25px !important; display: block !important;
 }
 
 /* --- 7. Footer --- */
@@ -118,6 +119,5 @@ footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; t
 /* --- 8. Responsive --- */
 @media (max-width: 768px) {
     nav { padding: 1rem 20px !important; flex-direction: row !important; }
-    .nav-links { gap: 15px; font-size: 0.85rem; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
 }
