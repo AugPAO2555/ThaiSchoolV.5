@@ -182,3 +182,29 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 .res-item b { font-size: 1rem; color: var(--dark); }
 
 @media (max-width: 768px) { .result-card-modern { grid-template-columns: 1fr; } .search-section { margin: 20px 10px; } }
+/* ล็อคขนาด Card ไม่ให้ปลิ้น และปุ่มตกลงไม่ยาวเกินไป */
+.verify-status-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center;
+}
+.verify-status-overlay.active { display: flex !important; }
+
+.status-card {
+    background: white; width: 90%; max-width: 400px; padding: 30px;
+    border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.loading-container {
+    width: 100%; height: 10px; background: #eee; border-radius: 10px;
+    overflow: hidden; margin-bottom: 20px;
+}
+
+.loading-bar {
+    height: 100%; width: 0%; background: var(--primary);
+    transition: width 0.4s ease;
+}
+
+/* แก้ไขให้ Input และ Select สวยงาม */
+.input-field-group input, .input-field-group select {
+    width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-top: 5px;
+}
