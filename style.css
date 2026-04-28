@@ -1,4 +1,4 @@
-/* --- 1. Font Anakotmai (อ้างอิงของเดิม ห้ามหาย!) --- */
+/* --- 1. Font Anakotmai (ห้ามหายเด็ดขาด!) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -30,7 +30,34 @@
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
-/* --- 2. หัวข้อต้องมีเส้นสีเขียว (Title Border) --- */
+/* --- 2. Navigation (ดึงกลับมาแล้วครับพี่!) --- */
+nav {
+    display: flex !important; 
+    justify-content: space-between !important; 
+    align-items: center !important;
+    padding: 1rem 8% !important; 
+    background: white !important; 
+    box-shadow: var(--shadow) !important;
+    position: sticky !important; 
+    top: 0 !important; 
+    z-index: 1000 !important;
+}
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex !important; list-style: none !important; gap: 2rem !important; }
+.nav-links a { text-decoration: none !important; color: var(--dark) !important; font-weight: 500; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary) !important; }
+
+/* --- 3. Hero Section (ดึงกลับมาตามรูปที่ 2) --- */
+.hero {
+    width: 100% !important; 
+    height: 450px !important; 
+    display: flex !important; 
+    justify-content: center !important; 
+    align-items: center !important;
+    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat !important;
+}
+
+/* --- 4. หัวข้อต้องมีเส้นสีเขียว (Title Border) --- */
 .title-border, h2 { 
     border-left: 6px solid var(--primary) !important; 
     padding-left: 15px !important; 
@@ -38,9 +65,10 @@ body { background: var(--light); color: var(--dark); line-height: 1.6; }
     font-size: 1.8rem !important; 
     font-weight: 700 !important;
     color: var(--dark) !important;
+    display: block !important;
 }
 
-/* --- 3. Personnel Card (ชื่อดำ - ตำแหน่งดำ) --- */
+/* --- 5. Personnel Grid & Card (ชื่อดำ - ตำแหน่งดำ) --- */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
@@ -68,55 +96,37 @@ body { background: var(--light); color: var(--dark); line-height: 1.6; }
     margin-bottom: 15px !important;
 }
 
-/* ชื่อบุคคลากร สีดำตามสั่ง */
-.p-card h4 { 
-    color: #000000 !important; 
-    font-size: 1rem !important; 
-    font-weight: 700 !important;
-    margin-bottom: 5px !important;
-}
+.p-card h4 { color: #000 !important; font-size: 1rem !important; font-weight: 700 !important; margin-bottom: 5px !important; }
+.p-card p { color: #000 !important; font-weight: 500 !important; font-size: 0.85rem !important; }
 
-/* ตำแหน่งบุคคลากร สีดำ */
-.p-card p { 
-    color: #000000 !important; 
-    font-weight: 500 !important; 
-    font-size: 0.85rem !important; 
-}
+/* --- 6. Footer --- */
+footer { padding: 40px 0 !important; border-top: 1px solid #eee !important; text-align: center !important; background: white !important; }
+.footer-links a { text-decoration: underline !important; color: #000 !important; font-weight: bold !important; margin: 0 10px !important; }
 
-/* --- 4. Modal (หน้าต่างเด้ง) --- */
+/* --- 7. Modal (ป้องกันไส้ไหลตามรูปที่ 1) --- */
 .modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+    display: none; 
+    position: fixed !important; 
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85); 
+    z-index: 2000 !important; 
+    justify-content: center; align-items: center;
 }
 .modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
+    background: white !important; padding: 2rem !important; border-radius: 20px !important; 
+    max-width: 500px !important; width: 90% !important; 
+    max-height: 85vh !important; overflow-y: auto !important;
 }
-
-/* ชื่อใน Modal ก็ต้องดำ */
-#m-name { color: #000 !important; font-weight: 700; }
-
 .btn-close-modal {
-    width: 100% !important;
-    background-color: var(--primary) !important;
-    color: #ffffff !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
-    font-weight: bold !important;
-    border: none !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
+    width: 100% !important; background-color: var(--primary) !important; color: #fff !important;
+    padding: 16px !important; border-radius: 12px !important; font-weight: bold !important; border: none !important; margin-top: 25px !important;
 }
 
-/* --- 5. Responsive --- */
+/* --- 8. Responsive --- */
 @media (max-width: 768px) {
+    nav { padding: 1rem 20px !important; flex-direction: row !important; }
+    .nav-links { gap: 15px !important; font-size: 0.85rem !important; }
+    .hero { height: 220px !important; }
     .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
     .p-card img { width: 100px !important; height: 135px !important; }
-}
-
-/* --- 6. Verify Result (คงไว้เหมือนเดิม) --- */
-.result-card-modern {
-    background: #fff; border-radius: 20px; padding: 30px; margin-top: 30px;
-    box-shadow: var(--shadow); border: 1px solid #eee;
 }
