@@ -1,4 +1,3 @@
-/* --- 1. Font Anakotmai (หัวใจหลัก) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -19,105 +18,70 @@
     --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
-    --gray: #f4f4f4;
-    --gray-text: #777777;
     --shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-* { 
-    margin: 0; padding: 0; box-sizing: border-box; 
-    font-family: 'Anakotmai', sans-serif !important; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Anakotmai', sans-serif !important; }
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
 
-/* --- 2. Navigation (ล็อกให้ตายตัวทุกหน้า) --- */
 nav {
-    display: flex !important; justify-content: space-between !important; align-items: center !important;
-    padding: 1rem 8% !important; background: white !important; box-shadow: var(--shadow) !important;
-    position: sticky !important; top: 0 !important; z-index: 1000 !important; width: 100% !important;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 8%; background: white; box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 1000;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex !important; list-style: none; gap: 2rem; }
-.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
-.nav-links a:hover { color: var(--primary); }
+.nav-links { display: flex; list-style: none; gap: 2rem; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; }
 
-/* --- 3. Hero & Container --- */
 .hero {
     width: 100%; height: 450px; 
     display: flex; justify-content: center; align-items: center;
     background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
 }
+
 .container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
 
-/* --- 4. หัวข้อที่มีเส้นสีเขียว --- */
-.title-border, h2 { 
-    border-left: 6px solid var(--primary) !important; 
-    padding-left: 15px !important; 
-    margin: 30px 0 !important; 
-    font-size: 1.8rem !important; 
-    font-weight: 700 !important;
-}
+.grid, .p-grid { display: grid; gap: 25px; }
+.grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.p-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); margin-bottom: 50px; }
 
-/* --- 5. Personnel Card (ชื่อดำ/ตำแหน่งดำ) --- */
-.p-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
-    gap: 25px !important;
+.card {
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow); border: 1px solid #eee;
+    height: 100%; display: flex; flex-direction: column;
 }
-.p-card {
-    padding: 20px !important; display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
-}
+.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.card-body { padding: 20px 25px; display: flex; flex-direction: column; gap: 10px; flex-grow: 1; }
+
+.p-card { padding: 20px; align-items: center; text-align: center; cursor: pointer; }
 .p-card img {
-    width: 120px !important; height: 160px !important;
-    object-fit: cover !important; border-radius: 4px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important; margin-bottom: 15px !important;
+    width: 120px; height: 160px; object-fit: cover; border-radius: 4px;
+    border: 3px solid #fff; outline: 1px solid #ddd; margin-bottom: 15px;
 }
-.p-card h4 { color: #000000 !important; font-weight: 700 !important; margin-bottom: 5px !important; }
-.p-role-text { color: #000000 !important; font-size: 0.9rem !important; font-weight: 500 !important; opacity: 0.8; }
 
-/* --- 6. Modal (หัวข้อดำ/รายละเอียดเทา/เส้นเขียว) --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
 .modal-content { 
     background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
+    max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto;
 }
 
-/* เส้นสีเขียวข้างชื่อบุคคลากรใน Modal */
-.modal-header-container {
-    border-left: 6px solid var(--primary) !important;
-    padding-left: 15px !important;
-    margin-bottom: 20px !important;
-}
-#m-name { color: #000 !important; font-weight: 700 !important; font-size: 1.6rem !important; }
-#m-role { color: var(--primary) !important; font-weight: bold; display: block; margin-bottom: 10px; }
+.bio-item { display: flex; gap: 12px; margin-bottom: 10px; }
+.bio-item b { display: block; color: #333; font-size: 0.95rem; }
+.bio-item small { color: #777; font-size: 0.85rem; }
 
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item b { display: block; font-size: 0.95rem; color: #000 !important; font-weight: 700; }
-.bio-item small { color: var(--gray-text) !important; font-size: 0.85rem; display: block; }
-.no-data { color: #999; font-size: 0.8rem; margin-bottom: 15px; }
-
-/* ปุ่มปิด Modal */
 .btn-close-modal {
-    width: 100% !important; background-color: var(--primary) !important;
-    color: #ffffff !important; border: none !important; padding: 16px !important;
-    border-radius: 12px !important; font-weight: bold !important; cursor: pointer !important;
-    margin-top: 25px !important; display: block !important;
+    width: 100%; background: var(--primary); color: #fff;
+    padding: 16px; border-radius: 12px; font-weight: bold;
+    border: none; margin-top: 25px; cursor: pointer;
 }
 
-/* --- 7. Footer --- */
-footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
-.footer-links a { text-decoration: underline !important; color: #000 !important; font-weight: bold !important; margin: 0 10px; }
+.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; font-weight: 700; }
 
-/* --- 8. Responsive --- */
 @media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; flex-direction: row !important; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    nav { padding: 1rem 20px; flex-direction: column; gap: 10px; }
+    .p-grid { grid-template-columns: repeat(2, 1fr); }
 }
