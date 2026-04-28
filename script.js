@@ -132,3 +132,74 @@ function closeStatus() {
 }
 
 // โค้ดแสดงผลลัพธ์ (ก็อปจากอันเดิมได้เลย แต่ Class ต้องตรงกับ CSS ด้านบน)
+// ควบคุมการแสดงผลช่องกรอกพิเศษ
+function toggleExtraFields() {
+    const docType = document.getElementById('doc-type').value;
+    const extraBox = document.getElementById('extra-fields');
+    const fYear = document.getElementById('field-year');
+    const fTerm = document.getElementById('field-term');
+    const fSubject = document.getElementById('field-subject');
+
+    extraBox.style.display = "none";
+    fYear.style.display = "none"; fTerm.style.display = "none"; fSubject.style.display = "none";
+
+    if (docType === "pp3") { extraBox.style.display = "block"; fYear.style.display = "block"; }
+    if (docType === "pp5") { 
+        extraBox.style.display = "block"; 
+        fYear.style.display = "block"; fTerm.style.display = "block"; fSubject.style.display = "block"; 
+    }
+    if (docType === "pp6") { extraBox.style.display = "block"; fYear.style.display = "block"; fTerm.style.display = "block"; }
+}
+
+async function verifyDocument() {
+    const username = document.getElementById('roblox-username').value.trim();
+    const agency = document.getElementById('agency-select').value;
+    const overlay = document.getElementById('status-overlay');
+    const bar = document.getElementById('load-bar');
+    const msg = document.getElementById('status-msg');
+    const icon = document.getElementById('status-icon');
+    const title = document.getElementById('status-title');
+    const btn = document.getElementById('status-btn');
+
+    if (!username) { alert("กรุณากรอก Username"); return; }
+
+    overlay.classList.add('active');
+    btn.style.display = "none";
+    icon.innerHTML = "🔍";
+    bar.style.width = "0%";
+
+    // แถบโหลดแอนิเมชั่น 0-100%
+    setTimeout(() => { bar.style.width = "30%"; msg.innerText = "กำลังเข้าถึงฐานข้อมูลกลาง..."; }, 300);
+    setTimeout(() => { bar.style.width = "65%"; msg.innerText = "ตรวจสอบลายเซ็นดิจิทัล..."; }, 1000);
+
+    try {
+        const res = await fetch('documents.json');
+        const data = await res.json();
+        const record = data.find(item => 
+            item.roblox_username.toLowerCase() === username.toLowerCase() && 
+            item.dept_key === agency
+        );
+
+        setTimeout(() => {
+            bar.style.width = "100%";
+            if (record) {
+                icon.innerHTML = "✅";
+                title.innerText = "พบข้อมูลเอกสาร";
+                msg.innerText = "ข้อมูลถูกต้องตามระบบงานทะเบียน";
+                setTimeout(() => { 
+                    overlay.classList.remove('active'); 
+                    showVerifyResult(record); 
+                }, 1200);
+            } else {
+                icon.innerHTML = "❌";
+                title.innerText = "ไม่พบข้อมูล";
+                msg.innerText = "ไม่พบเอกสารที่ระบุในระบบกลาง";
+                btn.style.display = "inline-block";
+            }
+        }, 2000);
+    } catch (err) { console.error(err); }
+}
+
+function closeStatus() {
+    document.getElementById('status-overlay').classList.remove('active');
+}
