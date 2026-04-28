@@ -40,7 +40,7 @@ async function fetchPersonnel() {
     } catch (err) { console.error("โหลดบุคลากรไม่สำเร็จ:", err); }
 }
 
-// ระบบ Modal
+// ระบบ Modal (ฉบับแก้ไขเรื่อง ปีปัจจุบัน)
 function openBio(id) {
     fetch('members.json')
     .then(res => res.json())
@@ -53,11 +53,13 @@ function openBio(id) {
         document.getElementById('m-dept').innerText = m.dept;
         document.getElementById('m-bio').innerText = m.bio;
 
+        // ประวัติการศึกษา
         const eduBox = document.getElementById('m-edu-list');
         eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
             <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
         `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
 
+        // ประวัติการทำงาน (เช็กคำว่า ปัจจุบัน)
         const expBox = document.getElementById('m-exp-list');
         expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
             <div class="bio-item">
