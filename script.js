@@ -1,5 +1,5 @@
 // ==========================================
-// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร (ของเดิม)
+// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร (คงเดิม)
 // ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
@@ -60,19 +60,28 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Strict Logic)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Updated Logic)
 // ==========================================
 
 const docData = {
     school: [
         "ปพ.1บ - มัธยมศึกษาตอนต้น", "ปพ.1พ - มัธยมศึกษาตอนปลาย", 
-        "ปพ.2 - ประกาศนียบัตร", "ปพ.3 - รายงานผู้สำเร็จการศึกษา", 
+        "ปพ.2บ - ประกาศนียบัตร (ม.ต้น)", "ปพ.2พ - ประกาศนียบัตร (ม.ปลาย)",
+        "ปพ.3 - รายงานผู้สำเร็จการศึกษา", 
         "ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพผู้เรียน", 
         "ปพ.6 - แบบรายงานผลการพัฒนาคุณภาพผู้เรียนรายบุคคล", 
         "ปพ.7ก - ใบรับรองเฉพาะรายวิชา", "ปพ.7ข - ใบรับรองทุกรายวิชา"
     ],
-    military: ["สด.8", "สด.9", "สด.43"],
-    police: ["ใบอนุญาตขับขี่รถยนต์", "ใบอนุญาตขับขี่รถจักรยานยนต์"]
+    military: [
+        "ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", 
+        "สด.8 - สมุดประจำตัวทหารกองหนุนประเภทที่ 1", 
+        "สด.9", "สด.35 - หมายเรียก", 
+        "สด.43 - ใบรับรองผลการตรวจคัดเลือกทหารกองเกินฯ"
+    ],
+    police: [
+        "ใบอนุญาตขับรถยนต์ส่วนบุคคลชั่วคราว", 
+        "ใบอนุญาตขับจักรยานยนต์ส่วนบุคคลชั่วคราว"
+    ]
 };
 
 // 1. อัปเดตประเภทเอกสาร
@@ -92,7 +101,7 @@ function updateDocTypes() {
     }
 }
 
-// 2. แสดง Option เสริม (Dropdown ทั้งหมด)
+// 2. แสดง Option เสริมตามประเภทเอกสาร
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
@@ -102,37 +111,39 @@ function showExtraFields() {
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
 
+    // ระดับชั้น (ปพ.1, ปพ.2)
+    if (type.includes("ปพ.1") || type.includes("ปพ.2")) {
+        html += `<div><small>ระดับชั้น</small><select id="ex-level" ${style}>
+                <option value="มัธยมศึกษาตอนต้น">มัธยมศึกษาตอนต้น</option>
+                <option value="มัธยมศึกษาตอนปลาย">มัธยมศึกษาตอนปลาย</option></select></div>`;
+    }
+
     // ปีการศึกษา (ปพ.3, 5, 6)
     if (type.includes("ปพ.3") || type.includes("ปพ.5") || type.includes("ปพ.6")) {
         html += `<div><small>ปีการศึกษา</small><select id="ex-year" ${style}>
-                <option value="2568">2568</option><option value="2567">2567</option><option value="2566">2566</option></select></div>`;
+                <option value="2547">2547</option><option value="2568">2568</option></select></div>`;
     }
 
-    // ห้อง (ปพ.5, 6)
+    // ห้อง และ รายวิชา (ปพ.5, 6)
     if (type.includes("ปพ.5") || type.includes("ปพ.6")) {
         html += `<div><small>ห้อง</small><select id="ex-room" ${style}>
-                ${[1,2,3,4,5,6,7,8,9,10].map(i => `<option value="${i}">${i}</option>`).join('')}</select></div>`;
+                ${[1,2,3,4,5].map(i => `<option value="${i}">${i}</option>`).join('')}</select></div>`;
     }
-
-    // เทอม (ปพ.6)
-    if (type.includes("ปพ.6")) {
-        html += `<div><small>ภาคเรียน</small><select id="ex-term" ${style}>
-                <option value="1">1</option><option value="2">2</option></select></div>`;
-    }
-
-    // รายวิชา (ปพ.5)
     if (type.includes("ปพ.5")) {
         html += `<div><small>รายวิชา</small><select id="ex-subject" ${style}>
-                <option value="คณิตศาสตร์">คณิตศาสตร์</option>
-                <option value="ภาษาไทย">ภาษาไทย</option>
-                <option value="ภาษาอังกฤษ">ภาษาอังกฤษ</option>
-                <option value="วิทยาศาสตร์">วิทยาศาสตร์</option></select></div>`;
+                <option value="คณิตศาสตร์(พื้นฐาน)">คณิตศาสตร์(พื้นฐาน)</option></select></div>`;
+    }
+
+    // รด. ชั้นปี
+    if (type.includes("วิทยฐานะ")) {
+        html += `<div><small>สำเร็จการฝึกชั้นปีที่</small><select id="ex-level-rotcs" ${style}>
+                <option value="3">3</option><option value="5">5</option></select></div>`;
     }
 
     area.innerHTML = html;
 }
 
-// 3. เริ่มการตรวจสอบ (เช็กละเอียดยิบ)
+// 3. เริ่มการตรวจสอบ
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const type = document.getElementById('doc-type-select').value;
@@ -141,7 +152,7 @@ async function verifyDocument() {
     const loadBar = document.getElementById('load-bar');
 
     if (!user || !type) {
-        showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+        showNotify("กรุณากรอกชื่อและเลือกประเภทเอกสาร", "error");
         return;
     }
 
@@ -160,52 +171,68 @@ async function verifyDocument() {
                 const res = await fetch('documents.json');
                 const docs = await res.json();
                 
-                // --- Strict Logic: ค้นหาข้อมูลที่ตรงทุกระเบียบนิ้ว ---
                 const found = docs.find(d => {
                     const matchUser = d.roblox_username.toLowerCase() === user.toLowerCase();
                     const matchType = d.doc_type === type;
                     
                     let matchExtra = true;
                     if (d.extra_info) {
+                        const selLevel = document.getElementById('ex-level')?.value;
                         const selYear = document.getElementById('ex-year')?.value;
                         const selRoom = document.getElementById('ex-room')?.value;
-                        const selTerm = document.getElementById('ex-term')?.value;
                         const selSub  = document.getElementById('ex-subject')?.value;
+                        const selRotcs = document.getElementById('ex-level-rotcs')?.value;
 
-                        // ถ้ามีช่องให้เลือกในหน้าเว็บ ต้องตรงกับใน JSON
+                        if (selLevel && d.extra_info.level !== selLevel) matchExtra = false;
                         if (selYear && d.extra_info.year !== selYear) matchExtra = false;
                         if (selRoom && d.extra_info.room !== selRoom) matchExtra = false;
-                        if (selTerm && d.extra_info.term !== selTerm) matchExtra = false;
                         if (selSub  && d.extra_info.subject !== selSub) matchExtra = false;
+                        if (selRotcs && d.extra_info.level !== selRotcs) matchExtra = false;
                     }
-                    
                     return matchUser && matchType && matchExtra;
                 });
 
                 overlay.style.display = 'none';
-
                 if (found) {
                     showNotify("ตรวจสอบสำเร็จ!", "success");
                     renderResultCard(found);
                 } else {
-                    showNotify("ไม่พบข้อมูล หรือข้อมูลเสริมไม่ตรงตามฐานข้อมูล", "error");
+                    showNotify("ไม่พบข้อมูลที่ระบุ", "error");
                 }
             } catch (err) {
                 overlay.style.display = 'none';
-                showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
+                showNotify("เกิดข้อผิดพลาดในการโหลดข้อมูล", "error");
             }
         }
     }, 300);
 }
 
-// 4. แสดงผล Card เอกสาร
+// 4. แสดงผล Card เอกสาร (รองรับภาพหลายหน้า)
 function renderResultCard(found) {
     const resultArea = document.getElementById('verify-result-area');
+    
+    // วนลูปรูปภาพจาก Array
+    let imagesHtml = found.images.map((img, index) => `
+        <div style="flex: 1; min-width: 200px; text-align: center;">
+            <img src="${img}" style="width:100%; max-height:250px; object-fit:contain; border-radius:8px; border:1px solid #eee; margin-bottom:10px;">
+            <p style="font-size:0.65rem; color:#bbb;">เอกสารหน้าที่ ${index + 1}</p>
+        </div>
+    `).join('');
+
     let extraHtml = "";
     if(found.extra_info) {
         const ex = found.extra_info;
-        const labels = { level: 'ระดับชั้น', room: 'ห้อง', year: 'ปีการศึกษา', term: 'เทอม', subject: 'รายวิชา' };
-        extraHtml = `<div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; font-size:0.8rem;">` +
+        const labels = { 
+            level: 'ระดับชั้น/ปี', 
+            room: 'ห้อง', 
+            year: 'ปีการศึกษา', 
+            term: 'เทอม', 
+            subject: 'รายวิชา', 
+            grade: 'เกรดเฉลี่ย',
+            issued_date: 'วันที่ออก',
+            expiry_date: 'หมดอายุ'
+        };
+        extraHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-top:10px; font-size:0.8rem;">` +
             Object.keys(labels).filter(key => ex[key]).map(key => `<div style="background:#f0f4f8; padding:5px 10px; border-radius:5px;"><b>${labels[key]}:</b> ${ex[key]}</div>`).join('') +
             `</div>`;
     }
@@ -224,15 +251,8 @@ function renderResultCard(found) {
                         <div><small style="color: #999;">ชื่อผู้ใช้:</small><div style="font-weight: bold;">${found.roblox_username}</div></div>
                         <div><small style="color: #999;">รหัสเอกสาร:</small><div style="font-weight: bold;">${found.doc_id}</div></div>
                     </div>
-                    <div style="display: flex; gap: 12px; margin: 20px 0;">
-                        <div style="flex: 1; text-align: center;">
-                            <img src="${found.img_front}" style="width:100%; height:160px; object-fit:contain; border-radius:8px; border:1px solid #eee;">
-                            <p style="font-size:0.6rem; color:#bbb; margin-top:5px;">ด้านหน้า (1-2.jpg)</p>
-                        </div>
-                        <div style="flex: 1; text-align: center;">
-                            <img src="${found.img_back}" style="width:100%; height:160px; object-fit:contain; border-radius:8px; border:1px solid #eee;">
-                            <p style="font-size:0.6rem; color:#bbb; margin-top:5px;">ด้านหลัง (1.jpg)</p>
-                        </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
+                        ${imagesHtml}
                     </div>
                     <div style="background: #f9fbf9; border-left: 5px solid #00a859; padding: 15px; border-radius: 0 10px 10px 0;">
                         <p style="margin: 0; font-size: 0.85rem; color: #333;"><b>รายละเอียด:</b> ${found.detail}</p>
