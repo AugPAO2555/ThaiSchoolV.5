@@ -60,7 +60,7 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (แก้ไขชื่อ ปพ. ให้ถูกต้อง)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Logic ใหม่ล่าสุด)
 // ==========================================
 
 const docData = {
@@ -78,6 +78,7 @@ const docData = {
     police: ["ใบอนุญาตขับขี่รถยนต์", "ใบอนุญาตขับขี่รถจักรยานยนต์"]
 };
 
+// 1. ฟังก์ชันอัปเดต List ประเภทเอกสาร
 function updateDocTypes() {
     const agency = document.getElementById('agency-select').value;
     const typeSelect = document.getElementById('doc-type-select');
@@ -94,6 +95,7 @@ function updateDocTypes() {
     }
 }
 
+// 2. ฟังก์ชันโชว์ช่องกรอกเพิ่ม (ปพ.1 ไม่ถามปีการศึกษา)
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
@@ -103,11 +105,15 @@ function showExtraFields() {
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
 
-    // เช็กเงื่อนไขการโชว์ช่องกรอก (ตามชื่อใหม่)
+    // ระดับชั้น: ปพ.1, 2, 5, 6
     if (type.includes("ปพ.1") || type.includes("ปพ.2") || type.includes("ปพ.5") || type.includes("ปพ.6")) 
-        html += `<input type="text" id="ex-level" placeholder="ระดับชั้น" ${style}>`;
+        html += `<input type="text" id="ex-level" placeholder="ระดับชั้น (เช่น ม.6)" ${style}>`;
+
+    // ปีการศึกษา: ปพ.1 ไม่ต้องใช้
     if (type.includes("ปพ.3") || type.includes("ปพ.5") || type.includes("ปพ.6")) 
         html += `<input type="text" id="ex-year" placeholder="ปีการศึกษา" ${style}>`;
+
+    // ห้อง & วิชา & เทอม
     if (type.includes("ปพ.5") || type.includes("ปพ.6")) 
         html += `<input type="text" id="ex-room" placeholder="ห้อง" ${style}>`;
     if (type.includes("ปพ.5") || type.includes("ปพ.7ก")) 
@@ -118,6 +124,7 @@ function showExtraFields() {
     area.innerHTML = html;
 }
 
+// 3. ฟังก์ชันตรวจสอบ (แสดงผล Card พร้อมรูป 1-2 ด้านหน้า / 1 ด้านหลัง)
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const type = document.getElementById('doc-type-select').value;
@@ -145,7 +152,6 @@ async function verifyDocument() {
                 const res = await fetch('documents.json');
                 const docs = await res.json();
                 
-                // ค้นหาข้อมูล (ต้องตรงกับ docData ด้านบน)
                 const found = docs.find(d => 
                     d.roblox_username.toLowerCase() === user.toLowerCase() && 
                     d.doc_type === type
@@ -207,12 +213,13 @@ async function verifyDocument() {
                 }
             } catch (err) {
                 overlay.style.display = 'none';
-                showNotify("เกิดข้อผิดพลาดในการโหลดข้อมูล", "error");
+                showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
             }
         }
     }, 300);
 }
 
+// 4. แจ้งเตือน Top Banner
 function showNotify(msg, type = 'success') {
     const banner = document.getElementById('top-notify');
     if(!banner) return;
@@ -226,7 +233,6 @@ function closeStatus() {
     if(overlay) overlay.style.display = 'none';
 }
 
-// เริ่มโหลดข้อมูลเมื่อเข้าหน้าเว็ป
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
