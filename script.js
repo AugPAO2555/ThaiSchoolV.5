@@ -1,4 +1,6 @@
-// --- ส่วนที่ 1: ระบบข่าวสาร & บุคลากร ---
+// ==========================================
+// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร (ของเดิม)
+// ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
@@ -67,19 +69,25 @@ function closeModal() {
     if (modal) modal.style.display = 'none';
 }
 
-// --- ส่วนที่ 2: ระบบตรวจสอบเอกสาร (ชุดใหม่มินิมอล) ---
+// ==========================================
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (อัปเกรดใหม่)
+// ==========================================
 
+// 1. ข้อมูลประเภทเอกสารแยกตามหน่วยงาน
 const docData = {
     school: ["ปพ.1 - ระเบียนแสดงผลการเรียน", "ปพ.2 - ประกาศนียบัตร", "ปพ.7 - ใบรับรองสถานภาพ"],
     military: ["สด.8", "สด.9", "สด.43", "ใบวิทยฐานะ รด. ปี 3"],
     police: ["ใบอนุญาตขับขี่รถยนต์ส่วนบุคคล", "ใบอนุญาตขับขี่รถจักรยานยนต์"]
 };
 
+// 2. ฟังก์ชันอัปเดตประเภทเอกสารตามหน่วยงาน
 function updateDocTypes() {
     const agency = document.getElementById('agency-select').value;
     const typeSelect = document.getElementById('doc-type-select');
     if(!typeSelect) return;
+
     typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
+    
     if (docData[agency]) {
         docData[agency].forEach(type => {
             typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
@@ -89,14 +97,19 @@ function updateDocTypes() {
     }
 }
 
+// 3. ระบบแจ้งเตือนด่วนด้านบน (Top Notification)
 function showNotify(msg, type = 'success') {
     const banner = document.getElementById('top-notify');
     if(!banner) return;
+    
     banner.innerText = (type === 'success' ? '✔️ ' : '❌ ') + msg;
     banner.className = `top-banner show ${type}`;
+    
+    // แสดง 2.5 วินาทีแล้วซ่อน
     setTimeout(() => { banner.classList.remove('show'); }, 2500);
 }
 
+// 4. ฟังก์ชันตรวจสอบหลัก (Reset ค่าทุกครั้งที่กด)
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const agency = document.getElementById('agency-select').value;
@@ -111,21 +124,24 @@ async function verifyDocument() {
     const loadBar = document.getElementById('load-bar');
     const resultArea = document.getElementById('verify-result-area');
 
-    // Reset สถานะก่อนเริ่ม
+    // ล้างสถานะเก่าทิ้งก่อนเริ่ม (ป้องกันอาการค้าง)
     resultArea.innerHTML = '';
     loadBar.style.width = '0%';
     overlay.style.display = 'flex';
 
     let progress = 0;
     const interval = setInterval(async () => {
-        progress += Math.random() * 25;
+        progress += Math.random() * 30;
         if (progress > 100) progress = 100;
         loadBar.style.width = progress + '%';
 
         if (progress === 100) {
             clearInterval(interval);
             try {
-                const res = await fetch('Documents.json');
+                // ดึงไฟล์แบบตัวพิมพ์เล็กตามที่พี่แจ้ง
+                const res = await fetch('documents.json'); 
+                if (!res.ok) throw new Error();
+
                 const docs = await res.json();
                 const found = docs.find(d => 
                     d.roblox_username.toLowerCase() === user.toLowerCase() &&
@@ -136,7 +152,7 @@ async function verifyDocument() {
                 overlay.style.display = 'none';
 
                 if (found) {
-                    showNotify("เข้าสู่ระบบสำเร็จ!", "success");
+                    showNotify("เข้าสู่ระบบสำเร็จ!", "success"); //
                     resultArea.innerHTML = `
                         <div class="result-card">
                             <span class="result-icon">✅</span>
@@ -145,10 +161,10 @@ async function verifyDocument() {
                         </div>
                     `;
                 } else {
-                    showNotify("เกิดข้อผิดพลาด: ไม่พบข้อมูล", "error");
+                    showNotify("ไม่พบข้อมูลเอกสาร", "error"); //
                     resultArea.innerHTML = `
                         <div class="result-card">
-                            <span class="result-icon">❌</span>
+                            <span class="result-icon" style="color:#dc2626;">❌</span>
                             <div class="result-title">ไม่พบเอกสาร</div>
                             <div class="result-subtitle" style="color:gray;">โปรดตรวจสอบ : ชื่อผู้ใช้บัญชีโรบอคอีกครั้ง</div>
                         </div>
@@ -159,7 +175,7 @@ async function verifyDocument() {
                 showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
             }
         }
-    }, 300);
+    }, 400);
 }
 
 function closeStatus() {
@@ -167,7 +183,7 @@ function closeStatus() {
     if(overlay) overlay.style.display = 'none';
 }
 
-// --- ส่วนที่ 3: เริ่มทำงานเมื่อโหลดหน้าเสร็จ ---
+// เริ่มทำงานเมื่อเปิดหน้าเว็บ
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
