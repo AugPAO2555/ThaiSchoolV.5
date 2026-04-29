@@ -2,7 +2,7 @@
   {
     "roblox_username": "paoza_1230",
     "dept_key": "school",
-    "doc_type": "ปพ.1 - ระเบียนแสดงผลการเรียน",
+    "doc_type": "ปพ.1พ - มัธยมศึกษาตอนปลาย",
     "doc_id": "ชุดที่ 00001 เลขที่ 000001",
     "status": "ตรวจสอบแล้ว - ถูกต้อง",
     "issue_date": "01/04/2547",
@@ -10,6 +10,9 @@
     "img_front": "https://i.ibb.co/zTQHpJ6j/1-2.jpg",
     "img_back": "https://i.ibb.co/Myv91cDJ/1.jpg",
     "detail": "เกรดเฉลี่ยสะสม 3.96 (มัธยมศึกษาตอนปลาย)",
-    "issuer": "paoza_1230 (นายทะเบียน)"
+    "issuer": "paoza_1230 (นายทะเบียน)",
+    "extra_info": {
+      "level": "มัธยมศึกษาตอนปลาย"
+    }
   }
 ]
