@@ -8,7 +8,11 @@
     "images": ["URL_หน้า1", "URL_หน้า2"],
     "detail": "ระเบียบแสดงผลการเรียนระดับชั้นมัธยมศึกษาตอนต้น",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "มัธยมศึกษาตอนต้น", "grade": "4.00" }
+    "extra_info": { 
+      "level": "มัธยมศึกษาตอนต้น", 
+      "grade": "4.00", 
+      "issued_date": "1 เมษายน 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -19,7 +23,11 @@
     "images": ["URL_หน้า1", "URL_หน้า2"],
     "detail": "ระเบียบแสดงผลการเรียนระดับชั้นมัธยมศึกษาตอนปลาย",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "มัธยมศึกษาตอนปลาย", "grade": "3.94", "issued_date": "1 เมษายน 2547"}
+    "extra_info": { 
+      "level": "มัธยมศึกษาตอนปลาย", 
+      "grade": "3.94", 
+      "issued_date": "1 เมษายน 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -30,7 +38,10 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ประกาศนียบัตรผู้สำเร็จการศึกษาชั้นมัธยมศึกษาตอนต้น",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "มัธยมศึกษาตอนต้น", "grade": "3.50" "issued_date": "1 เมษายน 2547"}
+    "extra_info": { 
+      "level": "มัธยมศึกษาตอนต้น", 
+      "issued_date": "1 เมษายน 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -41,7 +52,10 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ประกาศนียบัตรผู้สำเร็จการศึกษาชั้นมัธยมศึกษาตอนปลาย",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "มัธยมศึกษาตอนปลาย" "issued_date": "31 มีนาคม 2547"}
+    "extra_info": { 
+      "level": "มัธยมศึกษาตอนปลาย", 
+      "issued_date": "31 มีนาคม 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -52,7 +66,10 @@
     "images": ["URL_หน้า1", "URL_หน้า2"],
     "detail": "รายงานผู้สำเร็จการศึกษาประจำปีการศึกษา",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "year": "2547""issued_date": "31 มีนาคม 2547" }
+    "extra_info": { 
+      "year": "2547", 
+      "issued_date": "31 มีนาคม 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -61,9 +78,14 @@
     "doc_id": "ปพ.5 - ค33101",
     "status": "ตรวจสอบแล้ว - ถูกต้อง",
     "images": ["URL_หน้าปก", "URL_หน้าคะแนน"],
-    "detail": "บันทึกผลการเรียนรายวิชาคณิตศาสตร์",
+    "detail": "บันทึกผลการเรียนรายวิชาคณิตศาสตร์(พื้นฐาน)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "year": "2547", "room": "1", "subject": "คณิตศาสตร์(พื้นฐาน)" "issued_date": "31 มีนาคม 2547"}
+    "extra_info": { 
+      "year": "2547", 
+      "room": "1", 
+      "subject": "คณิตศาสตร์(พื้นฐาน)", 
+      "issued_date": "31 มีนาคม 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -74,7 +96,12 @@
     "images": ["URL_หน้า1", "URL_หน้า2", "URL_หน้า3"],
     "detail": "สมุดรายงานผลการเรียนประจำเทอม (สมุดพก)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "year": "2547", "room": "1", "term": "1""issued_date": "31 มีนาคม 2547"}
+    "extra_info": { 
+      "year": "2547", 
+      "room": "1", 
+      "term": "1", 
+      "issued_date": "31 มีนาคม 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -85,7 +112,11 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ใบรับรองผลการเรียนรายวิชาเพื่อใช้รับรองสถานภาพ",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": {"grade": "3.94", "issued_date": "28 มีนาคม 2547", "expiry_date": "28 เมษายน 2547"}
+    "extra_info": { 
+      "grade": "3.94", 
+      "issued_date": "28 มีนาคม 2547", 
+      "expiry_date": "28 เมษายน 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -96,7 +127,10 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ใบรับรองผลการเรียนทุกรายวิชา (GPAX)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "grade": "3.94" }
+    "extra_info": { 
+      "grade": "3.94",
+      "issued_date": "31 มีนาคม 2547"
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -107,18 +141,10 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "หนังสือสำคัญวิทยฐานะสำเร็จการฝึกวิชาทหาร (ใบจบ รด.)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "3" "issued_date": ""}
-  },
-  {
-    "roblox_username": "paoza_1230",
-    "dept_key": "military",
-    "doc_type": "ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร",
-    "doc_id": "เลขที่ 000001/2547",
-    "status": "ตรวจสอบแล้ว - ถูกต้อง",
-    "images": ["URL_หน้าเดียว"],
-    "detail": "หนังสือสำคัญวิทยฐานะสำเร็จการฝึกวิชาทหาร (ใบจบ รด.)",
-    "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": { "level": "5" }
+    "extra_info": { 
+      "level": "3", 
+      "issued_date": "31 มีนาคม 2547" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -129,7 +155,9 @@
     "images": ["URL_หน้า1", "URL_หน้า2", "URL_หน้า3"],
     "detail": "สมุดประจำตัวทหารกองหนุนประเภทที่ 1",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": {}
+    "extra_info": {
+      "issued_date": "31 มีนาคม 2547"
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -140,7 +168,9 @@
     "images": ["URL_หน้า1", "URL_หน้า2", "URL_หน้า3", "URL_หน้า4"],
     "detail": "ใบสำคัญทหารกองเกิน (แบบสมุดหลายหน้า)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": {"issued_date": "4 เมษายน 2546"}
+    "extra_info": { 
+      "issued_date": "4 เมษายน 2546" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -151,7 +181,9 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "หมายเรียกเข้ารับราชการทหารประจำปี",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": {"issued_date": "4 เมษายน 2547"}
+    "extra_info": {
+      "issued_date": "4 เมษายน 2547"
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -162,7 +194,9 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ใบรับรองผลการตรวจเลือกทหารกองเกิน (ใบผ่านเกณฑ์)",
     "issuer": "paoza_1230 (นายทะเบียน)",
-    "extra_info": {"issued_date": "4 เมษายน 2547"}
+    "extra_info": {
+      "issued_date": "4 เมษายน 2547"
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -173,7 +207,10 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ใบอนุญาตขับรถยนต์ส่วนบุคคลชั่วคราว",
     "issuer": "กรมการขนส่งทางบก",
-    "extra_info": {"issued_date": "28 เมษายน 2547", "expiry_date": "28 เมษายน 2549"}
+    "extra_info": { 
+      "issued_date": "28 เมษายน 2547", 
+      "expiry_date": "28 เมษายน 2549" 
+    }
   },
   {
     "roblox_username": "paoza_1230",
@@ -184,6 +221,9 @@
     "images": ["URL_หน้าเดียว"],
     "detail": "ใบอนุญาตขับขี่รถจักรยานยนต์ส่วนบุคคลชั่วคราว",
     "issuer": "กรมการขนส่งทางบก",
-    "extra_info": {"issued_date": "28 เมษายน 2547", "expiry_date": "28 เมษายน 2549"}
+    "extra_info": { 
+      "issued_date": "28 เมษายน 2547", 
+      "expiry_date": "28 เมษายน 2549" 
+    }
   }
 ]
