@@ -1,4 +1,4 @@
-// --- ส่วนเดิมของพี่ (ข่าวสาร & บุคลากร) ---
+// --- ส่วนที่ 1: ระบบข่าวสาร & บุคลากร ---
 async function fetchNews() {
     const box = document.getElementById('news-container');
     if (!box) return;
@@ -45,32 +45,20 @@ function openBio(id) {
     .then(data => {
         const m = data.find(item => item.id === id);
         if (!m) return;
-        
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role').innerText = m.role;
         document.getElementById('m-dept').innerText = m.dept;
         document.getElementById('m-bio').innerText = m.bio;
-
         const eduBox = document.getElementById('m-edu-list');
         eduBox.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `
             <div class="bio-item"><span>🎓</span> <div><b>${e.level}</b><small>${e.place}</small></div></div>
         `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการศึกษา</p>';
-
         const expBox = document.getElementById('m-exp-list');
         expBox.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(ex => `
-            <div class="bio-item">
-                <span>💼</span> 
-                <div>
-                    <b>${ex.year === "ปัจจุบัน" ? "ปัจจุบัน" : "ปี " + ex.year}</b>
-                    <small>${ex.desc}</small>
-                </div>
-            </div>
+            <div class="bio-item"><span>💼</span> <div><b>${ex.year === "ปัจจุบัน" ? "ปัจจุบัน" : "ปี " + ex.year}</b><small>${ex.desc}</small></div></div>
         `).join('') : '<p style="color:#999; font-size:0.8rem; margin-bottom:15px;">ไม่มีข้อมูลประวัติการทำงาน</p>';
-
         const modal = document.getElementById('bio-modal');
         modal.style.display = 'flex';
-        const modalContent = document.querySelector('.modal-content');
-        if (modalContent) modalContent.scrollTop = 0;
     });
 }
 
@@ -79,73 +67,8 @@ function closeModal() {
     if (modal) modal.style.display = 'none';
 }
 
-// --- ส่วนใหม่ (ตรวจสอบเอกสาร) ---
-async function verifyDocument() {
-    const user = document.getElementById('roblox-username').value.trim();
-    const overlay = document.getElementById('status-overlay');
-    const loadBar = document.getElementById('load-bar');
-    const statusTitle = document.getElementById('status-title');
-    const statusMsg = document.getElementById('status-msg');
-    const statusBtn = document.getElementById('status-btn');
-    const resultArea = document.getElementById('verify-result-area');
+// --- ส่วนที่ 2: ระบบตรวจสอบเอกสาร (ชุดใหม่มินิมอล) ---
 
-    if (!user) return alert("กรุณากรอก Username");
-
-    overlay.style.display = 'flex';
-    statusBtn.style.display = 'none';
-    resultArea.innerHTML = '';
-    
-    let progress = 0;
-    const interval = setInterval(async () => {
-        progress += Math.random() * 30;
-        if (progress > 100) progress = 100;
-        loadBar.style.width = progress + '%';
-
-        if (progress === 100) {
-            clearInterval(interval);
-            try {
-                const res = await fetch('Documents.json'); //
-                const docs = await res.json();
-                const found = docs.find(d => d.roblox_username.toLowerCase() === user.toLowerCase());
-
-                if (found) {
-                    statusTitle.innerText = "ตรวจสอบพบข้อมูล";
-                    statusMsg.innerText = "พบเอกสารในระบบ";
-                    resultArea.innerHTML = `
-                        <div class="doc-result-card" style="background:#fff; border:1px solid #eee; padding:25px; border-radius:15px; margin-top:30px;">
-                            <span style="color:var(--primary); font-weight:bold;">● ${found.status}</span>
-                            <h3 style="margin:10px 0;">${found.doc_type}</h3>
-                            <p><b>เลขที่เอกสาร:</b> ${found.doc_id}</p>
-                            <p><b>ผู้ถือครอง:</b> ${found.roblox_username}</p>
-                            <p><b>วันที่ออก:</b> ${found.issue_date}</p>
-                            <hr style="margin:15px 0; border:0; border-top:1px solid #eee;">
-                            <p style="font-size:0.9rem; color:#666;">${found.detail}</p>
-                        </div>
-                    `;
-                } else {
-                    statusTitle.innerText = "ไม่พบข้อมูล";
-                    statusMsg.innerText = "ไม่พบเอกสารของชื่อผู้ใช้นี้";
-                }
-                statusBtn.style.display = 'block';
-            } catch (err) {
-                statusTitle.innerText = "เกิดข้อผิดพลาด";
-                statusMsg.innerText = "โหลดฐานข้อมูลไม่สำเร็จ";
-                statusBtn.style.display = 'block';
-            }
-        }
-    }, 400);
-}
-
-function closeStatus() {
-    document.getElementById('status-overlay').style.display = 'none';
-    document.getElementById('load-bar').style.width = '0%';
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    fetchNews();
-    fetchPersonnel();
-});
-// 1. ระบบประเภทเอกสารย่อย
 const docData = {
     school: ["ปพ.1 - ระเบียนแสดงผลการเรียน", "ปพ.2 - ประกาศนียบัตร", "ปพ.7 - ใบรับรองสถานภาพ"],
     military: ["สด.8", "สด.9", "สด.43", "ใบวิทยฐานะ รด. ปี 3"],
@@ -155,46 +78,44 @@ const docData = {
 function updateDocTypes() {
     const agency = document.getElementById('agency-select').value;
     const typeSelect = document.getElementById('doc-type-select');
+    if(!typeSelect) return;
     typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
-    
     if (docData[agency]) {
         docData[agency].forEach(type => {
             typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
         });
+    } else {
+        typeSelect.innerHTML = '<option value="">-- โปรดเลือกหน่วยงานก่อน --</option>';
     }
 }
 
-// 2. ระบบแจ้งเตือนด้านบน (Toast)
 function showNotify(msg, type = 'success') {
     const banner = document.getElementById('top-notify');
+    if(!banner) return;
     banner.innerText = (type === 'success' ? '✔️ ' : '❌ ') + msg;
     banner.className = `top-banner show ${type}`;
-    setTimeout(() => { banner.classList.remove('show'); }, 2500); // หายไปใน 2.5 วิ
+    setTimeout(() => { banner.classList.remove('show'); }, 2500);
 }
 
-// 3. ฟังก์ชันตรวจสอบหลัก
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const agency = document.getElementById('agency-select').value;
     const type = document.getElementById('doc-type-select').value;
-    
-    if (!user || !agency || !type) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
 
-    // ล้างสถานะเก่าทิ้งก่อนเริ่มใหม่
+    if (!user || !agency || !type) {
+        showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error");
+        return;
+    }
+
     const overlay = document.getElementById('status-overlay');
     const loadBar = document.getElementById('load-bar');
-    const statusTitle = document.getElementById('status-title');
-    const statusMsg = document.getElementById('status-msg');
     const resultArea = document.getElementById('verify-result-area');
-    
+
+    // Reset สถานะก่อนเริ่ม
     resultArea.innerHTML = '';
     loadBar.style.width = '0%';
-    statusTitle.innerText = "กำลังตรวจสอบ";
-    statusMsg.innerText = "เตรียมการเชื่อมต่อระบบ...";
-    document.getElementById('status-btn').style.display = 'none';
     overlay.style.display = 'flex';
 
-    // วิ่ง Loading Bar
     let progress = 0;
     const interval = setInterval(async () => {
         progress += Math.random() * 25;
@@ -206,33 +127,30 @@ async function verifyDocument() {
             try {
                 const res = await fetch('Documents.json');
                 const docs = await res.json();
-                
-                // ค้นหา (เช็กทั้งชื่อ หน่วยงาน และประเภท)
                 const found = docs.find(d => 
                     d.roblox_username.toLowerCase() === user.toLowerCase() &&
                     d.dept_key === agency &&
                     d.doc_type === type
                 );
 
+                overlay.style.display = 'none';
+
                 if (found) {
-                    overlay.style.display = 'none'; // ปิดโหลดทันที
                     showNotify("เข้าสู่ระบบสำเร็จ!", "success");
                     resultArea.innerHTML = `
                         <div class="result-card">
                             <span class="result-icon">✅</span>
                             <div class="result-title">พบเอกสาร</div>
-                            <div class="result-subtitle">กรุณารอสักครู่ : ระบบกำลังนำพาท่านสู่หน้าเอกสาร</div>
+                            <div class="result-subtitle" style="color:gray;">กรุณารอสักครู่ : ระบบกำลังนำพาท่านสู่หน้าเอกสาร</div>
                         </div>
                     `;
-                    // (เพิ่ม: พี่สามารถใส่ window.location.href ไปหน้าเอกสารจริงตรงนี้ได้)
                 } else {
-                    overlay.style.display = 'none';
                     showNotify("เกิดข้อผิดพลาด: ไม่พบข้อมูล", "error");
                     resultArea.innerHTML = `
                         <div class="result-card">
                             <span class="result-icon">❌</span>
                             <div class="result-title">ไม่พบเอกสาร</div>
-                            <div class="result-subtitle">โปรดตรวจสอบ : ชื่อผู้ใช้บัญชีโรบอคอีกครั้ง</div>
+                            <div class="result-subtitle" style="color:gray;">โปรดตรวจสอบ : ชื่อผู้ใช้บัญชีโรบอคอีกครั้ง</div>
                         </div>
                     `;
                 }
@@ -244,4 +162,13 @@ async function verifyDocument() {
     }, 300);
 }
 
-function closeStatus() { document.getElementById('status-overlay').style.display = 'none'; }
+function closeStatus() {
+    const overlay = document.getElementById('status-overlay');
+    if(overlay) overlay.style.display = 'none';
+}
+
+// --- ส่วนที่ 3: เริ่มทำงานเมื่อโหลดหน้าเสร็จ ---
+window.addEventListener('DOMContentLoaded', () => {
+    fetchNews();
+    fetchPersonnel();
+});
