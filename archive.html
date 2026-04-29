@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="top-notify" class="top-banner"></div>
+
     <nav>
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
@@ -23,15 +25,24 @@
         <div class="verify-box">
             <div class="input-field-group">
                 <label>หน่วยงานที่ออกเอกสาร</label>
-                <select id="agency-select">
-                    <option value="school">โรงเรียนกราชวิทยา (การศึกษา)</option>
-                    <option value="military">กองทัพบก (ทะเบียนทหาร/รด.)</option>
+                <select id="agency-select" onchange="updateDocTypes()">
+                    <option value="">-- เลือกหน่วยงาน --</option>
+                    <option value="school">โรงเรียนกราชวิทยา</option>
+                    <option value="military">กองทัพบก</option>
+                    <option value="police">สำนักงานตำรวจภูธรพระนครศรีอยุธยา</option>
+                </select>
+            </div>
+
+            <div class="input-field-group">
+                <label>ประเภทเอกสาร</label>
+                <select id="doc-type-select">
+                    <option value="">-- โปรดเลือกหน่วยงานก่อน --</option>
                 </select>
             </div>
 
             <div class="input-field-group">
                 <label>ชื่อผู้ใช้ Roblox (Username)</label>
-                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้เพื่อค้นหา...">
+                <input type="text" id="roblox-username" placeholder="กรอกชื่อผู้ใช้...">
             </div>
 
             <button class="btn-verify-modern" onclick="verifyDocument()">เริ่มการตรวจสอบ</button>
@@ -40,28 +51,19 @@
         <div id="verify-result-area"></div>
     </main>
 
-    <div id="status-overlay" class="modal" style="display:none; background: rgba(0,0,0,0.5);">
+    <div id="status-overlay" class="modal">
         <div class="modal-content" style="text-align: center; max-width: 400px;">
-            <div class="loading-container" style="background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 20px;">
-                <div id="load-bar" style="background: var(--primary); width: 0%; height: 100%; transition: 0.3s;"></div>
+            <div class="loading-container">
+                <div id="load-bar"></div>
             </div>
-            <h3 id="status-title" style="margin-bottom: 10px;">กำลังตรวจสอบ</h3>
-            <p id="status-msg" style="color: #777; font-size: 0.9rem;">เตรียมการเชื่อมต่อระบบ...</p>
+            <h3 id="status-title">กำลังตรวจสอบ</h3>
+            <p id="status-msg">เตรียมการเชื่อมต่อระบบ...</p>
             <button id="status-btn" class="btn-close-modal" onclick="closeStatus()" style="display: none;">ตกลง</button>
         </div>
     </div>
 
     <footer class="main-footer">
-        <div class="container" style="text-align: center;">
-            <div class="footer-links">
-                <span>ติดตามเราได้ที่: </span>
-                <a href="https://discord.gg/3W7YecYCAT" target="_blank" class="link-discord">Discord</a> | 
-                <a href="https://www.roblox.com/th/communities/34820923/ThaiSchool-V4#!/about" target="_blank" class="link-roblox">Roblox Group</a> | 
-                <a href="https://www.roblox.com/th/games/84066328709254/13-2547-Reborn" target="_blank" class="link-map">Roblox Map</a>
-            </div>
-            <p class="copyright">© 2026 Thai School V.5 สงวนลิขสิทธิ์ทุกประการ</p>
-        </div>
-    </footer>
+        </footer>
 
     <script src="script.js"></script>
 </body>
