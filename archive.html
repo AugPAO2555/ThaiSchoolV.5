@@ -21,7 +21,7 @@
 
     <main class="container" style="min-height: 80vh;">
         <h2 class="title-border">ตรวจสอบเอกสาร</h2>
-        
+
         <div class="verify-box">
             <div class="input-field-group">
                 <label>หน่วยงานที่ออกเอกสาร</label>
@@ -35,10 +35,12 @@
 
             <div class="input-field-group">
                 <label>ประเภทเอกสาร</label>
-                <select id="doc-type-select">
+                <select id="doc-type-select" onchange="showExtraFields()">
                     <option value="">-- โปรดเลือกหน่วยงานก่อน --</option>
                 </select>
             </div>
+
+            <div id="extra-inputs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;"></div>
 
             <div class="input-field-group">
                 <label>ชื่อผู้ใช้ Roblox (Username)</label>
@@ -54,16 +56,13 @@
     <div id="status-overlay" class="modal">
         <div class="modal-content" style="text-align: center; max-width: 400px;">
             <div class="loading-container">
-                <div id="load-bar"></div>
+                <div id="load-bar" style="width: 0%; height: 100%; background: #00a859; transition: 0.3s;"></div>
             </div>
             <h3 id="status-title">กำลังตรวจสอบ</h3>
             <p id="status-msg">เตรียมการเชื่อมต่อระบบ...</p>
             <button id="status-btn" class="btn-close-modal" onclick="closeStatus()" style="display: none;">ตกลง</button>
         </div>
     </div>
-
-    <footer class="main-footer">
-        </footer>
 
     <script src="script.js"></script>
 </body>
