@@ -60,7 +60,7 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Updated Logic)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Smart & Clean Logic)
 // ==========================================
 
 const docData = {
@@ -84,7 +84,6 @@ const docData = {
     ]
 };
 
-// 1. อัปเดตประเภทเอกสาร
 function updateDocTypes() {
     const agency = document.getElementById('agency-select').value;
     const typeSelect = document.getElementById('doc-type-select');
@@ -101,7 +100,7 @@ function updateDocTypes() {
     }
 }
 
-// 2. แสดง Option เสริมตามประเภทเอกสาร
+// 2. แสดง Option เสริม (ตัดระดับชั้นออก เพราะระบบจะอ่านจากชื่อประเภทเอง)
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
@@ -110,13 +109,6 @@ function showExtraFields() {
 
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
-
-    // ระดับชั้น (ปพ.1, ปพ.2)
-    if (type.includes("ปพ.1") || type.includes("ปพ.2")) {
-        html += `<div><small>ระดับชั้น</small><select id="ex-level" ${style}>
-                <option value="มัธยมศึกษาตอนต้น">มัธยมศึกษาตอนต้น</option>
-                <option value="มัธยมศึกษาตอนปลาย">มัธยมศึกษาตอนปลาย</option></select></div>`;
-    }
 
     // ปีการศึกษา (ปพ.3, 5, 6)
     if (type.includes("ปพ.3") || type.includes("ปพ.5") || type.includes("ปพ.6")) {
@@ -133,6 +125,10 @@ function showExtraFields() {
         html += `<div><small>รายวิชา</small><select id="ex-subject" ${style}>
                 <option value="คณิตศาสตร์(พื้นฐาน)">คณิตศาสตร์(พื้นฐาน)</option></select></div>`;
     }
+    if (type.includes("ปพ.6")) {
+        html += `<div><small>เทอม</small><select id="ex-term" ${style}>
+                <option value="1">1</option><option value="2">2</option></select></div>`;
+    }
 
     // รด. ชั้นปี
     if (type.includes("วิทยฐานะ")) {
@@ -143,7 +139,7 @@ function showExtraFields() {
     area.innerHTML = html;
 }
 
-// 3. เริ่มการตรวจสอบ
+// 3. เริ่มการตรวจสอบ (Smart Logic: Auto-Detect Level สำหรับ ปพ.1)
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const type = document.getElementById('doc-type-select').value;
@@ -155,6 +151,11 @@ async function verifyDocument() {
         showNotify("กรุณากรอกชื่อและเลือกประเภทเอกสาร", "error");
         return;
     }
+
+    // ตรวจหาคำว่า "มัธยมศึกษาตอนต้น" หรือ "มัธยมศึกษาตอนปลาย" จากชื่อประเภท
+    let autoLevel = "";
+    if (type.includes("มัธยมศึกษาตอนต้น")) autoLevel = "มัธยมศึกษาตอนต้น";
+    else if (type.includes("มัธยมศึกษาตอนปลาย")) autoLevel = "มัธยมศึกษาตอนปลาย";
 
     resultArea.innerHTML = '';
     overlay.style.display = 'flex';
@@ -177,17 +178,22 @@ async function verifyDocument() {
                     
                     let matchExtra = true;
                     if (d.extra_info) {
-                        const selLevel = document.getElementById('ex-level')?.value;
+                        const ex = d.extra_info;
                         const selYear = document.getElementById('ex-year')?.value;
                         const selRoom = document.getElementById('ex-room')?.value;
                         const selSub  = document.getElementById('ex-subject')?.value;
+                        const selTerm = document.getElementById('ex-term')?.value;
                         const selRotcs = document.getElementById('ex-level-rotcs')?.value;
 
-                        if (selLevel && d.extra_info.level !== selLevel) matchExtra = false;
-                        if (selYear && d.extra_info.year !== selYear) matchExtra = false;
-                        if (selRoom && d.extra_info.room !== selRoom) matchExtra = false;
-                        if (selSub  && d.extra_info.subject !== selSub) matchExtra = false;
-                        if (selRotcs && d.extra_info.level !== selRotcs) matchExtra = false;
+                        // ตรวจสอบ Level อัตโนมัติ (โดยเฉพาะ ปพ.1)
+                        if (autoLevel && ex.level && ex.level !== autoLevel) matchExtra = false;
+                        
+                        // เช็คค่าอื่นๆ จาก UI
+                        if (selYear && ex.year !== selYear) matchExtra = false;
+                        if (selRoom && ex.room !== selRoom) matchExtra = false;
+                        if (selSub  && ex.subject !== selSub) matchExtra = false;
+                        if (selTerm && ex.term !== selTerm) matchExtra = false;
+                        if (selRotcs && ex.level !== selRotcs) matchExtra = false;
                     }
                     return matchUser && matchType && matchExtra;
                 });
@@ -197,24 +203,23 @@ async function verifyDocument() {
                     showNotify("ตรวจสอบสำเร็จ!", "success");
                     renderResultCard(found);
                 } else {
-                    showNotify("ไม่พบข้อมูลที่ระบุ", "error");
+                    showNotify("ไม่พบข้อมูล หรือข้อมูลเสริมไม่ตรงตามฐานข้อมูล", "error");
                 }
             } catch (err) {
                 overlay.style.display = 'none';
-                showNotify("เกิดข้อผิดพลาดในการโหลดข้อมูล", "error");
+                showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
             }
         }
     }, 300);
 }
 
-// 4. แสดงผล Card เอกสาร (รองรับภาพหลายหน้า)
+// 4. แสดงผล Card เอกสาร (โชว์ข้อมูลครบถ้วน)
 function renderResultCard(found) {
     const resultArea = document.getElementById('verify-result-area');
     
-    // วนลูปรูปภาพจาก Array
     let imagesHtml = found.images.map((img, index) => `
         <div style="flex: 1; min-width: 200px; text-align: center;">
-            <img src="${img}" style="width:100%; max-height:250px; object-fit:contain; border-radius:8px; border:1px solid #eee; margin-bottom:10px;">
+            <img src="${img}" style="width:100%; max-height:280px; object-fit:contain; border-radius:8px; border:1px solid #eee; margin-bottom:10px;">
             <p style="font-size:0.65rem; color:#bbb;">เอกสารหน้าที่ ${index + 1}</p>
         </div>
     `).join('');
@@ -223,14 +228,8 @@ function renderResultCard(found) {
     if(found.extra_info) {
         const ex = found.extra_info;
         const labels = { 
-            level: 'ระดับชั้น/ปี', 
-            room: 'ห้อง', 
-            year: 'ปีการศึกษา', 
-            term: 'เทอม', 
-            subject: 'รายวิชา', 
-            grade: 'เกรดเฉลี่ย',
-            issued_date: 'วันที่ออก',
-            expiry_date: 'หมดอายุ'
+            level: 'ระดับชั้น/ปี', grade: 'เกรดเฉลี่ย', issued_date: 'วันที่ออก', 
+            expiry_date: 'หมดอายุ', year: 'ปีการศึกษา', room: 'ห้อง', term: 'เทอม', subject: 'รายวิชา' 
         };
         extraHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-top:10px; font-size:0.8rem;">` +
             Object.keys(labels).filter(key => ex[key]).map(key => `<div style="background:#f0f4f8; padding:5px 10px; border-radius:5px;"><b>${labels[key]}:</b> ${ex[key]}</div>`).join('') +
@@ -247,10 +246,7 @@ function renderResultCard(found) {
                 <div style="padding: 20px;">
                     <div style="font-weight: 800; font-size: 1.1rem; color: #1a1a1a;">${found.doc_type}</div>
                     ${extraHtml}
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-                        <div><small style="color: #999;">ชื่อผู้ใช้:</small><div style="font-weight: bold;">${found.roblox_username}</div></div>
-                        <div><small style="color: #999;">รหัสเอกสาร:</small><div style="font-weight: bold;">${found.doc_id}</div></div>
-                    </div>
+                    <div style="margin-top: 15px;"><small style="color: #999;">รหัสเอกสาร:</small><div style="font-weight: bold;">${found.doc_id}</div></div>
                     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
                         ${imagesHtml}
                     </div>
