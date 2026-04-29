@@ -60,15 +60,19 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (แบบ Option เสริม)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (แก้ไขชื่อ ปพ. ให้ถูกต้อง)
 // ==========================================
 
 const docData = {
     school: [
-        "ปพ.1บ (ม.ต้น)", "ปพ.1พ (ม.ปลาย)", "ปพ.2 (ประกาศนียบัตร)", 
-        "ปพ.3 (รายงานผู้สำเร็จการศึกษา)", "ปพ.5 (แบบบันทึกผลการพัฒนาคุณภาพผู้เรียน)", 
-        "ปพ.6 (แบบรายงานผลการพัฒนาคุณภาพผู้เรียนรายบุคคล)", 
-        "ปพ.7ก (ใบรับรองเฉพาะรายวิชา)", "ปพ.7ข (ใบรับรองทุกรายวิชา)"
+        "ปพ.1บ - มัธยมศึกษาตอนต้น", 
+        "ปพ.1พ - มัธยมศึกษาตอนปลาย", 
+        "ปพ.2 - ประกาศนียบัตร", 
+        "ปพ.3 - รายงานผู้สำเร็จการศึกษา", 
+        "ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพผู้เรียน", 
+        "ปพ.6 - แบบรายงานผลการพัฒนาคุณภาพผู้เรียนรายบุคคล", 
+        "ปพ.7ก - ใบรับรองเฉพาะรายวิชา", 
+        "ปพ.7ข - ใบรับรองทุกรายวิชา"
     ],
     military: ["สด.8", "สด.9", "สด.43"],
     police: ["ใบอนุญาตขับขี่รถยนต์", "ใบอนุญาตขับขี่รถจักรยานยนต์"]
@@ -99,6 +103,7 @@ function showExtraFields() {
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
 
+    // เช็กเงื่อนไขการโชว์ช่องกรอก (ตามชื่อใหม่)
     if (type.includes("ปพ.1") || type.includes("ปพ.2") || type.includes("ปพ.5") || type.includes("ปพ.6")) 
         html += `<input type="text" id="ex-level" placeholder="ระดับชั้น" ${style}>`;
     if (type.includes("ปพ.3") || type.includes("ปพ.5") || type.includes("ปพ.6")) 
@@ -139,7 +144,12 @@ async function verifyDocument() {
             try {
                 const res = await fetch('documents.json');
                 const docs = await res.json();
-                const found = docs.find(d => d.roblox_username.toLowerCase() === user.toLowerCase() && d.doc_type === type);
+                
+                // ค้นหาข้อมูล (ต้องตรงกับ docData ด้านบน)
+                const found = docs.find(d => 
+                    d.roblox_username.toLowerCase() === user.toLowerCase() && 
+                    d.doc_type === type
+                );
 
                 overlay.style.display = 'none';
 
@@ -175,13 +185,13 @@ async function verifyDocument() {
                                             <div style="width: 100%; height: 160px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #eee;">
                                                 <img src="${found.img_front}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                             </div>
-                                            <p style="font-size: 0.6rem; color: #bbb; margin-top: 5px;">ด้านหน้า</p>
+                                            <p style="font-size: 0.6rem; color: #bbb; margin-top: 5px;">ด้านหน้า (1-2.jpg)</p>
                                         </div>
                                         <div style="flex: 1; text-align: center;">
                                             <div style="width: 100%; height: 160px; background: #f5f5f5; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #eee;">
                                                 <img src="${found.img_back}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                                             </div>
-                                            <p style="font-size: 0.6rem; color: #bbb; margin-top: 5px;">ด้านหลัง</p>
+                                            <p style="font-size: 0.6rem; color: #bbb; margin-top: 5px;">ด้านหลัง (1.jpg)</p>
                                         </div>
                                     </div>
                                     <div style="background: #f9fbf9; border-left: 5px solid #00a859; padding: 15px; border-radius: 0 10px 10px 0;">
@@ -192,9 +202,11 @@ async function verifyDocument() {
                             </div>
                         </div>`;
                 } else {
+                    overlay.style.display = 'none';
                     showNotify("ไม่พบข้อมูลเอกสารในระบบ", "error");
                 }
             } catch (err) {
+                overlay.style.display = 'none';
                 showNotify("เกิดข้อผิดพลาดในการโหลดข้อมูล", "error");
             }
         }
@@ -214,7 +226,7 @@ function closeStatus() {
     if(overlay) overlay.style.display = 'none';
 }
 
-// โหลดข้อมูลอัตโนมัติเมื่อเปิดหน้าเว็ป
+// เริ่มโหลดข้อมูลเมื่อเข้าหน้าเว็ป
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
