@@ -145,3 +145,103 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
 });
+// 1. ระบบประเภทเอกสารย่อย
+const docData = {
+    school: ["ปพ.1 - ระเบียนแสดงผลการเรียน", "ปพ.2 - ประกาศนียบัตร", "ปพ.7 - ใบรับรองสถานภาพ"],
+    military: ["สด.8", "สด.9", "สด.43", "ใบวิทยฐานะ รด. ปี 3"],
+    police: ["ใบอนุญาตขับขี่รถยนต์ส่วนบุคคล", "ใบอนุญาตขับขี่รถจักรยานยนต์"]
+};
+
+function updateDocTypes() {
+    const agency = document.getElementById('agency-select').value;
+    const typeSelect = document.getElementById('doc-type-select');
+    typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
+    
+    if (docData[agency]) {
+        docData[agency].forEach(type => {
+            typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
+        });
+    }
+}
+
+// 2. ระบบแจ้งเตือนด้านบน (Toast)
+function showNotify(msg, type = 'success') {
+    const banner = document.getElementById('top-notify');
+    banner.innerText = (type === 'success' ? '✔️ ' : '❌ ') + msg;
+    banner.className = `top-banner show ${type}`;
+    setTimeout(() => { banner.classList.remove('show'); }, 2500); // หายไปใน 2.5 วิ
+}
+
+// 3. ฟังก์ชันตรวจสอบหลัก
+async function verifyDocument() {
+    const user = document.getElementById('roblox-username').value.trim();
+    const agency = document.getElementById('agency-select').value;
+    const type = document.getElementById('doc-type-select').value;
+    
+    if (!user || !agency || !type) return alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+
+    // ล้างสถานะเก่าทิ้งก่อนเริ่มใหม่
+    const overlay = document.getElementById('status-overlay');
+    const loadBar = document.getElementById('load-bar');
+    const statusTitle = document.getElementById('status-title');
+    const statusMsg = document.getElementById('status-msg');
+    const resultArea = document.getElementById('verify-result-area');
+    
+    resultArea.innerHTML = '';
+    loadBar.style.width = '0%';
+    statusTitle.innerText = "กำลังตรวจสอบ";
+    statusMsg.innerText = "เตรียมการเชื่อมต่อระบบ...";
+    document.getElementById('status-btn').style.display = 'none';
+    overlay.style.display = 'flex';
+
+    // วิ่ง Loading Bar
+    let progress = 0;
+    const interval = setInterval(async () => {
+        progress += Math.random() * 25;
+        if (progress > 100) progress = 100;
+        loadBar.style.width = progress + '%';
+
+        if (progress === 100) {
+            clearInterval(interval);
+            try {
+                const res = await fetch('Documents.json');
+                const docs = await res.json();
+                
+                // ค้นหา (เช็กทั้งชื่อ หน่วยงาน และประเภท)
+                const found = docs.find(d => 
+                    d.roblox_username.toLowerCase() === user.toLowerCase() &&
+                    d.dept_key === agency &&
+                    d.doc_type === type
+                );
+
+                if (found) {
+                    overlay.style.display = 'none'; // ปิดโหลดทันที
+                    showNotify("เข้าสู่ระบบสำเร็จ!", "success");
+                    resultArea.innerHTML = `
+                        <div class="result-card">
+                            <span class="result-icon">✅</span>
+                            <div class="result-title">พบเอกสาร</div>
+                            <div class="result-subtitle">กรุณารอสักครู่ : ระบบกำลังนำพาท่านสู่หน้าเอกสาร</div>
+                        </div>
+                    `;
+                    // (เพิ่ม: พี่สามารถใส่ window.location.href ไปหน้าเอกสารจริงตรงนี้ได้)
+                } else {
+                    overlay.style.display = 'none';
+                    showNotify("เกิดข้อผิดพลาด: ไม่พบข้อมูล", "error");
+                    resultArea.innerHTML = `
+                        <div class="result-card">
+                            <span class="result-icon">❌</span>
+                            <div class="result-title">ไม่พบเอกสาร</div>
+                            <div class="result-subtitle">โปรดตรวจสอบ : ชื่อผู้ใช้บัญชีโรบอคอีกครั้ง</div>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                overlay.style.display = 'none';
+                showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
+            }
+        }
+    }, 300);
+}
+
+function closeStatus() { document.getElementById('status-overlay').style.display = 'none'; }
