@@ -1,5 +1,5 @@
 // ==========================================
-// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร (คงเดิม)
+// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร
 // ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
@@ -60,10 +60,9 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Dynamic & Smart Logic)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Dynamic Logic)
 // ==========================================
-
-let allDocuments = []; // ข้อมูลที่โหลดมาจาก JSON
+let allDocuments = [];
 
 const docData = {
     school: [
@@ -77,7 +76,7 @@ const docData = {
     military: [
         "ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", 
         "สด.8 - สมุดประจำตัวทหารกองหนุนประเภทที่ 1", 
-        "สด.9 - ใบสำคัญ", // อัปเดตให้ตรงกับ JSON ใหม่
+        "สด.9 - ใบสำคัญ", 
         "สด.35 - หมายเรียก", 
         "สด.43 - ใบรับรองผลการตรวจคัดเลือกทหารกองเกินฯ"
     ],
@@ -99,10 +98,8 @@ function updateDocTypes() {
     const typeSelect = document.getElementById('doc-type-select');
     const extraArea = document.getElementById('extra-inputs');
     if(!typeSelect) return;
-
     typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
     if(extraArea) extraArea.innerHTML = ''; 
-
     if (docData[agency]) {
         docData[agency].forEach(type => {
             typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
@@ -110,20 +107,15 @@ function updateDocTypes() {
     }
 }
 
-// สร้างช่องเลือกเสริมอัตโนมัติตามข้อมูลที่มีจริงใน JSON
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
     if(!area || !type) return;
     area.innerHTML = ''; 
-
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
-
-    // กรองข้อมูลเฉพาะประเภทเอกสารที่เลือก
     const filtered = allDocuments.filter(d => d.doc_type === type);
 
-    // ดึงค่า Unique จาก extra_info
     const years = [...new Set(filtered.map(d => d.extra_info?.year).filter(Boolean))].sort();
     const rooms = [...new Set(filtered.map(d => d.extra_info?.room).filter(Boolean))].sort();
     const subjects = [...new Set(filtered.map(d => d.extra_info?.subject).filter(Boolean))].sort();
@@ -131,31 +123,12 @@ function showExtraFields() {
     const rotcsLevels = [...new Set(filtered.map(d => d.extra_info?.level).filter(Boolean))].sort();
     const expDates = [...new Set(filtered.map(d => d.extra_info?.expiry_date).filter(Boolean))].sort();
 
-    // สร้าง Dropdown ตามข้อมูลที่มี
-    if (years.length > 0) {
-        html += `<div><small>ปีการศึกษา</small><select id="ex-year" ${style}>
-                ${years.map(y => `<option value="${y}">${y}</option>`).join('')}</select></div>`;
-    }
-    if (rooms.length > 0) {
-        html += `<div><small>ห้อง</small><select id="ex-room" ${style}>
-                ${rooms.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div>`;
-    }
-    if (subjects.length > 0) {
-        html += `<div><small>รายวิชา</small><select id="ex-subject" ${style}>
-                ${subjects.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>`;
-    }
-    if (terms.length > 0) {
-        html += `<div><small>เทอม</small><select id="ex-term" ${style}>
-                ${terms.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>`;
-    }
-    if (expDates.length > 0) {
-        html += `<div><small>วันหมดอายุเอกสาร</small><select id="ex-expiry" ${style}>
-                ${expDates.map(e => `<option value="${e}">${e}</option>`).join('')}</select></div>`;
-    }
-    if (type.includes("วิทยฐานะ") && rotcsLevels.length > 0) {
-        html += `<div><small>สำเร็จการฝึกชั้นปีที่</small><select id="ex-level-rotcs" ${style}>
-                ${rotcsLevels.map(l => `<option value="${l}">${l}</option>`).join('')}</select></div>`;
-    }
+    if (years.length > 0) html += `<div><small>ปีการศึกษา</small><select id="ex-year" ${style}>${years.map(y => `<option value="${y}">${y}</option>`).join('')}</select></div>`;
+    if (rooms.length > 0) html += `<div><small>ห้อง</small><select id="ex-room" ${style}>${rooms.map(r => `<option value="${r}">${r}</option>`).join('')}</select></div>`;
+    if (subjects.length > 0) html += `<div><small>รายวิชา</small><select id="ex-subject" ${style}>${subjects.map(s => `<option value="${s}">${s}</option>`).join('')}</select></div>`;
+    if (terms.length > 0) html += `<div><small>เทอม</small><select id="ex-term" ${style}>${terms.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>`;
+    if (expDates.length > 0) html += `<div><small>วันหมดอายุเอกสาร</small><select id="ex-expiry" ${style}>${expDates.map(e => `<option value="${e}">${e}</option>`).join('')}</select></div>`;
+    if (type.includes("วิทยฐานะ") && rotcsLevels.length > 0) html += `<div><small>สำเร็จการฝึกชั้นปีที่</small><select id="ex-level-rotcs" ${style}>${rotcsLevels.map(l => `<option value="${l}">${l}</option>`).join('')}</select></div>`;
 
     area.innerHTML = html;
 }
@@ -167,12 +140,8 @@ async function verifyDocument() {
     const overlay = document.getElementById('status-overlay');
     const loadBar = document.getElementById('load-bar');
 
-    if (!user || !type) {
-        showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error");
-        return;
-    }
+    if (!user || !type) { showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error"); return; }
 
-    // Auto-detect ม.ต้น/ปลาย สำหรับ ปพ.1-2
     let autoLevel = "";
     if (type.includes("มัธยมศึกษาตอนต้น")) autoLevel = "มัธยมศึกษาตอนต้น";
     else if (type.includes("มัธยมศึกษาตอนปลาย")) autoLevel = "มัธยมศึกษาตอนปลาย";
@@ -185,16 +154,13 @@ async function verifyDocument() {
     const interval = setInterval(() => {
         progress += 25;
         loadBar.style.width = progress + '%';
-
         if (progress >= 100) {
             clearInterval(interval);
             overlay.style.display = 'none';
-
             const found = allDocuments.find(d => {
                 const matchUser = d.roblox_username.toLowerCase() === user.toLowerCase();
                 const matchType = d.doc_type === type;
                 let matchExtra = true;
-
                 if (d.extra_info) {
                     const ex = d.extra_info;
                     const selYear = document.getElementById('ex-year')?.value;
@@ -203,7 +169,6 @@ async function verifyDocument() {
                     const selTerm = document.getElementById('ex-term')?.value;
                     const selRotcs = document.getElementById('ex-level-rotcs')?.value;
                     const selExpiry = document.getElementById('ex-expiry')?.value;
-
                     if (autoLevel && ex.level && ex.level !== autoLevel) matchExtra = false;
                     if (selYear && ex.year !== selYear) matchExtra = false;
                     if (selRoom && ex.room !== selRoom) matchExtra = false;
@@ -214,72 +179,56 @@ async function verifyDocument() {
                 }
                 return matchUser && matchType && matchExtra;
             });
-
-            if (found) {
-                showNotify("ตรวจสอบสำเร็จ!", "success");
-                renderResultCard(found);
-            } else {
-                showNotify("ไม่พบข้อมูลที่ระบุ", "error");
-            }
+            if (found) { showNotify("ตรวจสอบสำเร็จ!", "success"); renderResultCard(found); }
+            else { showNotify("ไม่พบข้อมูลที่ระบุ", "error"); }
         }
     }, 300);
 }
 
 function renderResultCard(found) {
     const resultArea = document.getElementById('verify-result-area');
-
-    // กรองรูปที่ว่างออก (ป้องกันรูปเสียถ้า images: [""])
     const validImages = found.images.filter(img => img.trim() !== "");
-
     let imagesHtml = validImages.map((img, index) => `
         <div style="flex: 1; min-width: 250px; max-width: 450px; text-align: center; background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; margin: 0 auto;">
             <img src="${img}" style="width:100%; height:auto; max-height:550px; object-fit:contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
             <p style="font-size:0.75rem; color:#64748b; margin-top:15px; font-weight:600;">เอกสารหน้าที่ ${index + 1}</p>
-        </div>
-    `).join('');
+        </div>`).join('');
 
-    if (validImages.length === 0) {
-        imagesHtml = `<div style="color:#94a3b8; padding:40px;">(ไม่มีรูปภาพประกอบในขณะนี้)</div>`;
-    }
+    if (validImages.length === 0) imagesHtml = `<div style="color:#94a3b8; padding:40px;">(ไม่มีรูปภาพประกอบในขณะนี้)</div>`;
 
     let extraHtml = "";
     if(found.extra_info) {
         const ex = found.extra_info;
-        const labels = { 
-            level: 'ระดับชั้น/ปี', grade: 'เกรดเฉลี่ย', issued_date: 'วันที่ออก', 
-            expiry_date: 'หมดอายุ', year: 'ปีการศึกษา', room: 'ห้อง', term: 'เทอม', subject: 'รายวิชา' 
-        };
+        const labels = { level: 'ระดับชั้น/ปี', grade: 'เกรดเฉลี่ย', issued_date: 'วันที่ออก', expiry_date: 'หมดอายุ', year: 'ปีการศึกษา', room: 'ห้อง', term: 'เทอม', subject: 'รายวิชา' };
         extraHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-top:15px;">` +
             Object.keys(labels).filter(key => ex[key]).map(key => `
                 <div style="background:#f8fafc; padding:10px 15px; border-radius:10px; border:1px solid #edf2f7;">
                     <small style="display:block; color:#64748b; font-size:0.7rem; margin-bottom:2px; font-weight:700;">${labels[key]}</small>
                     <b style="color:#1e293b; font-size:0.95rem;">${ex[key]}</b>
-                </div>`).join('') +
-            `</div>`;
+                </div>`).join('') + `</div>`;
     }
+
+    // หมายเหตุ (Note)
+    let noteHtml = (found.note && found.note.trim() !== "") ? `
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
+            <p style="margin: 0; font-size: 0.9rem; color: #475569;"><b style="color: #ef4444;">หมายเหตุ:</b> ${found.note}</p>
+        </div>` : "";
 
     resultArea.innerHTML = `
         <div class="result-card-container" style="margin: 40px auto; max-width: 950px; animation: fadeIn 0.5s ease-out;">
             <div class="doc-detail-card" style="background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08); overflow: hidden;">
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 35px; border-bottom: 1px solid #f1f5f9;">
-                    <div>
-                        <h5 style="margin: 0 0 5px 0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight:700;">ข้อมูลการตรวจสอบ</h5>
-                        <div style="font-weight: 800; font-size: 1.4rem; color: #0f172a;">${found.doc_type}</div>
-                    </div>
-                    <span style="background: #dcfce7; color: #15803d; padding: 8px 20px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: 1px solid #bbf7d0;">
-                        ${found.status}
-                    </span>
+                    <div><h5 style="margin:0; color:#64748b; font-size:0.75rem; font-weight:700;">ข้อมูลการตรวจสอบ</h5><div style="font-weight:800; font-size:1.4rem; color:#0f172a;">${found.doc_type}</div></div>
+                    <span style="background:#dcfce7; color:#15803d; padding:8px 20px; border-radius:99px; font-size:0.85rem; font-weight:700; border:1px solid #bbf7d0;">${found.status}</span>
                 </div>
                 <div style="padding: 35px;">
-                    <div style="color: #64748b; font-size: 0.95rem; margin-bottom: 5px;">รหัสอ้างอิงเอกสาร: <span style="color: #0f172a; font-weight: 700;">${found.doc_id}</span></div>
+                    <div style="color:#64748b; font-size:0.95rem; margin-bottom:5px;">รหัสอ้างอิงเอกสาร: <span style="color:#0f172a; font-weight:700;">${found.doc_id}</span></div>
                     ${extraHtml}
-                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin: 35px 0;">${imagesHtml}</div>
-                    <div style="background: #f8fafc; border-left: 5px solid #10b981; padding: 25px; border-radius: 4px 20px 20px 4px;">
-                        <p style="margin: 0; font-size: 1rem; color: #334155; line-height: 1.6;"><b>รายละเอียดเพิ่มเติม:</b> ${found.detail}</p>
-                        <div style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
-                            <div style="width: 10px; height: 10px; background: #10b981; border-radius: 50%;"></div>
-                            <p style="margin: 0; font-size: 0.9rem; color: #64748b;"><b>ผู้ออกเอกสาร:</b> ${found.issuer}</p>
-                        </div>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px; margin:35px 0;">${imagesHtml}</div>
+                    <div style="background:#f8fafc; border-left:5px solid #10b981; padding:25px; border-radius:4px 20px 20px 4px;">
+                        <p style="margin:0; font-size:1rem; color:#334155; line-height:1.6;"><b>รายละเอียดเพิ่มเติม:</b> ${found.detail}</p>
+                        <div style="margin-top:15px; display:flex; align-items:center; gap:10px;"><div style="width:10px; height:10px; background:#10b981; border-radius:50%;"></div><p style="margin:0; font-size:0.9rem; color:#64748b;"><b>ผู้ออกเอกสาร:</b> ${found.issuer}</p></div>
+                        ${noteHtml}
                     </div>
                 </div>
             </div>
@@ -294,8 +243,4 @@ function showNotify(msg, type = 'success') {
     setTimeout(() => { banner.classList.remove('show'); }, 2500);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    fetchNews();
-    fetchPersonnel();
-    loadDocData(); 
-});
+window.addEventListener('DOMContentLoaded', () => { fetchNews(); fetchPersonnel(); loadDocData(); });
