@@ -129,7 +129,8 @@
     "issuer": "paoza_1230 (นายทะเบียน)",
     "extra_info": { 
       "grade": "3.94",
-      "issued_date": "31 มีนาคม 2547"
+      "issued_date": "31 มีนาคม 2547",
+      "expiry_date": "31 เมษายน 2547" 
     }
   },
   {
