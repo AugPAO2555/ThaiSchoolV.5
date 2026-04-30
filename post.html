@@ -6,23 +6,31 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* บังคับล้างค่า Margin/Padding พื้นฐาน */
         html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; }
         * { font-family: 'Anakotmai', sans-serif !important; box-sizing: border-box !important; }
-        #full-post { width: 100%; margin: 0 auto; }
-        
-        /* สไตล์ปุ่มลิงก์แบบใหม่ ให้คนรู้ว่ากดได้ */
-        .external-link {
+
+        /* ส่วนแสดงเนื้อหาหลัก */
+        #full-post { width: 100%; margin: 0 auto; min-height: 100vh; background: #fff; }
+
+        /* สไตล์ปุ่มลิงก์ภายนอก */
+        .external-link-btn {
             display: inline-block;
             background: #2563eb;
             color: white !important;
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 12px 25px;
+            border-radius: 10px;
             text-decoration: none !important;
             font-weight: bold;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+            transition: 0.2s;
         }
-        .external-link:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .external-link-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -36,49 +44,68 @@
         </ul>
     </nav>
 
-    <div id="full-post"></div>
+    <div id="full-post">
+        <div style="padding: 100px 20px; text-align: center; color: #888;">
+            กำลังโหลดเนื้อหาข่าว...
+        </div>
+    </div>
 
     <script>
-        // ฟังก์ชันสำหรับเปลี่ยนข้อความ https:// ให้กลายเป็นปุ่มกดได้
+        // ฟังก์ชันเปลี่ยน https:// เป็นปุ่มกด (เปิดในหน้าเดิม)
         function linkify(text) {
             if (!text) return "";
             const urlRegex = /(https?:\/\/[^\s]+)/g;
             return text.replace(urlRegex, function(url) {
-                return `<br><a href="${url}" target="_blank" class="external-link">🔗 คลิกเพื่อเข้าสู่เว็บไซต์</a><br>`;
+                // ใช้ target="_self" เพื่อให้เปลี่ยนหน้าในแท็บเดิม
+                return `<br><a href="${url}" target="_self" class="external-link-btn">🔗 เข้าสู่เว็บไซต์ทางการ</a><br>`;
             });
         }
 
         async function loadFullPost() {
             try {
                 const id = new URLSearchParams(window.location.search).get('id');
+                if (!id) return;
+
                 const res = await fetch('news.json');
                 const data = await res.json();
                 const post = data.find(p => p.id == id);
 
                 if(post) {
-                    // ส่วนที่แก้ไข: ใส่ฟังก์ชัน linkify(post.desc) เพื่อให้ลิงก์กดได้
                     document.getElementById('full-post').innerHTML = `
-                        <div style="padding: 25px 25px 80px 25px; max-width: 800px; margin: 0 auto;">
-                            ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:15px; display:block; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">` : ''}
-                            <h1 style="font-size:1.7rem; line-height:1.4; margin:0 0 10px 0; color:#111;">${post.title}</h1>
-                            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
-                            <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-                            <div style="font-size:1.1rem; line-height:1.8; color:#333; word-wrap:break-word; overflow-wrap:break-word; white-space: pre-line;">
+                        <div style="padding: 25px 25px 80px 25px; max-width: 800px; margin: 0 auto; animation: fadeIn 0.5s ease;">
+                            
+                            ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:18px; display:block; margin-bottom:25px; box-shadow:0 8px 20px rgba(0,0,0,0.1);">` : ''}
+                            
+                            <h1 style="font-size:1.8rem; line-height:1.4; margin:0 0 12px 0; color:#0f172a; font-weight: 800;">${post.title}</h1>
+                            <p style="color:#64748b; font-size:0.95rem; margin-bottom:20px;">📅 เผยแพร่เมื่อ: ${post.date}</p>
+                            
+                            <hr style="margin:25px 0; border:0; border-top:1px solid #f1f5f9;">
+                            
+                            <div style="font-size:1.1rem; line-height:1.8; color:#334155; word-wrap:break-word; white-space: pre-line;">
                                 ${linkify(post.desc)}
                             </div>
+
                             <br><br>
-                            <a href="index.html" style="text-decoration:none; color:white; background:#00a859; padding:12px 30px; border-radius:50px; display:inline-block; font-weight:bold;">
+                            
+                            <a href="index.html" style="text-decoration:none; color:#64748b; background:#f1f5f9; padding:12px 25px; border-radius:50px; display:inline-block; font-weight:bold; font-size: 0.9rem;">
                                 ← กลับหน้าแรก
                             </a>
                         </div>
                     `;
                 } else {
-                    document.getElementById('full-post').innerHTML = `<div style="padding:50px; text-align:center;"><h2>ไม่พบข้อมูล</h2><a href="index.html">กลับหน้าหลัก</a></div>`;
+                    document.getElementById('full-post').innerHTML = `
+                        <div style="padding:100px 20px; text-align:center;">
+                            <h2 style="color:#ef4444;">❌ ไม่พบข้อมูลข่าว</h2>
+                            <a href="index.html" style="color:#2563eb;">กลับไปหน้าหลัก</a>
+                        </div>`;
                 }
             } catch (err) {
-                console.error("Error:", err);
+                console.error("เกิดข้อผิดพลาดในการโหลดข่าว:", err);
+                document.getElementById('full-post').innerHTML = `<div style="padding:50px; text-align:center;">โหลดข้อมูลล้มเหลว</div>`;
             }
         }
+
+        // รันฟังก์ชันเมื่อโหลดหน้าเสร็จ
         window.onload = loadFullPost;
     </script>
 </body>
