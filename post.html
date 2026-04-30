@@ -6,12 +6,23 @@
     <title>รายละเอียดข่าว - Thai School V.5</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* บังคับล้างค่า Margin/Padding พื้นฐานของเบราว์เซอร์ */
         html, body { margin: 0; padding: 0; overflow-x: hidden; width: 100%; }
         * { font-family: 'Anakotmai', sans-serif !important; box-sizing: border-box !important; }
-        
-        /* สร้างกล่องเปล่ารอไว้ */
         #full-post { width: 100%; margin: 0 auto; }
+        
+        /* สไตล์ปุ่มลิงก์แบบใหม่ ให้คนรู้ว่ากดได้ */
+        .external-link {
+            display: inline-block;
+            background: #2563eb;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none !important;
+            font-weight: bold;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .external-link:hover { background: #1d4ed8; transform: translateY(-2px); }
     </style>
 </head>
 <body>
@@ -28,31 +39,44 @@
     <div id="full-post"></div>
 
     <script>
-        async function loadFullPost() {
-            const id = new URLSearchParams(window.location.search).get('id');
-            const res = await fetch('news.json');
-            const data = await res.json();
-            const post = data.find(p => p.id == id);
+        // ฟังก์ชันสำหรับเปลี่ยนข้อความ https:// ให้กลายเป็นปุ่มกดได้
+        function linkify(text) {
+            if (!text) return "";
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+                return `<br><a href="${url}" target="_blank" class="external-link">🔗 คลิกเพื่อเข้าสู่เว็บไซต์</a><br>`;
+            });
+        }
 
-            if(post) {
-                // ใช้สไตล์แบบยัดไส้ (Inline Style) เพื่อไม่ให้ CSS ภายนอกมาดึงไปติดขอบ
-                document.getElementById('full-post').innerHTML = `
-                    <div style="padding: 25px 25px 80px 25px; max-width: 800px; margin: 0 auto;">
-                        <img src="${post.img}" style="width:100%; border-radius:15px; display:block; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
-                        <h1 style="font-size:1.7rem; line-height:1.4; margin:0 0 10px 0; color:#111;">${post.title}</h1>
-                        <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
-                        <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
-                        <div style="font-size:1.1rem; line-height:1.8; color:#333; word-wrap:break-word; overflow-wrap:break-word;">
-                            ${post.desc}
+        async function loadFullPost() {
+            try {
+                const id = new URLSearchParams(window.location.search).get('id');
+                const res = await fetch('news.json');
+                const data = await res.json();
+                const post = data.find(p => p.id == id);
+
+                if(post) {
+                    // ส่วนที่แก้ไข: ใส่ฟังก์ชัน linkify(post.desc) เพื่อให้ลิงก์กดได้
+                    document.getElementById('full-post').innerHTML = `
+                        <div style="padding: 25px 25px 80px 25px; max-width: 800px; margin: 0 auto;">
+                            ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:15px; display:block; margin-bottom:20px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">` : ''}
+                            <h1 style="font-size:1.7rem; line-height:1.4; margin:0 0 10px 0; color:#111;">${post.title}</h1>
+                            <p style="color:#888; font-size:0.9rem; margin-bottom:20px;">เผยแพร่เมื่อ: ${post.date}</p>
+                            <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+                            <div style="font-size:1.1rem; line-height:1.8; color:#333; word-wrap:break-word; overflow-wrap:break-word; white-space: pre-line;">
+                                ${linkify(post.desc)}
+                            </div>
+                            <br><br>
+                            <a href="index.html" style="text-decoration:none; color:white; background:#00a859; padding:12px 30px; border-radius:50px; display:inline-block; font-weight:bold;">
+                                ← กลับหน้าแรก
+                            </a>
                         </div>
-                        <br><br>
-                        <a href="index.html" style="text-decoration:none; color:white; background:#00a859; padding:12px 30px; border-radius:50px; display:inline-block; font-weight:bold;">
-                            ← กลับหน้าแรก
-                        </a>
-                    </div>
-                `;
-            } else {
-                document.getElementById('full-post').innerHTML = `<div style="padding:50px; text-align:center;"><h2>ไม่พบข้อมูล</h2><a href="index.html">กลับหน้าหลัก</a></div>`;
+                    `;
+                } else {
+                    document.getElementById('full-post').innerHTML = `<div style="padding:50px; text-align:center;"><h2>ไม่พบข้อมูล</h2><a href="index.html">กลับหน้าหลัก</a></div>`;
+                }
+            } catch (err) {
+                console.error("Error:", err);
             }
         }
         window.onload = loadFullPost;
