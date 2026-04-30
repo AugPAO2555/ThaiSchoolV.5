@@ -163,10 +163,10 @@
   {
     "roblox_username": "paoza_1230",
     "dept_key": "military",
-    "doc_type": "สด.9",
+    "doc_type": "สด.9 - ใบสำคัญ",
     "doc_id": "สด.9 - ธ - 000001",
     "status": "ตรวจสอบแล้ว - ถูกต้อง",
-    "images": ["1.jpg", "2.jpg", "3.jpg", "4.jpg"],
+    "images": ["1.jpg"],
     "detail": "ใบสำคัญทหารกองเกิน (แบบสมุดหลายหน้า)",
     "issuer": "paoza_1230 (นายทะเบียน)",
     "extra_info": { 
