@@ -1,5 +1,14 @@
+// ฟังก์ชันเสริม: แปลงข้อความ URL ให้เป็นลิงก์ที่กดได้ (สำหรับใช้ในหน้าข่าว)
+function linkify(text) {
+    if (!text) return "";
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+        return `<a href="${url}" target="_blank" style="color: #2563eb; text-decoration: underline; font-weight: bold; word-break: break-all;">${url}</a>`;
+    });
+}
+
 // ==========================================
-// ส่วนที่ 1: ระบบข่าวสาร (Smart Link Detection)
+// ส่วนที่ 1: ระบบข่าวสาร (อ่านต่อ -> หน้าข่าว)
 // ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
@@ -9,17 +18,7 @@ async function fetchNews() {
         const data = (await res.json()).reverse(); 
         
         box.innerHTML = data.map(n => {
-            // ค้นหาลิงก์ใน desc (ถ้ามี)
-            const urlRegex = /(https?:\/\/[^\s]+)/g;
-            const foundUrl = n.desc ? n.desc.match(urlRegex) : null;
-            
-            // ถ้าเจอลิงก์ให้ไปที่ลิงก์นั้นเลย ถ้าไม่เจอให้ไปหน้า post.html ตามปกติ
-            const targetLink = foundUrl ? foundUrl[0] : `post.html?id=${n.id}`;
-            const isExternal = foundUrl ? 'target="_blank"' : ''; 
-            const btnText = foundUrl ? 'เข้าสู่เว็บไซต์' : 'อ่านต่อ';
-            // กรณีไม่มีรูปให้ใช้ Placeholder
             const displayImg = n.img && n.img.trim() !== "" ? n.img : "https://via.placeholder.com/600x340?text=Thai+School+News";
-
             return `
                 <div class="card">
                     <img src="${displayImg}">
@@ -29,12 +28,34 @@ async function fetchNews() {
                         <p style="font-size: 0.85rem; color: #666; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px;">
                             ${n.desc || ""}
                         </p>
-                        <a href="${targetLink}" ${isExternal} class="btn">${btnText}</a>
+                        <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
                     </div>
                 </div>
             `;
         }).join('');
     } catch (err) { console.error("โหลดข่าวไม่สำเร็จ:", err); }
+}
+
+// ฟังก์ชันสำหรับหน้า post.html (ถ้าพี่เขียนแยกไว้ ให้ใช้ตัวนี้ดึงข้อมูล)
+function loadPostDetail() {
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('id');
+    const contentBox = document.getElementById('post-content'); // ID ของจุดที่จะแสดงเนื้อหาใน post.html
+    
+    if (!postId || !contentBox) return;
+
+    fetch('news.json').then(res => res.json()).then(data => {
+        const post = data.find(n => n.id == postId);
+        if (post) {
+            // ใช้ linkify เพื่อทำให้ลิงก์ใน desc กดได้จริง
+            contentBox.innerHTML = `
+                <h2>${post.title}</h2>
+                <p class="date">${post.date}</p>
+                <img src="${post.img || ''}" style="width:100%; border-radius:10px; margin-bottom:20px;">
+                <div style="white-space: pre-line; line-height: 1.8;">${linkify(post.desc)}</div>
+            `;
+        }
+    });
 }
 
 // ==========================================
@@ -88,22 +109,12 @@ const docData = {
     school: [
         "ปพ.1บ - มัธยมศึกษาตอนต้น", "ปพ.1พ - มัธยมศึกษาตอนปลาย", 
         "ปพ.2บ - ประกาศนียบัตร (ม.ต้น)", "ปพ.2พ - ประกาศนียบัตร (ม.ปลาย)",
-        "ปพ.3 - รายงานผู้สำเร็จการศึกษา", 
-        "ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพผู้เรียน", 
+        "ปพ.3 - รายงานผู้สำเร็จการศึกษา", "ปพ.5 - แบบบันทึกผลการพัฒนาคุณภาพผู้เรียน", 
         "ปพ.6 - แบบรายงานผลการพัฒนาคุณภาพผู้เรียนรายบุคคล", 
         "ปพ.7ก - ใบรับรองเฉพาะรายวิชา", "ปพ.7ข - ใบรับรองทุกรายวิชา"
     ],
-    military: [
-        "ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", 
-        "สด.8 - สมุดประจำตัวทหารกองหนุนประเภทที่ 1", 
-        "สด.9 - ใบสำคัญ", 
-        "สด.35 - หมายเรียก", 
-        "สด.43 - ใบรับรองผลการตรวจคัดเลือกทหารกองเกินฯ"
-    ],
-    police: [
-        "ใบอนุญาตขับรถยนต์ส่วนบุคคลชั่วคราว", 
-        "ใบอนุญาตขับจักรยานยนต์ส่วนบุคคลชั่วคราว"
-    ]
+    military: ["ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", "สด.8", "สด.9", "สด.35", "สด.43"],
+    police: ["ใบอนุญาตขับรถยนต์ส่วนบุคคลชั่วคราว", "ใบอนุญาตขับจักรยานยนต์ส่วนบุคคลชั่วคราว"]
 };
 
 async function loadDocData() {
@@ -162,10 +173,6 @@ async function verifyDocument() {
 
     if (!user || !type) { showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error"); return; }
 
-    let autoLevel = "";
-    if (type.includes("มัธยมศึกษาตอนต้น")) autoLevel = "มัธยมศึกษาตอนต้น";
-    else if (type.includes("มัธยมศึกษาตอนปลาย")) autoLevel = "มัธยมศึกษาตอนปลาย";
-
     resultArea.innerHTML = '';
     overlay.style.display = 'flex';
     loadBar.style.width = '0%';
@@ -189,7 +196,6 @@ async function verifyDocument() {
                     const selTerm = document.getElementById('ex-term')?.value;
                     const selRotcs = document.getElementById('ex-level-rotcs')?.value;
                     const selExpiry = document.getElementById('ex-expiry')?.value;
-                    if (autoLevel && ex.level && ex.level !== autoLevel) matchExtra = false;
                     if (selYear && ex.year !== selYear) matchExtra = false;
                     if (selRoom && ex.room !== selRoom) matchExtra = false;
                     if (selSub  && ex.subject !== selSub) matchExtra = false;
@@ -210,11 +216,9 @@ function renderResultCard(found) {
     const validImages = found.images.filter(img => img.trim() !== "");
     let imagesHtml = validImages.map((img, index) => `
         <div style="flex: 1; min-width: 250px; max-width: 450px; text-align: center; background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; margin: 0 auto;">
-            <img src="${img}" style="width:100%; height:auto; max-height:550px; object-fit:contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
+            <img src="${img}" style="width:100%; height:auto; max-height:550px; object-fit:contain;">
             <p style="font-size:0.75rem; color:#64748b; margin-top:15px; font-weight:600;">เอกสารหน้าที่ ${index + 1}</p>
         </div>`).join('');
-
-    if (validImages.length === 0) imagesHtml = `<div style="color:#94a3b8; padding:40px;">(ไม่มีรูปภาพประกอบในขณะนี้)</div>`;
 
     let extraHtml = "";
     if(found.extra_info) {
@@ -234,7 +238,7 @@ function renderResultCard(found) {
         </div>` : "";
 
     resultArea.innerHTML = `
-        <div class="result-card-container" style="margin: 40px auto; max-width: 950px; animation: fadeIn 0.5s ease-out;">
+        <div class="result-card-container" style="margin: 40px auto; max-width: 950px;">
             <div class="doc-detail-card" style="background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08); overflow: hidden;">
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 35px; border-bottom: 1px solid #f1f5f9;">
                     <div><h5 style="margin:0; color:#64748b; font-size:0.75rem; font-weight:700;">ข้อมูลการตรวจสอบ</h5><div style="font-weight:800; font-size:1.4rem; color:#0f172a;">${found.doc_type}</div></div>
@@ -262,4 +266,11 @@ function showNotify(msg, type = 'success') {
     setTimeout(() => { banner.classList.remove('show'); }, 2500);
 }
 
-window.addEventListener('DOMContentLoaded', () => { fetchNews(); fetchPersonnel(); loadDocData(); });
+// เริ่มต้นโหลดข้อมูล
+window.addEventListener('DOMContentLoaded', () => { 
+    fetchNews(); 
+    fetchPersonnel(); 
+    loadDocData(); 
+    // ถ้าอยู่ในหน้า post.html ให้โหลดรายละเอียดข่าวด้วย
+    if(window.location.pathname.includes('post.html')) loadPostDetail();
+});
