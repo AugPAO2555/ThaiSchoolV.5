@@ -60,10 +60,10 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Dynamic Logic)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Dynamic & Smart Logic)
 // ==========================================
 
-let allDocuments = []; // เก็บข้อมูลจาก JSON เพื่อใช้สร้าง Dropdown
+let allDocuments = []; // ข้อมูลที่โหลดมาจาก JSON
 
 const docData = {
     school: [
@@ -77,7 +77,8 @@ const docData = {
     military: [
         "ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", 
         "สด.8 - สมุดประจำตัวทหารกองหนุนประเภทที่ 1", 
-        "สด.9", "สด.35 - หมายเรียก", 
+        "สด.9 - ใบสำคัญ", // อัปเดตให้ตรงกับ JSON ใหม่
+        "สด.35 - หมายเรียก", 
         "สด.43 - ใบรับรองผลการตรวจคัดเลือกทหารกองเกินฯ"
     ],
     police: [
@@ -90,7 +91,7 @@ async function loadDocData() {
     try {
         const res = await fetch('documents.json');
         allDocuments = await res.json();
-    } catch (err) { console.error("โหลด documents.json ไม่สำเร็จ:", err); }
+    } catch (err) { console.error("โหลดข้อมูลเอกสารไม่สำเร็จ:", err); }
 }
 
 function updateDocTypes() {
@@ -109,7 +110,7 @@ function updateDocTypes() {
     }
 }
 
-// สร้างช่องเลือกเสริม อ้างอิงจากข้อมูลที่มีจริงใน JSON
+// สร้างช่องเลือกเสริมอัตโนมัติตามข้อมูลที่มีจริงใน JSON
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
@@ -119,17 +120,18 @@ function showExtraFields() {
     let html = '';
     const style = `style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 0.85rem;"`;
 
-    // กรองข้อมูลเฉพาะประเภทที่เลือก
+    // กรองข้อมูลเฉพาะประเภทเอกสารที่เลือก
     const filtered = allDocuments.filter(d => d.doc_type === type);
 
-    // ดึงค่า Unique ต่างๆ จาก extra_info ใน JSON
+    // ดึงค่า Unique จาก extra_info
     const years = [...new Set(filtered.map(d => d.extra_info?.year).filter(Boolean))].sort();
     const rooms = [...new Set(filtered.map(d => d.extra_info?.room).filter(Boolean))].sort();
     const subjects = [...new Set(filtered.map(d => d.extra_info?.subject).filter(Boolean))].sort();
     const terms = [...new Set(filtered.map(d => d.extra_info?.term).filter(Boolean))].sort();
     const rotcsLevels = [...new Set(filtered.map(d => d.extra_info?.level).filter(Boolean))].sort();
+    const expDates = [...new Set(filtered.map(d => d.extra_info?.expiry_date).filter(Boolean))].sort();
 
-    // สร้าง HTML ตามข้อมูลที่มี
+    // สร้าง Dropdown ตามข้อมูลที่มี
     if (years.length > 0) {
         html += `<div><small>ปีการศึกษา</small><select id="ex-year" ${style}>
                 ${years.map(y => `<option value="${y}">${y}</option>`).join('')}</select></div>`;
@@ -145,6 +147,10 @@ function showExtraFields() {
     if (terms.length > 0) {
         html += `<div><small>เทอม</small><select id="ex-term" ${style}>
                 ${terms.map(t => `<option value="${t}">${t}</option>`).join('')}</select></div>`;
+    }
+    if (expDates.length > 0) {
+        html += `<div><small>วันหมดอายุเอกสาร</small><select id="ex-expiry" ${style}>
+                ${expDates.map(e => `<option value="${e}">${e}</option>`).join('')}</select></div>`;
     }
     if (type.includes("วิทยฐานะ") && rotcsLevels.length > 0) {
         html += `<div><small>สำเร็จการฝึกชั้นปีที่</small><select id="ex-level-rotcs" ${style}>
@@ -166,6 +172,7 @@ async function verifyDocument() {
         return;
     }
 
+    // Auto-detect ม.ต้น/ปลาย สำหรับ ปพ.1-2
     let autoLevel = "";
     if (type.includes("มัธยมศึกษาตอนต้น")) autoLevel = "มัธยมศึกษาตอนต้น";
     else if (type.includes("มัธยมศึกษาตอนปลาย")) autoLevel = "มัธยมศึกษาตอนปลาย";
@@ -195,6 +202,7 @@ async function verifyDocument() {
                     const selSub  = document.getElementById('ex-subject')?.value;
                     const selTerm = document.getElementById('ex-term')?.value;
                     const selRotcs = document.getElementById('ex-level-rotcs')?.value;
+                    const selExpiry = document.getElementById('ex-expiry')?.value;
 
                     if (autoLevel && ex.level && ex.level !== autoLevel) matchExtra = false;
                     if (selYear && ex.year !== selYear) matchExtra = false;
@@ -202,6 +210,7 @@ async function verifyDocument() {
                     if (selSub  && ex.subject !== selSub) matchExtra = false;
                     if (selTerm && ex.term !== selTerm) matchExtra = false;
                     if (selRotcs && ex.level !== selRotcs) matchExtra = false;
+                    if (selExpiry && ex.expiry_date !== selExpiry) matchExtra = false;
                 }
                 return matchUser && matchType && matchExtra;
             });
@@ -219,12 +228,19 @@ async function verifyDocument() {
 function renderResultCard(found) {
     const resultArea = document.getElementById('verify-result-area');
 
-    let imagesHtml = found.images.map((img, index) => `
+    // กรองรูปที่ว่างออก (ป้องกันรูปเสียถ้า images: [""])
+    const validImages = found.images.filter(img => img.trim() !== "");
+
+    let imagesHtml = validImages.map((img, index) => `
         <div style="flex: 1; min-width: 250px; max-width: 450px; text-align: center; background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0; margin: 0 auto;">
             <img src="${img}" style="width:100%; height:auto; max-height:550px; object-fit:contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
             <p style="font-size:0.75rem; color:#64748b; margin-top:15px; font-weight:600;">เอกสารหน้าที่ ${index + 1}</p>
         </div>
     `).join('');
+
+    if (validImages.length === 0) {
+        imagesHtml = `<div style="color:#94a3b8; padding:40px;">(ไม่มีรูปภาพประกอบในขณะนี้)</div>`;
+    }
 
     let extraHtml = "";
     if(found.extra_info) {
@@ -281,5 +297,5 @@ function showNotify(msg, type = 'success') {
 window.addEventListener('DOMContentLoaded', () => {
     fetchNews();
     fetchPersonnel();
-    loadDocData(); // สำคัญ: โหลด JSON ทันทีเพื่อเตรียมข้อมูล Dynamic
+    loadDocData(); 
 });
