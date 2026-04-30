@@ -1,5 +1,5 @@
 // ==========================================
-// ส่วนที่ 1: ระบบข่าวสาร & บุคลากร
+// ส่วนที่ 1: ระบบข่าวสาร (Smart Link Detection)
 // ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
@@ -7,19 +7,39 @@ async function fetchNews() {
     try {
         const res = await fetch('news.json');
         const data = (await res.json()).reverse(); 
-        box.innerHTML = data.map(n => `
-            <div class="card">
-                <img src="${n.img}">
-                <div class="card-body">
-                    <p class="card-date">${n.date}</p>
-                    <h3>${n.title}</h3>
-                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
+        
+        box.innerHTML = data.map(n => {
+            // ค้นหาลิงก์ใน desc (ถ้ามี)
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const foundUrl = n.desc ? n.desc.match(urlRegex) : null;
+            
+            // ถ้าเจอลิงก์ให้ไปที่ลิงก์นั้นเลย ถ้าไม่เจอให้ไปหน้า post.html ตามปกติ
+            const targetLink = foundUrl ? foundUrl[0] : `post.html?id=${n.id}`;
+            const isExternal = foundUrl ? 'target="_blank"' : ''; 
+            const btnText = foundUrl ? 'เข้าสู่เว็บไซต์' : 'อ่านต่อ';
+            // กรณีไม่มีรูปให้ใช้ Placeholder
+            const displayImg = n.img && n.img.trim() !== "" ? n.img : "https://via.placeholder.com/600x340?text=Thai+School+News";
+
+            return `
+                <div class="card">
+                    <img src="${displayImg}">
+                    <div class="card-body">
+                        <p class="card-date">${n.date}</p>
+                        <h3>${n.title}</h3>
+                        <p style="font-size: 0.85rem; color: #666; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px;">
+                            ${n.desc || ""}
+                        </p>
+                        <a href="${targetLink}" ${isExternal} class="btn">${btnText}</a>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     } catch (err) { console.error("โหลดข่าวไม่สำเร็จ:", err); }
 }
 
+// ==========================================
+// ส่วนที่ 2: ระบบบุคลากร
+// ==========================================
 async function fetchPersonnel() {
     try {
         const res = await fetch('members.json');
@@ -60,7 +80,7 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Dynamic Logic)
+// ส่วนที่ 3: ระบบตรวจสอบเอกสาร (Note & Extra Info)
 // ==========================================
 let allDocuments = [];
 
@@ -208,7 +228,6 @@ function renderResultCard(found) {
                 </div>`).join('') + `</div>`;
     }
 
-    // หมายเหตุ (Note)
     let noteHtml = (found.note && found.note.trim() !== "") ? `
         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #cbd5e1;">
             <p style="margin: 0; font-size: 0.9rem; color: #475569;"><b style="color: #ef4444;">หมายเหตุ:</b> ${found.note}</p>
