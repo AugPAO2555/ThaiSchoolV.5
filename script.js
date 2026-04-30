@@ -60,7 +60,7 @@ function closeModal() {
 }
 
 // ==========================================
-// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Smart & Clean Logic)
+// ส่วนที่ 2: ระบบตรวจสอบเอกสาร (Smart UI & Desktop Optimized)
 // ==========================================
 
 const docData = {
@@ -100,7 +100,7 @@ function updateDocTypes() {
     }
 }
 
-// 2. แสดง Option เสริม (ตัดระดับชั้นออก เพราะระบบจะอ่านจากชื่อประเภทเอง)
+// แสดง Option เสริม (Auto-Detect ระดับชั้นจากชื่อ ไม่ต้องเลือกเอง)
 function showExtraFields() {
     const type = document.getElementById('doc-type-select').value;
     const area = document.getElementById('extra-inputs');
@@ -116,15 +116,19 @@ function showExtraFields() {
                 <option value="2547">2547</option><option value="2568">2568</option></select></div>`;
     }
 
-    // ห้อง และ รายวิชา (ปพ.5, 6)
+    // ห้อง (ปพ.5, 6)
     if (type.includes("ปพ.5") || type.includes("ปพ.6")) {
         html += `<div><small>ห้อง</small><select id="ex-room" ${style}>
                 ${[1,2,3,4,5].map(i => `<option value="${i}">${i}</option>`).join('')}</select></div>`;
     }
+
+    // วิชา (ปพ.5)
     if (type.includes("ปพ.5")) {
         html += `<div><small>รายวิชา</small><select id="ex-subject" ${style}>
                 <option value="คณิตศาสตร์(พื้นฐาน)">คณิตศาสตร์(พื้นฐาน)</option></select></div>`;
     }
+
+    // เทอม (ปพ.6)
     if (type.includes("ปพ.6")) {
         html += `<div><small>เทอม</small><select id="ex-term" ${style}>
                 <option value="1">1</option><option value="2">2</option></select></div>`;
@@ -139,7 +143,7 @@ function showExtraFields() {
     area.innerHTML = html;
 }
 
-// 3. เริ่มการตรวจสอบ (Smart Logic: Auto-Detect Level สำหรับ ปพ.1)
+// ตรวจสอบเอกสาร
 async function verifyDocument() {
     const user = document.getElementById('roblox-username').value.trim();
     const type = document.getElementById('doc-type-select').value;
@@ -148,11 +152,11 @@ async function verifyDocument() {
     const loadBar = document.getElementById('load-bar');
 
     if (!user || !type) {
-        showNotify("กรุณากรอกชื่อและเลือกประเภทเอกสาร", "error");
+        showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error");
         return;
     }
 
-    // ตรวจหาคำว่า "มัธยมศึกษาตอนต้น" หรือ "มัธยมศึกษาตอนปลาย" จากชื่อประเภท
+    // Smart Level Detection (ปพ.1 / ปพ.2)
     let autoLevel = "";
     if (type.includes("มัธยมศึกษาตอนต้น")) autoLevel = "มัธยมศึกษาตอนต้น";
     else if (type.includes("มัธยมศึกษาตอนปลาย")) autoLevel = "มัธยมศึกษาตอนปลาย";
@@ -175,8 +179,8 @@ async function verifyDocument() {
                 const found = docs.find(d => {
                     const matchUser = d.roblox_username.toLowerCase() === user.toLowerCase();
                     const matchType = d.doc_type === type;
-                    
                     let matchExtra = true;
+                    
                     if (d.extra_info) {
                         const ex = d.extra_info;
                         const selYear = document.getElementById('ex-year')?.value;
@@ -185,10 +189,7 @@ async function verifyDocument() {
                         const selTerm = document.getElementById('ex-term')?.value;
                         const selRotcs = document.getElementById('ex-level-rotcs')?.value;
 
-                        // ตรวจสอบ Level อัตโนมัติ (โดยเฉพาะ ปพ.1)
                         if (autoLevel && ex.level && ex.level !== autoLevel) matchExtra = false;
-                        
-                        // เช็คค่าอื่นๆ จาก UI
                         if (selYear && ex.year !== selYear) matchExtra = false;
                         if (selRoom && ex.room !== selRoom) matchExtra = false;
                         if (selSub  && ex.subject !== selSub) matchExtra = false;
@@ -203,24 +204,24 @@ async function verifyDocument() {
                     showNotify("ตรวจสอบสำเร็จ!", "success");
                     renderResultCard(found);
                 } else {
-                    showNotify("ไม่พบข้อมูล หรือข้อมูลเสริมไม่ตรงตามฐานข้อมูล", "error");
+                    showNotify("ไม่พบข้อมูลที่ระบุ", "error");
                 }
             } catch (err) {
                 overlay.style.display = 'none';
-                showNotify("โหลดฐานข้อมูลไม่สำเร็จ", "error");
+                showNotify("เกิดข้อผิดพลาดในการโหลดข้อมูล", "error");
             }
         }
     }, 300);
 }
 
-// 4. แสดงผล Card เอกสาร (โชว์ข้อมูลครบถ้วน)
+// แสดงผล Card ผลลัพธ์ (Desktop Optimized + Grey Background)
 function renderResultCard(found) {
     const resultArea = document.getElementById('verify-result-area');
     
     let imagesHtml = found.images.map((img, index) => `
-        <div style="flex: 1; min-width: 200px; text-align: center;">
-            <img src="${img}" style="width:100%; max-height:280px; object-fit:contain; border-radius:8px; border:1px solid #eee; margin-bottom:10px;">
-            <p style="font-size:0.65rem; color:#bbb;">เอกสารหน้าที่ ${index + 1}</p>
+        <div style="flex: 1; min-width: 250px; max-width: 450px; text-align: center; background: #f1f5f9; padding: 25px; border-radius: 16px; border: 1px solid #e2e8f0;">
+            <img src="${img}" style="width:100%; height:auto; max-height:550px; object-fit:contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
+            <p style="font-size:0.75rem; color:#64748b; margin-top:15px; font-weight:600;">เอกสารหน้าที่ ${index + 1}</p>
         </div>
     `).join('');
 
@@ -231,28 +232,44 @@ function renderResultCard(found) {
             level: 'ระดับชั้น/ปี', grade: 'เกรดเฉลี่ย', issued_date: 'วันที่ออก', 
             expiry_date: 'หมดอายุ', year: 'ปีการศึกษา', room: 'ห้อง', term: 'เทอม', subject: 'รายวิชา' 
         };
-        extraHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:8px; margin-top:10px; font-size:0.8rem;">` +
-            Object.keys(labels).filter(key => ex[key]).map(key => `<div style="background:#f0f4f8; padding:5px 10px; border-radius:5px;"><b>${labels[key]}:</b> ${ex[key]}</div>`).join('') +
+        extraHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-top:15px;">` +
+            Object.keys(labels).filter(key => ex[key]).map(key => `
+                <div style="background:#f8fafc; padding:10px 15px; border-radius:10px; border:1px solid #edf2f7;">
+                    <small style="display:block; color:#64748b; font-size:0.7rem; margin-bottom:2px; font-weight:700;">${labels[key]}</small>
+                    <b style="color:#1e293b; font-size:0.95rem;">${ex[key]}</b>
+                </div>`).join('') +
             `</div>`;
     }
 
     resultArea.innerHTML = `
-        <div class="result-card-container" style="margin-top: 30px; animation: fadeIn 0.5s;">
-            <div class="doc-detail-card" style="background: #fff; border-radius: 12px; border: 1px solid #e0e0e0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden;">
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #f0f0f0; background: #fafafa;">
-                    <h5 style="margin: 0; color: #444;">📋 รายละเอียดเอกสาร</h5>
-                    <span style="background: #e6f7ed; color: #00a859; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; border: 1px solid #00a859;">${found.status}</span>
+        <div class="result-card-container" style="margin: 40px auto; max-width: 950px; animation: fadeIn 0.5s ease-out;">
+            <div class="doc-detail-card" style="background: #fff; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.08); overflow: hidden;">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 25px 35px; border-bottom: 1px solid #f1f5f9;">
+                    <div>
+                        <h5 style="margin: 0 0 5px 0; color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight:700;">ข้อมูลการตรวจสอบ</h5>
+                        <div style="font-weight: 800; font-size: 1.4rem; color: #0f172a;">${found.doc_type}</div>
+                    </div>
+                    <span style="background: #dcfce7; color: #15803d; padding: 8px 20px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: 1px solid #bbf7d0;">
+                        ${found.status}
+                    </span>
                 </div>
-                <div style="padding: 20px;">
-                    <div style="font-weight: 800; font-size: 1.1rem; color: #1a1a1a;">${found.doc_type}</div>
+
+                <div style="padding: 35px;">
+                    <div style="color: #64748b; font-size: 0.95rem; margin-bottom: 5px;">รหัสอ้างอิงเอกสาร: <span style="color: #0f172a; font-weight: 700;">${found.doc_id}</span></div>
+                    
                     ${extraHtml}
-                    <div style="margin-top: 15px;"><small style="color: #999;">รหัสเอกสาร:</small><div style="font-weight: bold;">${found.doc_id}</div></div>
-                    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0;">
+
+                    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; margin: 35px 0;">
                         ${imagesHtml}
                     </div>
-                    <div style="background: #f9fbf9; border-left: 5px solid #00a859; padding: 15px; border-radius: 0 10px 10px 0;">
-                        <p style="margin: 0; font-size: 0.85rem; color: #333;"><b>รายละเอียด:</b> ${found.detail}</p>
-                        <p style="margin: 8px 0 0 0; font-size: 0.8rem; color: #666;"><b>ผู้ออกเอกสาร:</b> ${found.issuer}</p>
+
+                    <div style="background: #f8fafc; border-left: 5px solid #10b981; padding: 25px; border-radius: 4px 20px 20px 4px;">
+                        <p style="margin: 0; font-size: 1rem; color: #334155; line-height: 1.6;"><b>รายละเอียดเพิ่มเติม:</b> ${found.detail}</p>
+                        <div style="margin-top: 15px; display: flex; align-items: center; gap: 10px;">
+                            <div style="width: 10px; height: 10px; background: #10b981; border-radius: 50%;"></div>
+                            <p style="margin: 0; font-size: 0.9rem; color: #64748b;"><b>ผู้ออกเอกสาร:</b> ${found.issuer}</p>
+                        </div>
                     </div>
                 </div>
             </div>
