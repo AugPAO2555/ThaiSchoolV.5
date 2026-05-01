@@ -1,67 +1,78 @@
-/* --- 1. Font & Settings --- */
+/* --- 1. Font & Base --- */
 @font-face {
     font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-light.woff2') format('woff2');
-    font-weight: 300;
+    src: url('./fonts/anakotmai-light.woff2') format('woff2'); font-weight: 300;
 }
 @font-face {
     font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-medium.woff2') format('woff2');
-    font-weight: 500;
+    src: url('./fonts/anakotmai-medium.woff2') format('woff2'); font-weight: 500;
 }
 @font-face {
     font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-bold.woff2') format('woff2');
-    font-weight: 700;
+    src: url('./fonts/anakotmai-bold.woff2') format('woff2'); font-weight: 700;
 }
 
 :root {
     --primary: #00a859;
     --dark: #0f172a;
+    --light: #ffffff;
     --gray: #f8fafc;
     --shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Anakotmai', sans-serif !important; }
-body { background: #fff; color: var(--dark); line-height: 1.6; }
+body { background: var(--light); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
 
-/* --- 2. News & Grid --- */
-.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-
-.card {
-    background: white; border-radius: 16px; overflow: hidden;
-    box-shadow: var(--shadow); border: 1px solid #f1f5f9;
-    display: flex; flex-direction: column; transition: 0.3s;
+/* --- 2. Navigation (กลับมาแล้ว!) --- */
+nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 8%; background: white; box-shadow: var(--shadow);
+    position: sticky; top: 0; z-index: 1000;
 }
-.card:hover { transform: translateY(-5px); }
-.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-.card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
+.logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; }
+.nav-links { display: flex; list-style: none; gap: 2.5rem; }
+.nav-links a { text-decoration: none; color: var(--dark); font-weight: 600; transition: 0.3s; font-size: 0.95rem; }
+.nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Personnel Card (แก้หัวขาด + ตัวหนังสือเบียด) --- */
-.p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+/* --- 3. Hero Section (กลับมาแล้ว!) --- */
+.hero {
+    width: 100%; height: 450px; 
+    display: flex; justify-content: center; align-items: center;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
+    margin-bottom: 40px;
+}
+
+/* --- 4. Container & Layout --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+.title-border { font-size: 1.8rem; margin-bottom: 35px; border-left: 6px solid var(--primary); padding-left: 18px; font-weight: 800; }
+
+/* --- 5. Personnel Card (แก้หัวขาด + ตัวหนังสือเบียด) --- */
+.p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-bottom: 60px; }
 .p-card {
-    background: #fff; padding: 35px 25px; border-radius: 24px;
-    border: 1px solid #f1f5f9; box-shadow: var(--shadow);
-    text-align: center; cursor: pointer; transition: 0.4s ease;
+    background: #fff; padding: 35px 25px; border-radius: 24px; border: 1px solid #f1f5f9;
+    box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: 0.4s ease;
 }
 .p-card:hover { transform: translateY(-10px); border-color: var(--primary); }
 .p-card img {
     width: 160px; height: 210px; object-fit: contain; /* โชว์ครบทั้งรูป */
-    background: var(--gray); border-radius: 16px; padding: 10px; margin-bottom: 20px;
+    background: var(--gray); border-radius: 16px; padding: 10px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+.p-card h4 { font-size: 1.2rem; margin-bottom: 6px; font-weight: 700; }
+.p-card p { color: var(--primary); font-weight: 600; font-size: 0.9rem; }
 
-/* --- 4. Archive System (หน้าตรวจเอกสาร) --- */
-.verify-box { background: #fff; padding: 35px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: var(--shadow); max-width: 700px; margin: 0 auto; }
+/* --- 6. Archive System (แก้อินพุตหลุดเฟรม) --- */
+.verify-box { background: #fff; padding: 40px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: var(--shadow); max-width: 750px; margin: 0 auto; }
 .verify-box input, .verify-box select {
-    width: 100% !important; padding: 15px !important; border-radius: 12px !important;
-    border: 2px solid #f1f5f9 !important; margin-bottom: 15px !important; outline: none;
+    width: 100% !important; padding: 16px !important; border-radius: 14px !important;
+    border: 2px solid #f1f5f9 !important; margin-bottom: 20px !important; outline: none; background: #f8fafc;
 }
 .info-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
-.info-item { background: var(--gray); padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9; }
+.info-item { background: var(--gray); padding: 18px; border-radius: 16px; border: 1px solid #f1f5f9; }
 
-/* --- 5. Modal --- */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.8); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
-.modal-content { background: white; padding: 40px; border-radius: 28px; width: 90%; max-width: 550px; animation: slideUp 0.4s ease; }
+/* --- 7. Modal & Footer --- */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.8); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+.modal-content { background: white; padding: 45px; border-radius: 28px; width: 90%; max-width: 550px; animation: slideUp 0.4s ease; }
+footer { background: var(--gray); padding: 50px 0; text-align: center; border-top: 1px solid #eee; }
 
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
