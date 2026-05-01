@@ -1,8 +1,9 @@
 /* =========================================
-   THAI SCHOOL V.5 - OFFICIAL STYLE (ANAKOTMAI)
+   THAI SCHOOL V.5 - OFFICIAL STYLE SHEET
+   (ANAKOTMAI FULL EDITION - NO MORE KANIT)
    ========================================= */
 
-/* --- 1. Font & Root Settings --- */
+/* --- 1. Font & Root Settings (อนาคตใหม่ 100%) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -20,7 +21,7 @@
 }
 
 :root {
-    --primary: #00a859;
+    --primary: #00a859; /* สีเขียวอนาคตใหม่ตาม Repo พี่ */
     --dark: #1a1a1a;
     --light: #ffffff;
     --gray: #f4f4f4;
@@ -29,7 +30,7 @@
 
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
-    font-family: 'Anakotmai', sans-serif !important; 
+    font-family: 'Anakotmai', sans-serif !important; /* บังคับอนาคตใหม่ทั้งเว็บ */
 }
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
@@ -45,22 +46,7 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Hero Section --- */
-.hero {
-    width: 100%; height: 450px; 
-    display: flex; justify-content: center; align-items: center;
-    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
-}
-
-/* --- 4. Container & Grid --- */
-.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
-
-.grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 25px; 
-}
-
+/* --- 3. Personnel Card (แก้หัวขาด / ตัวหนังสือไม่เบียดขอบ) --- */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
@@ -68,57 +54,39 @@ nav {
     margin-bottom: 50px;
 }
 
-/* --- 5. Card Styles (News & Blogs) --- */
-.card {
-    background: white; border-radius: 12px; overflow: hidden;
-    box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
-    height: 100%; display: flex; flex-direction: column;
-}
-.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-
-.card-body {
-    padding: 20px 25px !important;
-    display: flex !important; flex-direction: column !important;
-    gap: 10px !important; text-align: left !important;
-}
-
-/* ย่อเนื้อหาข่าวหน้าแรก 2 บรรทัด */
-.card-desc-short {
-    font-size: 0.9rem;
-    color: #64748b;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.6;
-}
-
-.card-date { color: #888; font-size: 0.85rem; }
-.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
-.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
-
-/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือไม่เบียดขอบ) --- */
 .p-card {
-    padding: 30px 20px !important; /* เพิ่ม Padding แนวตั้งและแนวนอน */
+    padding: 25px !important; /* เพิ่มพื้นที่ไม่ให้ตัวหนังสือชิดขอบ */
     display: flex !important;
     flex-direction: column !important; align-items: center !important;
     text-align: center !important; cursor: pointer;
-    background: #fff; border-radius: 15px; border: 1px solid #f0f0f0;
+    background: white; border-radius: 12px; border: 1px solid #eee;
     transition: 0.3s;
 }
 .p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
 
 .p-card img {
-    width: 130px !important; height: 175px !important; /* ปรับขนาดให้สมดุล */
+    width: 120px !important; height: 160px !important;
     aspect-ratio: 3/4 !important; /* บังคับสัดส่วนบุคลากร */
     object-fit: cover !important; /* หัวไม่ขาดแน่นอน */
-    border-radius: 6px !important;
+    border-radius: 4px !important;
     border: 3px solid #fff !important; outline: 1px solid #ddd !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 15px !important;
 }
 
-/* --- 8. Modal & Bio Details --- */
+/* --- 4. News Card (ย่อเนื้อหาหน้าแรก) --- */
+.card-desc-short {
+    font-size: 0.9rem;
+    color: #64748b;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ย่อเหลือ 2 บรรทัด */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* --- 5. Modal & Bio Details (เอากรอบเขียวคืนมา!) --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
@@ -129,10 +97,22 @@ nav {
     max-height: 90vh; overflow-y: auto;
 }
 
-/* ปุ่มปิด Modal - สีเขียวตามสั่ง */
+/* หัวข้อประวัติที่มีกรอบสีเขียวตามรูป 1000005038.jpg */
+.modal-header-tag {
+    background: var(--primary); /* สีเขียวอนาคตใหม่ */
+    color: white; padding: 6px 15px;
+    border-radius: 8px; display: inline-block; font-weight: 700;
+    margin-bottom: 15px; font-size: 0.95rem;
+}
+
+.bio-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
+.bio-item b { display: block; font-size: 1rem; color: #333; font-weight: 700; }
+.bio-item small { color: #777; font-size: 0.85rem; font-weight: 300; }
+
+/* ปุ่มปิด Modal สีเขียวบังคับ */
 .btn-close-modal {
     width: 100% !important;
-    background-color: #00a859 !important;
+    background-color: var(--primary) !important;
     color: #ffffff !important;
     border: none !important;
     padding: 16px !important;
@@ -141,33 +121,17 @@ nav {
     font-weight: bold !important;
     cursor: pointer !important;
     margin-top: 25px !important;
-    transition: 0.3s !important;
     display: block !important;
     text-align: center !important;
 }
 
-/* --- 9. Document Check Styles (เกรดสีดำสนิท) --- */
+/* --- 6. Document Result (เกรดดำสนิท) --- */
 .stat-value { 
     font-weight: 800; 
-    color: #000000 !important; /* ดำสนิทตามสั่ง */
+    color: #000000 !important; /* เกรดสีดำตามสั่ง */
     font-size: 1.1rem; 
 }
 
 .stat-item {
-    background: #f8fafc;
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid #f1f5f9;
-}
-
-/* ปุ่ม Linkify ในหน้าข่าว */
-.linkify-btn {
-    display: inline-block;
-    background: var(--primary);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 700;
-    margin-top: 15px;
+    background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9;
 }
