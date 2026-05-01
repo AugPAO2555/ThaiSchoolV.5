@@ -1,5 +1,5 @@
 // ==========================================
-// 0. ฟังก์ชันวิเศษ Linkify (สำหรับหน้า Post ข่าว)
+// 0. ฟังก์ชัน Linkify (สำหรับหน้าอ่านข่าว)
 // ==========================================
 function linkify(text) {
     if (!text) return "";
@@ -10,7 +10,7 @@ function linkify(text) {
 }
 
 // ==========================================
-// 1. ระบบข่าวสาร (หน้าแรก & อ่านข่าว)
+// 1. ระบบข่าวสาร (ย่อเนื้อหาหน้าแรกให้คลีน)
 // ==========================================
 async function fetchNews() {
     const box = document.getElementById('news-container');
@@ -18,16 +18,20 @@ async function fetchNews() {
     try {
         const res = await fetch('news.json');
         const data = (await res.json()).reverse(); 
-        box.innerHTML = data.map(n => `
-            <div class="card">
-                <img src="${n.img || 'https://via.placeholder.com/600x340'}">
-                <div class="card-body">
-                    <p class="card-date">${n.date}</p>
-                    <h3>${n.title}</h3>
-                    <p class="card-desc-short">${n.desc || ""}</p>
-                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
-                </div>
-            </div>`).join('');
+        box.innerHTML = data.map(n => {
+            // ย่อเนื้อหาข่าวให้เหลือ 100 ตัวอักษร ไม่ให้รกหน้าแรก
+            const shortDesc = n.desc ? (n.desc.substring(0, 100) + "...") : "ไม่มีรายละเอียด";
+            return `
+                <div class="card">
+                    <img src="${n.img || ''}">
+                    <div class="card-body">
+                        <p class="card-date">${n.date}</p>
+                        <h3>${n.title}</h3>
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 15px;">${shortDesc}</p>
+                        <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
+                    </div>
+                </div>`;
+        }).join('');
     } catch (err) { console.error("News Error:", err); }
 }
 
@@ -41,19 +45,19 @@ function loadPostDetail() {
         const post = data.find(n => n.id == postId);
         if (post) {
             contentBox.innerHTML = `
-                <div class="post-container">
+                <div class="post-container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
                     <h1>${post.title}</h1>
-                    <p>วันที่ประกาศ: ${post.date}</p>
-                    ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:15px; margin-bottom:20px;">` : ''}
-                    <div class="post-body">${linkify(post.desc)}</div>
-                    <div style="margin-top:30px;"><a href="index.html">← กลับไปที่หน้าข่าว</a></div>
+                    <p style="color: #64748b; margin-bottom: 25px;">วันที่ประกาศ: ${post.date}</p>
+                    ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:15px; margin-bottom:30px;">` : ''}
+                    <div style="white-space: pre-line; line-height: 1.8; color: #334155;">${linkify(post.desc)}</div>
+                    <div style="margin-top: 40px;"><a href="index.html">← กลับไปที่หน้าข่าว</a></div>
                 </div>`;
         }
     });
 }
 
 // ==========================================
-// 2. ระบบบุคลากร (Bio Modal)
+// 2. ระบบบุคลากร (เช็คประวัติ ถ้าไม่มีให้ขึ้นบอก)
 // ==========================================
 async function fetchPersonnel() {
     try {
@@ -68,9 +72,7 @@ async function fetchPersonnel() {
                     <p>${m.role}</p>
                 </div>`).join('');
         };
-        render('founder-list', 'founder');
-        render('school-list', 'school');
-        render('police-list', 'police');
+        render('founder-list', 'founder'); render('school-list', 'school'); render('police-list', 'police');
     } catch (err) { console.error("Personnel Error:", err); }
 }
 
@@ -81,7 +83,13 @@ function openBio(id) {
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role').innerText = m.role;
         document.getElementById('m-dept').innerText = m.dept;
-        document.getElementById('m-bio').innerText = m.bio;
+        document.getElementById('m-bio').innerText = m.bio || "ไม่มีข้อมูลวิสัยทัศน์";
+
+        const edu = document.getElementById('m-edu-list');
+        const exp = document.getElementById('m-exp-list');
+        if(edu) edu.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `<p>• ${e}</p>`).join('') : '<p style="color:#94a3b8;">ไม่มีข้อมูลประวัติการศึกษา</p>';
+        if(exp) exp.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(e => `<p>• ${e}</p>`).join('') : '<p style="color:#94a3b8;">ไม่มีข้อมูลประวัติการทำงาน</p>';
+
         document.getElementById('bio-modal').style.display = 'flex';
     });
 }
@@ -89,13 +97,13 @@ function openBio(id) {
 function closeModal() { document.getElementById('bio-modal').style.display = 'none'; }
 
 // ==========================================
-// 3. ระบบตรวจสอบเอกสาร (เกรดสีเขียว + Grid ตามรูป)
+// 3. ระบบตรวจสอบเอกสาร (เกรดสีดำ + แก้บัคเลือกหน่วยงาน)
 // ==========================================
 let allDocuments = [];
 fetch('documents.json').then(res => res.json()).then(d => allDocuments = d);
 
 const docCategories = {
-    school: ["ปพ.1บ - มัธยมศึกษาตอนต้น", "ปพ.1พ - มัธยมศึกษาตอนปลาย", "ปพ.2บ", "ปพ.2พ", "ปพ.7"],
+    school: ["ปพ.1บ - มัธยมศึกษาตอนต้น", "ปพ.1พ - มัธยมศึกษาตอนปลาย", "ปพ.2", "ปพ.7"],
     military: ["ใบวิทยฐานะ", "สด.8", "สด.43"],
     police: ["ใบอนุญาตขับรถยนต์"]
 };
@@ -106,7 +114,11 @@ function updateDocTypes() {
     if(!typeSelect) return;
     typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
     if (docCategories[agency]) {
-        docCategories[agency].forEach(t => typeSelect.innerHTML += `<option value="${t}">${t}</option>`);
+        docCategories[agency].forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t; opt.textContent = t;
+            typeSelect.appendChild(opt);
+        });
     }
 }
 
@@ -118,7 +130,6 @@ async function verifyDocument() {
     const loadBar = document.getElementById('load-bar');
 
     if (!user || !type) { showNotify("กรุณากรอกข้อมูลให้ครบถ้วน", "error"); return; }
-
     resultArea.innerHTML = '';
     overlay.style.display = 'flex';
     loadBar.style.width = '0%';
@@ -147,27 +158,25 @@ function renderResultCard(found) {
                 <h2 style="margin:0; font-size:1.3rem;">${found.doc_type}</h2>
                 <span style="background:#e6f6ee; color:#10b981; padding:8px 18px; border-radius:50px; font-weight:bold; font-size:0.8rem;">ตรวจสอบแล้ว - ถูกต้อง</span>
             </div>
-            <p style="color:#64748b; font-size:0.85rem; margin-bottom:20px;">รหัสอ้างอิงเอกสาร: ${found.doc_id}</p>
-
+            
             <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px; margin-bottom:25px;">
                 <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; display:block; font-size:0.7rem;">ระดับ/ชั้น/ปี</small>
-                    <b style="font-size:0.95rem;">${found.extra_info?.level || "-"}</b>
+                    <small style="color:#94a3b8; display:block; font-size:0.75rem;">ระดับ/ชั้น/ปี</small>
+                    <b style="color:#1e293b;">${found.extra_info?.level || "-"}</b>
                 </div>
                 <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; display:block; font-size:0.7rem;">เกรดเฉลี่ย</small>
-                    <b style="font-size:1.1rem; color:#10b981;">${gradeValue}</b>
-                </div>
+                    <small style="color:#94a3b8; display:block; font-size:0.75rem;">เกรดเฉลี่ย</small>
+                    <b style="color:#1e293b; font-size:1.1rem;">${gradeValue}</b> </div>
                 <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; display:block; font-size:0.7rem;">วันที่ออก</small>
-                    <b style="font-size:0.95rem;">${found.extra_info?.issued_date || "-"}</b>
+                    <small style="color:#94a3b8; display:block; font-size:0.75rem;">วันที่ออก</small>
+                    <b style="color:#1e293b;">${found.extra_info?.issued_date || "-"}</b>
                 </div>
             </div>
 
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:25px;">
                 ${found.images.map((img, i) => `
                     <div style="text-align:center;">
-                        <img src="${img}" style="width:100%; border-radius:12px; border:1px solid #eee; box-shadow:0 4px 10px rgba(0,0,0,0.02);">
+                        <img src="${img}" style="width:100%; border-radius:12px; border:1px solid #eee;">
                         <p style="color:#94a3b8; font-size:0.7rem; margin-top:8px;">เอกสารหน้าที่ ${i+1}</p>
                     </div>`).join('')}
             </div>
@@ -188,7 +197,7 @@ function showNotify(msg, type) {
 }
 
 // ==========================================
-// 4. ส่วนเริ่มต้น (Init)
+// Init
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => { 
     fetchNews(); fetchPersonnel();
