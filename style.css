@@ -83,12 +83,12 @@ nav {
     gap: 10px !important; text-align: left !important;
 }
 
-/* [แก้] ส่วนตัดเนื้อหาข่าวหน้าแรก 2 บรรทัด */
+/* ตัดเนื้อหาข่าวหน้าแรก 2 บรรทัดตามสั่ง */
 .card-desc-short {
     font-size: 0.9rem;
     color: #64748b;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* บังคับย่อ 2 บรรทัด */
+    -webkit-line-clamp: 2; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: 1.6;
@@ -98,9 +98,9 @@ nav {
 .card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
 .card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
 
-/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือชิด) --- */
+/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือไม่ชิดขอบ) --- */
 .p-card {
-    padding: 30px 20px !important; /* เพิ่มพื้นที่ไม่ให้ตัวหนังสือชิดขอบ */
+    padding: 30px 20px !important; 
     display: flex !important;
     flex-direction: column !important; align-items: center !important;
     text-align: center !important; cursor: pointer;
@@ -109,16 +109,16 @@ nav {
 .p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
 
 .p-card img {
-    width: 130px !important; height: 175px !important; /* ปรับขนาดให้สมาร์ทขึ้น */
-    aspect-ratio: 3/4 !important; /* บังคับสัดส่วน */
-    object-fit: cover !important; /* หัวไม่ขาดแน่นอน */
+    width: 130px !important; height: 175px !important; 
+    aspect-ratio: 3/4 !important; 
+    object-fit: cover !important; /* บังคับรูปให้อยู่ในกรอบ หัวไม่แหว่งแน่นอน */
     border-radius: 6px !important;
     border: 3px solid #fff !important; outline: 1px solid #ddd !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     margin-bottom: 20px !important;
 }
 
-/* --- 8. Modal & Bio Details (เพิ่มกรอบสีเขียวที่หัวข้อ) --- */
+/* --- 8. Modal & Bio Details --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
@@ -129,7 +129,7 @@ nav {
     max-height: 90vh; overflow-y: auto;
 }
 
-/* กรอบสีเขียวรอบหัวข้อประวัติใน Modal */
+/* คืนค่ากรอบสีเขียวรอบหัวข้อประวัติใน Modal ตามรูป */
 .modal-header-tag {
     background: var(--primary); color: white; padding: 6px 15px;
     border-radius: 8px; display: inline-block; font-weight: 700;
@@ -139,7 +139,7 @@ nav {
 .bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
 .bio-item b { display: block; font-size: 0.95rem; color: #333; font-weight: 700; }
 
-/* ปุ่มปิด Modal - สีเขียวตามสั่ง */
+/* ปุ่มปิด Modal - สีเขียวอนาคตใหม่บังคับ */
 .btn-close-modal {
     width: 100% !important;
     background-color: #00a859 !important;
@@ -158,7 +158,7 @@ nav {
 /* --- 9. Document Check (เกรดสีดำสนิท) --- */
 .stat-value { 
     font-weight: 800; 
-    color: #000000 !important; /* ดำสนิทตามสั่ง */
+    color: #000000 !important; /* ดำสนิทไม่อมเขียว */
     font-size: 1.1rem; 
 }
 
