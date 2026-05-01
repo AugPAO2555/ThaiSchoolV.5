@@ -11,29 +11,28 @@
         <a href="index.html" class="logo">Thai School V.5</a>
         <ul class="nav-links">
             <li><a href="index.html">หน้าแรก</a></li>
-            <li><a href="index.html#news">ข่าวสาร</a></li>
             <li><a href="personnel.html">บุคลากร</a></li>
-            <li><a href="contact.html">ติดต่อเรา</a></li>
+            <li><a href="archive.html">ตรวจสอบเอกสาร</a></li>
         </ul>
     </nav>
 
     <div class="container" style="margin-bottom: 50px;">
-        <h2 class="title-border">คณะผู้บริหาร</h2>
+        <h2 class="title-border">คณะผู้บริหารและผู้ก่อตั้ง</h2>
         <div class="p-grid" id="founder-list"></div>
 
-        <h2 class="title-border">โรงเรียนกราซวิทยา</h2>
+        <h2 class="title-border">บุคลากรโรงเรียนกราซวิทยา</h2>
         <div class="p-grid" id="school-list"></div>
 
         <h2 class="title-border">สำนักงานตำรวจภูธรพระนครศรีอยุธยา</h2>
         <div class="p-grid" id="police-list"></div>
     </div>
 
-        <div class="modal" id="bio-modal">
+    <div class="modal" id="bio-modal">
         <div class="modal-content">
-            <h2 id="m-name" style="margin-bottom:5px;"></h2>
+            <h2 id="m-name" style="margin-bottom:5px; color: var(--dark);"></h2>
             <p id="m-role" style="color: var(--primary); font-weight: bold; margin-bottom: 2px;"></p>
-            <p id="m-dept" style="color: #777; font-size: 0.85rem; margin-bottom: 15px;"></p>
-            <p id="m-bio" style="line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; color: #444;"></p>
+            <p id="m-dept" style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;"></p>
+            <p id="m-bio" style="line-height: 1.6; margin-bottom: 20px; font-size: 0.95rem; color: #334155;"></p>
 
             <div class="modal-header-tag">ประวัติการศึกษา</div>
             <div id="m-edu-list" class="bio-list"></div>
@@ -41,25 +40,12 @@
             <div class="modal-header-tag">ประวัติการทำงาน</div>
             <div id="m-exp-list" class="bio-list"></div>
 
-            <p style="color: #dc2626; font-weight: bold; text-align: left; margin-top: 25px; font-size: 0.85rem; border-top: 1px dashed #eee; padding-top: 15px;">
-    * เป็นการจำลองสวมบทบาทในเกมเพียงเท่านั้น !!
-</p>
-
-<button class="btn-close-modal" onclick="closeModal()">ปิดหน้าต่าง</button>
+            <p style="color: #dc2626; font-weight: bold; text-align: left; margin-top: 25px; font-size: 0.8rem; border-top: 1px dashed #e2e8f0; padding-top: 15px;">
+                * เป็นการจำลองสวมบทบาทในเกมเพียงเท่านั้น !!
+            </p>
+            <button class="btn-close-modal" onclick="closeModal()">ปิดหน้าต่าง</button>
         </div>
     </div>
-
-    <footer class="main-footer">
-        <div class="container" style="text-align: center;">
-            <div class="footer-links">
-                <span>ติดตามเราได้ที่: </span>
-                <a href="https://discord.gg/3W7YecYCAT" target="_blank" class="link-discord">Discord</a> | 
-                <a href="https://www.roblox.com/th/communities/34820923/ThaiSchool-V4#!/about" target="_blank" class="link-roblox">Roblox Group</a> | 
-                <a href="https://www.roblox.com/th/games/84066328709254/13-2547-Reborn" target="_blank" class="link-map">Roblox Map</a>
-            </div>
-            <p class="copyright">© 2026 Thai School V.5 สงวนลิขสิทธิ์ทุกประการ</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>
