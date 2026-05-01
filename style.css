@@ -1,9 +1,9 @@
 /* =========================================
    THAI SCHOOL V.5 - OFFICIAL STYLE SHEET
-   (ANAKOTMAI FULL EDITION - NO MORE KANIT)
+   อ้างอิงโครงสร้างต้นฉบับจาก GitHub พี่ 100%
    ========================================= */
 
-/* --- 1. Font & Root Settings (อนาคตใหม่ 100%) --- */
+/* --- 1. Font & Root Settings --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -21,7 +21,7 @@
 }
 
 :root {
-    --primary: #00a859; /* สีเขียวอนาคตใหม่ตาม Repo พี่ */
+    --primary: #00a859;
     --dark: #1a1a1a;
     --light: #ffffff;
     --gray: #f4f4f4;
@@ -30,7 +30,7 @@
 
 * { 
     margin: 0; padding: 0; box-sizing: border-box; 
-    font-family: 'Anakotmai', sans-serif !important; /* บังคับอนาคตใหม่ทั้งเว็บ */
+    font-family: 'Anakotmai', sans-serif !important; 
 }
 
 body { background: var(--light); color: var(--dark); line-height: 1.6; }
@@ -46,7 +46,22 @@ nav {
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Personnel Card (แก้หัวขาด / ตัวหนังสือไม่เบียดขอบ) --- */
+/* --- 3. Hero Section --- */
+.hero {
+    width: 100%; height: 450px; 
+    display: flex; justify-content: center; align-items: center;
+    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
+}
+
+/* --- 4. Container & Grid --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+
+.grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    gap: 25px; 
+}
+
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
@@ -54,39 +69,56 @@ nav {
     margin-bottom: 50px;
 }
 
-.p-card {
-    padding: 25px !important; /* เพิ่มพื้นที่ไม่ให้ตัวหนังสือชิดขอบ */
-    display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
-    background: white; border-radius: 12px; border: 1px solid #eee;
-    transition: 0.3s;
+/* --- 5. Card Styles (News & News Truncate) --- */
+.card {
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
+    height: 100%; display: flex; flex-direction: column;
 }
-.p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 
-.p-card img {
-    width: 120px !important; height: 160px !important;
-    aspect-ratio: 3/4 !important; /* บังคับสัดส่วนบุคลากร */
-    object-fit: cover !important; /* หัวไม่ขาดแน่นอน */
-    border-radius: 4px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    margin-bottom: 15px !important;
+.card-body {
+    padding: 20px 25px !important;
+    display: flex !important; flex-direction: column !important;
+    gap: 10px !important; text-align: left !important;
 }
 
-/* --- 4. News Card (ย่อเนื้อหาหน้าแรก) --- */
+/* [แก้] ส่วนตัดเนื้อหาข่าวหน้าแรก 2 บรรทัด */
 .card-desc-short {
     font-size: 0.9rem;
     color: #64748b;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* ย่อเหลือ 2 บรรทัด */
+    -webkit-line-clamp: 2; /* บังคับย่อ 2 บรรทัด */
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-bottom: 15px;
     line-height: 1.6;
 }
 
-/* --- 5. Modal & Bio Details (เอากรอบเขียวคืนมา!) --- */
+.card-date { color: #888; font-size: 0.85rem; }
+.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
+.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
+
+/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือชิด) --- */
+.p-card {
+    padding: 30px 20px !important; /* เพิ่มพื้นที่ไม่ให้ตัวหนังสือชิดขอบ */
+    display: flex !important;
+    flex-direction: column !important; align-items: center !important;
+    text-align: center !important; cursor: pointer;
+    background: white; border-radius: 12px; transition: 0.3s;
+}
+.p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+
+.p-card img {
+    width: 130px !important; height: 175px !important; /* ปรับขนาดให้สมาร์ทขึ้น */
+    aspect-ratio: 3/4 !important; /* บังคับสัดส่วน */
+    object-fit: cover !important; /* หัวไม่ขาดแน่นอน */
+    border-radius: 6px !important;
+    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    margin-bottom: 20px !important;
+}
+
+/* --- 8. Modal & Bio Details (เพิ่มกรอบสีเขียวที่หัวข้อ) --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
@@ -97,22 +129,20 @@ nav {
     max-height: 90vh; overflow-y: auto;
 }
 
-/* หัวข้อประวัติที่มีกรอบสีเขียวตามรูป 1000005038.jpg */
+/* กรอบสีเขียวรอบหัวข้อประวัติใน Modal */
 .modal-header-tag {
-    background: var(--primary); /* สีเขียวอนาคตใหม่ */
-    color: white; padding: 6px 15px;
+    background: var(--primary); color: white; padding: 6px 15px;
     border-radius: 8px; display: inline-block; font-weight: 700;
-    margin-bottom: 15px; font-size: 0.95rem;
+    margin-bottom: 12px; font-size: 0.9rem;
 }
 
-.bio-item { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
-.bio-item b { display: block; font-size: 1rem; color: #333; font-weight: 700; }
-.bio-item small { color: #777; font-size: 0.85rem; font-weight: 300; }
+.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.bio-item b { display: block; font-size: 0.95rem; color: #333; font-weight: 700; }
 
-/* ปุ่มปิด Modal สีเขียวบังคับ */
+/* ปุ่มปิด Modal - สีเขียวตามสั่ง */
 .btn-close-modal {
     width: 100% !important;
-    background-color: var(--primary) !important;
+    background-color: #00a859 !important;
     color: #ffffff !important;
     border: none !important;
     padding: 16px !important;
@@ -125,13 +155,19 @@ nav {
     text-align: center !important;
 }
 
-/* --- 6. Document Result (เกรดดำสนิท) --- */
+/* --- 9. Document Check (เกรดสีดำสนิท) --- */
 .stat-value { 
     font-weight: 800; 
-    color: #000000 !important; /* เกรดสีดำตามสั่ง */
+    color: #000000 !important; /* ดำสนิทตามสั่ง */
     font-size: 1.1rem; 
 }
 
 .stat-item {
     background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
+    .p-card img { width: 110px !important; height: 145px !important; }
 }
