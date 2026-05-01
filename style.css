@@ -20,7 +20,7 @@
     --dark: #1a1a1a;
     --light: #ffffff;
     --gray: #f4f4f4;
-    --shadow: 0 4px 15px rgba(0,0,0,0.1);
+    --shadow: 0 10px 25px rgba(0,0,0,0.08); /* ปรับเงาให้ดูพรีเมียมขึ้น */
 }
 
 * { 
@@ -70,6 +70,7 @@ nav {
     box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
     height: 100%; display: flex; flex-direction: column;
 }
+.card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.12); }
 .card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 
 .card-body {
@@ -81,119 +82,37 @@ nav {
 .card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
 .card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
 
-/* --- 6. Personnel Card --- */
-.p-card {
-    padding: 20px !important; display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
-}
-.p-card img {
-    width: 120px !important; height: 160px !important;
-    object-fit: cover !important; border-radius: 4px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    margin-bottom: 15px !important;
-}
-
-/* --- 7. Footer --- */
+/* --- 6. Footer --- */
 footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
 .footer-links { margin-bottom: 10px; font-weight: 500; }
 .footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
 .link-discord { color: #5865F2 !important; }
 .link-roblox { color: #000 !important; }
 .link-map { color: var(--primary) !important; }
-footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 
-/* --- 8. Modal & Bio Details --- */
+/* --- 7. Modal & Animations --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
 }
-.modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
-}
-.modal-header-tag {
-    background: var(--primary); color: white; padding: 5px 15px;
-    border-radius: 8px; display: inline-block; font-weight: 700;
-    margin-bottom: 12px; font-size: 0.9rem;
-}
-.bio-list { margin-bottom: 20px; }
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item span { font-size: 1.2rem; }
-.bio-item b { display: block; font-size: 0.95rem; color: #333; }
-.bio-item small { color: #777; font-size: 0.85rem; }
-
-/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
 .btn-close-modal {
-    width: 100% !important;
-    background-color: #00a859 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
-    transition: 0.3s !important;
-    display: block !important;
-    text-align: center !important;
-}
-.btn-close-modal:hover {
-    background-color: #008f4c !important;
-    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
+    width: 100% !important; background-color: #00a859 !important;
+    color: #ffffff !important; border: none !important; padding: 16px !important;
+    border-radius: 12px !important; font-size: 1rem !important; font-weight: bold !important;
+    cursor: pointer !important; margin-top: 25px !important; display: block !important;
 }
 
-.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
-
-/* --- 9. Responsive --- */
-@media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
-    .nav-links { gap: 15px; font-size: 0.9rem; }
-    .hero { height: 200px; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
-    .p-card img { width: 100px !important; height: 135px !important; }
-    .container { padding-left: 20px !important; padding-right: 20px !important; }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-/* --- Document Check Styles (Minimal) --- */
+
+/* --- 8. Document Check Styles --- */
 .verify-box {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid #eee;
-    max-width: 600px;
-    margin: 20px auto;
-}
-
-.input-field-group { margin-bottom: 20px; text-align: left; }
-.input-field-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
-.input-field-group input, .input-field-group select {
-    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-    font-family: 'Anakotmai', sans-serif; font-size: 1rem; outline: none;
-}
-.input-field-group input:focus { border-color: var(--primary); }
-
-.btn-verify-modern {
-    width: 100%; background: var(--primary); color: #fff; border: none;
-    padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;
-    font-size: 1rem; transition: 0.3s;
-}
-.btn-verify-modern:hover { opacity: 0.9; transform: translateY(-2px); }
-
-/* Card แสดงผลการค้นหา */
-.doc-result-card {
-    background: #fff; border: 1px solid #eee; border-radius: 15px;
-    padding: 25px; margin-top: 30px; text-align: left;
+    background: #fff; padding: 35px; border-radius: 20px;
+    border: 1px solid #eee; max-width: 700px; margin: 20px auto;
     box-shadow: var(--shadow);
 }
-.status-tag {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    font-size: 0.8rem; font-weight: bold; margin-bottom: 15px;
-}
-.status-ok { background: #e6f6ee; color: #00a859; }
-/* --- Notification Banner --- */
 .top-banner {
     position: fixed; top: -100px; left: 0; width: 100%; padding: 15px;
     text-align: center; color: white; font-weight: bold; z-index: 3000;
@@ -203,11 +122,4 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 .top-banner.success { background: #00a859; }
 .top-banner.error { background: #dc2626; }
 
-/* --- Loading & Result --- */
 .loading-container { background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
-#load-bar { background: var(--primary); width: 0%; height: 100%; transition: 0.2s; }
-
-.result-card { text-align: center; padding: 30px; margin-top: 20px; }
-.result-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
-.result-title { font-size: 1.5rem; font-weight: 800; color: #000; margin-bottom: 5px; }
-.result-subtitle { color: #777; font-size: 0.9rem; }
