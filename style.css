@@ -1,4 +1,4 @@
-/* --- 1. Settings & Fonts --- */
+/* --- 1. Font & Settings --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -18,86 +18,50 @@
 :root {
     --primary: #00a859;
     --dark: #0f172a;
-    --light: #ffffff;
     --gray: #f8fafc;
     --shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Anakotmai', sans-serif !important; }
-body { background: var(--light); color: var(--dark); line-height: 1.6; }
+body { background: #fff; color: var(--dark); line-height: 1.6; }
 
-/* --- 2. Personnel Card (แก้หัวขาด + ตัวหนังสือเบียด) --- */
-.p-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)) !important;
-    gap: 30px !important;
-    margin-bottom: 60px;
+/* --- 2. News & Grid --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+
+.card {
+    background: white; border-radius: 16px; overflow: hidden;
+    box-shadow: var(--shadow); border: 1px solid #f1f5f9;
+    display: flex; flex-direction: column; transition: 0.3s;
 }
+.card:hover { transform: translateY(-5px); }
+.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; }
 
+/* --- 3. Personnel Card (แก้หัวขาด + ตัวหนังสือเบียด) --- */
+.p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
 .p-card {
-    background: white !important;
-    padding: 35px 25px !important; /* เพิ่ม Padding กันตัวหนังสือชิดขอบ */
-    border-radius: 24px !important;
-    border: 1px solid #f1f5f9 !important;
-    box-shadow: var(--shadow) !important;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
-    display: flex !important; flex-direction: column !important;
-    align-items: center !important; text-align: center !important;
-    cursor: pointer; height: 100%;
+    background: #fff; padding: 35px 25px; border-radius: 24px;
+    border: 1px solid #f1f5f9; box-shadow: var(--shadow);
+    text-align: center; cursor: pointer; transition: 0.4s ease;
 }
-
-.p-card:hover {
-    transform: translateY(-10px) !important;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1) !important;
-    border-color: var(--primary) !important;
-}
-
-/* แก้บัคหัวขาด - เปลี่ยนเป็น contain และล็อคความสูง */
+.p-card:hover { transform: translateY(-10px); border-color: var(--primary); }
 .p-card img {
-    width: 160px !important;
-    height: 210px !important;
-    object-fit: contain !important; 
-    background: var(--gray); /* ใส่พื้นหลังกันรูปแหว่ง */
-    border-radius: 16px !important;
-    margin-bottom: 20px !important;
-    padding: 10px; /* เว้นขอบรูป */
-    transition: 0.3s;
+    width: 160px; height: 210px; object-fit: contain; /* โชว์ครบทั้งรูป */
+    background: var(--gray); border-radius: 16px; padding: 10px; margin-bottom: 20px;
 }
 
-.p-card h4 { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; color: var(--dark); }
-.p-card p { font-size: 0.9rem; color: var(--primary); font-weight: 600; letter-spacing: 0.5px; }
-
-/* --- 3. Archive & Input Fix (แก้หน้าตรวจเอกสารหลุด) --- */
+/* --- 4. Archive System (หน้าตรวจเอกสาร) --- */
+.verify-box { background: #fff; padding: 35px; border-radius: 24px; border: 1px solid #f1f5f9; box-shadow: var(--shadow); max-width: 700px; margin: 0 auto; }
 .verify-box input, .verify-box select {
-    width: 100% !important;
-    padding: 15px !important;
-    border-radius: 12px !important;
-    border: 2px solid #f1f5f9 !important;
-    margin-bottom: 15px !important;
-    font-size: 1rem !important;
+    width: 100% !important; padding: 15px !important; border-radius: 12px !important;
+    border: 2px solid #f1f5f9 !important; margin-bottom: 15px !important; outline: none;
 }
+.info-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 25px 0; }
+.info-item { background: var(--gray); padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9; }
 
-.info-grid-3 {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 15px !important;
-    margin-bottom: 25px !important;
-}
+/* --- 5. Modal --- */
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15,23,42,0.8); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+.modal-content { background: white; padding: 40px; border-radius: 28px; width: 90%; max-width: 550px; animation: slideUp 0.4s ease; }
 
-@media (max-width: 768px) {
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
-    .info-grid-3 { grid-template-columns: 1fr !important; }
-    .p-card { padding: 20px 15px !important; }
-    .p-card img { width: 130px !important; height: 170px !important; }
-}
-
-/* --- Modal Styles --- */
-.modal-content {
-    background: white; padding: 40px; border-radius: 24px;
-    max-width: 600px; width: 90%; position: relative;
-    animation: slideUp 0.4s ease;
-}
-.modal-header-tag {
-    background: #f1f5f9; padding: 5px 15px; border-radius: 8px;
-    display: inline-block; font-weight: bold; font-size: 0.85rem; margin: 15px 0 10px;
-}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
