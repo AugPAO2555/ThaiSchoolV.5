@@ -211,3 +211,76 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 .result-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
 .result-title { font-size: 1.5rem; font-weight: 800; color: #000; margin-bottom: 5px; }
 .result-subtitle { color: #777; font-size: 0.9rem; }
+/* --- Document Result Design (บูรณาการตามรูป 1000004981.jpg) --- */
+.doc-result-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    margin-top: 30px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    animation: slideUp 0.5s ease;
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.result-title-main { font-size: 1.4rem; font-weight: 800; color: #0f172a; }
+
+.status-badge {
+    background: #e6f6ee;
+    color: #00a859;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.doc-ref-id { color: #64748b; font-size: 0.9rem; margin-bottom: 20px; font-weight: 600; }
+
+.info-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9;
+}
+.stat-label { color: #94a3b8; font-size: 0.75rem; display: block; margin-bottom: 4px; }
+.stat-value { font-weight: 800; color: #1e293b; font-size: 1rem; }
+
+.doc-images-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.doc-img-box {
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 15px;
+    border: 1px solid #f1f5f9;
+    text-align: center;
+}
+.doc-img-box img { width: 100%; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
+.doc-img-label { color: #94a3b8; font-size: 0.75rem; }
+
+.doc-footer-info {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 20px;
+}
+.detail-box {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+}
