@@ -1,301 +1,46 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>โรงเรียนไทย — เว็บไซต์อย่างเป็นทางการ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Noto+Serif+Thai:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy: #0d1f3c;
-      --navy-mid: #162d52;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-pale: #f7eecb;
-      --red: #9b1c1c;
-      --white: #ffffff;
-      --off-white: #f8f6f1;
-      --gray-light: #e8e4db;
-      --gray-mid: #c5bfb0;
-      --gray-dark: #6b6456;
-      --text: #1a1612;
-      --text-muted: #5a5248;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้าแรก | Thai School V.5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">Thai School V.5</a>
+        <ul class="nav-links">
+            <li><a href="index.html">หน้าแรก</a></li>
+            <li><a href="index.html#news">ข่าวสาร</a></li>
+            <li><a href="personnel.html">บุคลากร</a></li>
+            <li><a href="contact.html">ติดต่อเรา</a></li>
+        </ul>
+    </nav>
 
-      --font-heading: 'Noto Serif Thai', serif;
-      --font-body: 'Sarabun', sans-serif;
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-text">&nbsp;</div>
+        </div>
+    </header>
 
-      --shadow-sm: 0 2px 8px rgba(13,31,60,0.10);
-      --shadow-md: 0 4px 20px rgba(13,31,60,0.14);
-      --shadow-lg: 0 8px 40px rgba(13,31,60,0.18);
-      --radius: 4px;
-    }
+    <main class="container" id="news">
+        <h2 class="title-border">ความเคลื่อนไหวล่าสุด</h2>
+        <div class="grid" id="news-container">
+            </div>
+    </main>
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <footer class="main-footer">
+        <div class="container" style="text-align: center;">
+            <div class="footer-links">
+                <span>ติดตามเราได้ที่: </span>
+                <a href="https://discord.gg/3W7YecYCAT" target="_blank" class="link-discord">Discord</a> | 
+                <a href="https://www.roblox.com/th/communities/34820923/ThaiSchool-V4#!/about" target="_blank" class="link-roblox">Roblox Group</a> | 
+                <a href="https://www.roblox.com/th/games/84066328709254/13-2547-Reborn" target="_blank" class="link-map">Roblox Map</a>
+            </div>
+            <p class="copyright">© 2026 Thai School V.5 สงวนลิขสิทธิ์ทุกประการ</p>
+        </div>
+    </footer>
 
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--off-white);
-      color: var(--text);
-      line-height: 1.7;
-      font-size: 16px;
-    }
-
-    /* ── TOP RIBBON ── */
-    .ribbon {
-      background: var(--navy);
-      color: var(--gold-light);
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      padding: 6px 0;
-      border-bottom: 2px solid var(--gold);
-    }
-    .ribbon-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .ribbon a { color: var(--gold-light); text-decoration: none; margin-left: 20px; }
-    .ribbon a:hover { color: var(--white); }
-
-    /* ── HEADER ── */
-    header {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1e3a68 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(201,168,76,0.04) 30px, rgba(201,168,76,0.04) 31px),
-        repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(201,168,76,0.04) 30px, rgba(201,168,76,0.04) 31px);
-      pointer-events: none;
-    }
-    .header-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 36px 24px 32px;
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      position: relative;
-      z-index: 1;
-    }
-    .logo-seal {
-      width: 96px;
-      height: 96px;
-      flex-shrink: 0;
-      background: var(--gold-pale);
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 44px;
-      box-shadow: 0 0 0 6px rgba(201,168,76,0.15), var(--shadow-md);
-    }
-    .header-text h1 {
-      font-family: var(--font-heading);
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.3;
-      letter-spacing: 0.01em;
-    }
-    .header-text h1 span {
-      display: block;
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--gold-light);
-      font-family: var(--font-body);
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-    .header-text p {
-      color: var(--gray-mid);
-      font-size: 13.5px;
-      margin-top: 6px;
-    }
-    .header-contact {
-      margin-left: auto;
-      text-align: right;
-      color: var(--gray-mid);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-    .header-contact strong { color: var(--gold-light); display: block; font-size: 14px; }
-
-    /* ── GOLD DIVIDER ── */
-    .gold-bar {
-      height: 4px;
-      background: linear-gradient(90deg, var(--navy), var(--gold), var(--red), var(--gold), var(--navy));
-    }
-
-    /* ── NAV ── */
-    nav {
-      background: var(--navy-mid);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: var(--shadow-md);
-    }
-    .nav-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-    }
-    nav a {
-      color: var(--gray-light);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 16px 18px;
-      display: block;
-      border-bottom: 3px solid transparent;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
-      letter-spacing: 0.02em;
-    }
-    nav a:hover, nav a.active {
-      color: var(--gold-light);
-      border-bottom-color: var(--gold);
-      background: rgba(201,168,76,0.06);
-    }
-    .nav-inner .spacer { flex: 1; }
-    .nav-search {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-    }
-    .nav-search input {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: var(--radius);
-      color: var(--white);
-      padding: 6px 12px;
-      font-size: 13px;
-      font-family: var(--font-body);
-      outline: none;
-      width: 180px;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .nav-search input::placeholder { color: var(--gray-mid); }
-    .nav-search input:focus { border-color: var(--gold); background: rgba(255,255,255,0.12); }
-    .nav-search button {
-      background: var(--gold);
-      border: none;
-      border-radius: var(--radius);
-      color: var(--navy);
-      padding: 6px 14px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: var(--font-body);
-      transition: background 0.2s;
-    }
-    .nav-search button:hover { background: var(--gold-light); }
-
-    /* ── HERO ── */
-    .hero {
-      background: linear-gradient(160deg, var(--navy) 0%, #1a3660 50%, #0f2847 100%);
-      color: var(--white);
-      padding: 72px 24px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0; right: 0;
-      height: 60px;
-      background: var(--off-white);
-      clip-path: ellipse(55% 100% at 50% 100%);
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(201,168,76,0.15);
-      border: 1px solid rgba(201,168,76,0.4);
-      color: var(--gold-light);
-      font-size: 12px;
-      letter-spacing: 0.12em;
-      padding: 5px 16px;
-      border-radius: 2px;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-    .hero h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(26px, 4vw, 44px);
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 16px;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
-    }
-    .hero h2 em {
-      font-style: normal;
-      color: var(--gold-light);
-    }
-    .hero p {
-      font-size: 16px;
-      color: var(--gray-mid);
-      max-width: 560px;
-      margin: 0 auto 32px;
-      line-height: 1.8;
-    }
-    .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      color: var(--navy);
-      border: none;
-      padding: 13px 30px;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-weight: 700;
-      font-family: var(--font-body);
-      cursor: pointer;
-      letter-spacing: 0.03em;
-      box-shadow: 0 4px 16px rgba(201,168,76,0.35);
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      display: inline-block;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,168,76,0.45); }
-    .btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 1.5px solid rgba(255,255,255,0.35);
-      padding: 13px 30px;
-      border-radius: var(--radius);
-      font-size: 14px;
-      font-family: var(--font-body);
-      cursor: pointer;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
-      display: inline-block;
-    }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); background: rgba(201,168,76,0.08); }
-
-    /* ── STATS STRIP ── */
-    .stats-strip {
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-light);
-      border-top: 1px solid var(--gray-light);
-    }
-    .stats-inner {
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 24px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      
+    <script src="script.js"></script>
+</body>
+</html>
