@@ -1,9 +1,9 @@
 /* =========================================
-   THAI SCHOOL V.5 - OFFICIAL STYLE SHEET
-   (Integrated Version: Base Layout + Anakotmai Fixes)
+   THAI SCHOOL V.5 - FINAL INTEGRATED
+   (Base on User's Original Structure)
    ========================================= */
 
-/* --- 1. Font & Root Settings --- */
+/* --- 1. Font Settings (Anakotmai) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -55,27 +55,23 @@ nav {
 
 /* --- 4. Container & Grid --- */
 .container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
+.grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.p-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 25px !important; margin-bottom: 50px; }
 
-.grid { 
-    display: grid !important; 
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-    gap: 25px; 
-}
-
-.p-grid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
-    gap: 25px !important;
-    margin-bottom: 50px;
-}
-
-/* --- 5. Card Styles (พร้อมระบบย่อข่าว) --- */
+/* --- 5. Card Styles (หน้าแรก) --- */
 .card {
     background: white; border-radius: 12px; overflow: hidden;
     box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
     height: 100%; display: flex; flex-direction: column;
 }
-.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+
+/* [FIX] แก้รูปภาพแหว่งหน้าแรก */
+.card img { 
+    width: 100%; 
+    height: 200px; /* ล็อคความสูงไว้ให้เท่ากันทุกใบ */
+    object-fit: cover !important; /* รูปไม่ยืด ไม่แหว่ง */
+    display: block; 
+}
 
 .card-body {
     padding: 20px 25px !important;
@@ -83,10 +79,9 @@ nav {
     gap: 10px !important; text-align: left !important;
 }
 
-/* [บูรณาการ] ส่วนตัดเนื้อหาข่าวหน้าแรก 2 บรรทัด */
+/* ย่อเนื้อหาข่าว 2 บรรทัด */
 .card-desc-short {
-    font-size: 0.9rem;
-    color: #64748b;
+    font-size: 0.9rem; color: #64748b;
     display: -webkit-box !important;
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
@@ -94,140 +89,62 @@ nav {
     line-height: 1.6;
 }
 
-.card-date { color: #888; font-size: 0.85rem; }
-.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
-.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
-
-/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือชิด) --- */
+/* --- 6. Personnel Card --- */
 .p-card {
-    padding: 25px !important; /* เพิ่มพื้นที่ขอบให้กว้างขึ้น */
-    display: flex !important;
+    padding: 25px !important; display: flex !important;
     flex-direction: column !important; align-items: center !important;
     text-align: center !important; cursor: pointer;
+    background: white; border-radius: 12px; transition: 0.3s;
+    border: 1px solid #eee;
 }
 .p-card img {
-    width: 130px !important; height: 175px !important; /* ปรับขนาดให้สมดุล */
-    aspect-ratio: 3/4 !important; /* [บูรณาการ] บังคับสัดส่วน หัวไม่ขาด */
-    object-fit: cover !important; border-radius: 6px !important;
+    width: 130px !important; height: 175px !important;
+    aspect-ratio: 3/4 !important;
+    object-fit: cover !important; /* [FIX] หัวบุคลากรไม่ขาด */
+    border-radius: 6px !important;
     border: 3px solid #fff !important; outline: 1px solid #ddd !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     margin-bottom: 15px !important;
 }
 
-/* --- 7. Footer --- */
-footer { background: var(--gray); padding: 40px 0; border-top: 1px solid #ddd; text-align: center; }
-.footer-links { margin-bottom: 10px; font-weight: 500; }
-.footer-links a { text-decoration: none; margin: 0 10px; transition: 0.3s; }
-.link-discord { color: #5865F2 !important; }
-.link-roblox { color: #000 !important; }
-.link-map { color: var(--primary) !important; }
-footer a:hover { text-decoration: underline !important; opacity: 0.8; }
-
-/* --- 8. Modal & Bio Details --- */
-.modal {
-    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
-}
-.modal-content { 
-    background: white; padding: 2.5rem; border-radius: 20px; 
-    max-width: 500px; width: 90%; text-align: left; 
-    max-height: 90vh; overflow-y: auto;
-}
-/* กรอบเขียวหัวข้อใน Modal มีอยู่แล้วในโค้ดพี่ */
-.modal-header-tag {
-    background: var(--primary); color: white; padding: 5px 15px;
-    border-radius: 8px; display: inline-block; font-weight: 700;
-    margin-bottom: 12px; font-size: 0.9rem;
-}
-.bio-list { margin-bottom: 20px; }
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item span { font-size: 1.2rem; }
-.bio-item b { display: block; font-size: 0.95rem; color: #333; }
-.bio-item small { color: #777; font-size: 0.85rem; }
-
-/* ปุ่มปิด Modal - บังคับสีเขียว ไม่ขาว ไม่แคบ */
-.btn-close-modal {
-    width: 100% !important;
-    background-color: #00a859 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
-    transition: 0.3s !important;
-    display: block !important;
-    text-align: center !important;
-}
-.btn-close-modal:hover {
-    background-color: #008f4c !important;
-    box-shadow: 0 5px 15px rgba(0, 168, 89, 0.3) !important;
-}
-
-.title-border { border-left: 6px solid var(--primary); padding-left: 15px; margin: 30px 0; font-size: 1.8rem; }
-
-/* --- 9. Responsive --- */
-@media (max-width: 768px) {
-    nav { padding: 1rem 20px !important; flex-direction: column; gap: 10px; }
-    .nav-links { gap: 15px; font-size: 0.9rem; }
-    .hero { height: 200px; }
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
-    .p-card img { width: 100px !important; height: 135px !important; }
-    .container { padding-left: 20px !important; padding-right: 20px !important; }
-}
-
-/* --- 10. Document Check Styles --- */
+/* --- 7. Document Check Section (ต้องตรงกับ Class ใน HTML พี่) --- */
 .verify-box {
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    border: 1px solid #eee;
-    max-width: 600px;
-    margin: 20px auto;
+    background: #fff; padding: 30px; border-radius: 15px; border: 1px solid #eee;
+    max-width: 600px; margin: 40px auto; box-shadow: var(--shadow);
 }
-
 .input-field-group { margin-bottom: 20px; text-align: left; }
 .input-field-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
 .input-field-group input, .input-field-group select {
     width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-    font-family: 'Anakotmai', sans-serif !important; font-size: 1rem; outline: none;
+    font-size: 1rem; outline: none;
 }
-.input-field-group input:focus { border-color: var(--primary); }
 
+/* [FIX] ปุ่มและสถานะเกรด */
 .btn-verify-modern {
     width: 100%; background: var(--primary); color: #fff; border: none;
-    padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;
-    font-size: 1rem; transition: 0.3s;
+    padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
 }
-.btn-verify-modern:hover { opacity: 0.9; transform: translateY(-2px); }
+.stat-value { color: #000000 !important; font-weight: 800; }
 
-/* Card แสดงผลการค้นหา */
-.doc-result-card {
-    background: #fff; border: 1px solid #eee; border-radius: 15px;
-    padding: 25px; margin-top: 30px; text-align: left;
-    box-shadow: var(--shadow);
+/* --- 8. Modal --- */
+.modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+}
+.modal-content { background: white; padding: 2.5rem; border-radius: 20px; max-width: 500px; width: 90%; }
+.modal-header-tag {
+    background: var(--primary); color: white; padding: 5px 15px;
+    border-radius: 8px; display: inline-block; font-weight: 700; margin-bottom: 12px;
+}
+.btn-close-modal {
+    width: 100% !important; background-color: #00a859 !important; color: #ffffff !important;
+    padding: 16px !important; border-radius: 12px !important; font-weight: bold; border: none; cursor: pointer;
 }
 
-/* [บูรณาการ] บังคับเกรดเป็นสีดำสนิท */
-.stat-value { 
-    color: #000000 !important; 
-    font-weight: 800;
-    font-size: 1.1rem;
-}
-
-.status-tag {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    font-size: 0.8rem; font-weight: bold; margin-bottom: 15px;
-}
-.status-ok { background: #e6f6ee; color: #00a859; }
-
-/* --- 11. Notification Banner & Loading --- */
+/* --- 9. Loading & Banner (ต้องมีเพื่อให้ JS ทำงาน) --- */
 .top-banner {
     position: fixed; top: -100px; left: 0; width: 100%; padding: 15px;
-    text-align: center; color: white; font-weight: bold; z-index: 3000;
-    transition: 0.5s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+    text-align: center; color: white; font-weight: bold; z-index: 3000; transition: 0.5s ease;
 }
 .top-banner.show { top: 0; }
 .top-banner.success { background: #00a859; }
@@ -236,7 +153,8 @@ footer a:hover { text-decoration: underline !important; opacity: 0.8; }
 .loading-container { background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
 #load-bar { background: var(--primary); width: 0%; height: 100%; transition: 0.2s; }
 
-.result-card { text-align: center; padding: 30px; margin-top: 20px; }
-.result-icon { font-size: 3rem; margin-bottom: 10px; display: block; }
-.result-title { font-size: 1.5rem; font-weight: 800; color: #000; margin-bottom: 5px; }
-.result-subtitle { color: #777; font-size: 0.9rem; }
+/* Responsive */
+@media (max-width: 768px) {
+    .p-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .hero { height: 200px; }
+}
