@@ -1,165 +1,164 @@
 // ==========================================
-// 0. ระบบลิ้งค์วิเศษ (Linkify) - คืนชีพ!
+// 1. ฟังก์ชันเสริม (Utilities)
 // ==========================================
+
+// เปลี่ยน URL เป็นปุ่มกดได้
 function linkify(text) {
     if (!text) return "";
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, function(url) {
-        return `<br><br><a href="${url}" target="_blank" style="display: inline-block; background-color: #2563eb; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; margin-top: 10px;">🔗 คลิกเข้าสู่เว็บไซต์: ${url}</a><br>`;
+        return `<br><a href="${url}" target="_blank" style="display:inline-block; background:var(--primary); color:white; padding:10px 20px; border-radius:8px; text-decoration:none; margin-top:10px;">🔗 คลิกเข้าสู่ลิงก์ภายนอก</a><br>`;
     });
 }
 
-// ==========================================
-// 1. ระบบข่าว (ดึงจาก news.json ใน Repo พี่)
-// ==========================================
-async function fetchNews() {
-    const box = document.getElementById('news-container');
-    if (!box) return;
-    try {
-        const res = await fetch('news.json');
-        const data = (await res.json()).reverse(); 
-        box.innerHTML = data.map(n => `
-            <div class="card">
-                <img src="${n.img || ''}" style="width:100%; height:200px; object-fit:cover;">
-                <div class="card-body">
-                    <p class="card-date">${n.date}</p>
-                    <h3>${n.title}</h3>
-                    <p class="card-desc-short">${n.desc ? n.desc.substring(0, 90) + '...' : ''}</p>
-                    <a href="post.html?id=${n.id}" class="btn">อ่านต่อ</a>
-                </div>
-            </div>`).join('');
-    } catch (err) { console.error("News Error:", err); }
-}
-
-// ฟังก์ชันโหลดรายละเอียดข่าว (ใช้ใน post.html)
-function loadPostDetail() {
-    const params = new URLSearchParams(window.location.search);
-    const postId = params.get('id');
-    const contentBox = document.getElementById('post-content'); 
-    if (!postId || !contentBox) return;
-
-    fetch('news.json').then(res => res.json()).then(data => {
-        const post = data.find(n => n.id == postId);
-        if (post) {
-            contentBox.innerHTML = `
-                <div class="post-container" style="max-width:800px; margin:0 auto; padding:20px;">
-                    <h1 style="font-size:2.2rem; margin-bottom:10px;">${post.title}</h1>
-                    <p style="color:#64748b; margin-bottom:20px;">วันที่ประกาศ: ${post.date}</p>
-                    ${post.img ? `<img src="${post.img}" style="width:100%; border-radius:15px; margin-bottom:30px;">` : ''}
-                    <div style="white-space: pre-line; line-height: 1.8; font-size:1.1rem; color:#334155;">
-                        ${linkify(post.desc)} 
-                    </div>
-                </div>`;
-        }
-    });
+// แสดงแจ้งเตือนบนหัวเว็บ
+function showNotify(msg, type = 'success') {
+    const banner = document.getElementById('top-notify');
+    if(!banner) return;
+    banner.innerText = (type === 'success' ? '✔️ ' : '❌ ') + msg;
+    banner.className = `top-banner show ${type}`;
+    setTimeout(() => { banner.classList.remove('show'); }, 3000);
 }
 
 // ==========================================
-// 2. ระบบบุคลากร (ดึงจาก members.json ใน Repo พี่)
-// ==========================================
-async function fetchPersonnel() {
-    try {
-        const res = await fetch('members.json');
-        const data = await res.json();
-        const render = (id, cat) => {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.innerHTML = data.filter(m => m.category === cat).map(m => `
-                <div class="p-card" onclick="openBio(${m.id})">
-                    <img src="${m.img}">
-                    <h4>${m.name}</h4>
-                    <p>${m.role}</p>
-                </div>`).join('');
-        };
-        // อ้างอิง ID ตามที่พี่เขียนใน HTML (founder-list, school-list, police-list)
-        render('founder-list', 'founder'); 
-        render('school-list', 'school'); 
-        render('police-list', 'police');
-    } catch (err) { console.error("Personnel Error:", err); }
-}
-
-function openBio(id) {
-    fetch('members.json').then(r => r.json()).then(data => {
-        const m = data.find(i => i.id === id);
-        if (!m) return;
-        document.getElementById('m-name').innerText = m.name;
-        document.getElementById('m-role').innerText = m.role;
-        document.getElementById('m-dept').innerText = m.dept || "ฝ่ายบริหาร";
-        document.getElementById('m-bio').innerText = m.bio || "ไม่มีข้อมูลวิสัยทัศน์";
-
-        const edu = document.getElementById('m-edu-list');
-        const exp = document.getElementById('m-exp-list');
-        // ถ้าไม่มีประวัติ ให้ขึ้นบอก ไม่ให้หายไปเฉยๆ
-        if(edu) edu.innerHTML = (m.education && m.education.length > 0) ? m.education.map(e => `<p>• ${e}</p>`).join('') : '<p style="color:#94a3b8;">ไม่มีประวัติการศึกษา</p>';
-        if(exp) exp.innerHTML = (m.experience && m.experience.length > 0) ? m.experience.map(e => `<p>• ${e}</p>`).join('') : '<p style="color:#94a3b8;">ไม่มีประวัติการทำงาน</p>';
-        
-        const modal = document.getElementById('bio-modal');
-        if(modal) modal.style.display = 'flex';
-    });
-}
-
-function closeModal() { document.getElementById('bio-modal').style.display = 'none'; }
-
-// ==========================================
-// 3. ระบบตรวจสอบเอกสาร (เกรดสีดำ + แก้บัคเลือกหน่วยงาน)
+// 2. ระบบตรวจสอบเอกสาร (Archive System)
 // ==========================================
 let allDocuments = [];
-fetch('documents.json').then(res => res.json()).then(d => allDocuments = d);
 
-const docMap = {
-    school: ["ปพ.1บ", "ปพ.1พ", "ปพ.2", "ปพ.7"],
-    military: ["ใบวิทยฐานะ", "สด.8", "สด.43"],
-    police: ["ใบอนุญาตขับรถยนต์ส่วนบุคคล"]
-};
+async function loadDocData() {
+    try {
+        const res = await fetch('documents.json');
+        allDocuments = await res.json();
+    } catch (err) { console.error("Load Documents Error:", err); }
+}
 
 function updateDocTypes() {
     const agency = document.getElementById('agency-select').value;
     const typeSelect = document.getElementById('doc-type-select');
     if(!typeSelect) return;
+
+    const docData = {
+        school: ["ปพ.1บ - มัธยมศึกษาตอนต้น", "ปพ.1พ - มัธยมศึกษาตอนปลาย", "ปพ.2บ - ประกาศนียบัตร (ม.ต้น)", "ปพ.2พ - ประกาศนียบัตร (ม.ปลาย)", "ปพ.3", "ปพ.5", "ปพ.6", "ปพ.7ก", "ปพ.7ข"],
+        military: ["ใบวิทยฐานะ - สำเร็จการฝึกวิชาทหาร", "สด.8", "สด.9", "สด.35", "สด.43"],
+        police: ["ใบอนุญาตขับรถยนต์ส่วนบุคคลชั่วคราว", "ใบอนุญาตขับจักรยานยนต์ส่วนบุคคลชั่วคราว"]
+    };
+
     typeSelect.innerHTML = '<option value="">-- เลือกประเภทเอกสาร --</option>';
-    if (docMap[agency]) {
-        docMap[agency].forEach(t => {
-            typeSelect.innerHTML += `<option value="${t}">${t}</option>`;
+    if (docData[agency]) {
+        docData[agency].forEach(type => {
+            typeSelect.innerHTML += `<option value="${type}">${type}</option>`;
         });
     }
 }
 
-function renderResultCard(found) {
+async function verifyDocument() {
+    const user = document.getElementById('roblox-username').value.trim();
+    const type = document.getElementById('doc-type-select').value;
     const resultArea = document.getElementById('verify-result-area');
-    resultArea.innerHTML = `
-        <div class="doc-result-card" style="background:#fff; border-radius:20px; padding:30px; border:1px solid #f1f5f9; margin-top:30px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="margin:0; font-size:1.3rem;">${found.doc_type}</h2>
-                <span style="background:#e6f6ee; color:#10b981; padding:8px 18px; border-radius:50px; font-weight:bold; font-size:0.8rem;">ถูกต้อง</span>
-            </div>
-            
-            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:15px; margin-bottom:25px;">
-                <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; font-size:0.75rem;">ระดับ/ชั้น</small><br>
-                    <b style="color:#1e293b;">${found.extra_info?.level || "-"}</b>
-                </div>
-                <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; font-size:0.75rem;">เกรดเฉลี่ย</small><br>
-                    <b style="color:#1e293b; font-size:1.2rem;">${found.extra_info?.grade || "0.00"}</b> </div>
-                <div style="background:#f8fafc; padding:15px; border-radius:12px; text-align:center;">
-                    <small style="color:#94a3b8; font-size:0.75rem;">วันที่ออก</small><br>
-                    <b style="color:#1e293b;">${found.extra_info?.issued_date || "-"}</b>
-                </div>
-            </div>
+    const overlay = document.getElementById('status-overlay');
+    const loadBar = document.getElementById('load-bar');
 
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-                ${found.images.map((img, i) => `<img src="${img}" style="width:100%; border-radius:10px; border:1px solid #eee;">`).join('')}
+    if (!user || !type) { showNotify("กรุณากรอกชื่อผู้ใช้และประเภทเอกสาร", "error"); return; }
+
+    resultArea.innerHTML = '';
+    overlay.style.display = 'flex';
+    loadBar.style.width = '0%';
+    
+    // จำลองการโหลด
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.random() * 30;
+        if (progress > 100) progress = 100;
+        loadBar.style.width = progress + '%';
+
+        if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                const found = allDocuments.find(d => 
+                    d.roblox_username.toLowerCase() === user.toLowerCase() && 
+                    d.doc_type === type
+                );
+
+                if (found) {
+                    showNotify("พบบันทึกข้อมูลสำเร็จ");
+                    renderResultCard(found);
+                } else {
+                    showNotify("ไม่พบบันทึกข้อมูลในระบบ", "error");
+                }
+            }, 500);
+        }
+    }, 200);
+}
+
+function renderResultCard(data) {
+    const resultArea = document.getElementById('verify-result-area');
+    const imgs = data.images.map(i => `<img src="${i}" style="width:100%; border-radius:10px; margin-bottom:10px; border:1px solid #eee;">`).join('');
+
+    resultArea.innerHTML = `
+        <div class="doc-result-card">
+            <span class="status-tag status-ok">✔️ ${data.status}</span>
+            <h2 style="color:var(--primary); margin-bottom:15px;">${data.doc_type}</h2>
+            <div style="background:#f9f9f9; padding:15px; border-radius:10px; margin-bottom:20px;">
+                <p><b>ชื่อผู้ถือครอง:</b> ${data.roblox_username}</p>
+                <p><b>รหัสเอกสาร:</b> ${data.doc_id}</p>
+                <p><b>หน่วยงาน:</b> ${data.issuer}</p>
             </div>
+            <p><b>รายละเอียดเพิ่มเติม:</b><br>${data.detail}</p>
+            ${data.note ? `<p style="color:#dc2626; margin-top:10px;"><b>หมายเหตุ:</b> ${data.note}</p>` : ''}
+            <div style="margin-top:20px;">${imgs}</div>
         </div>`;
+    resultArea.scrollIntoView({ behavior: 'smooth' });
 }
 
 // ==========================================
-// การเริ่มต้นระบบ (Init)
+// 3. ระบบบุคลากร & ข่าว (Personnel & News)
 // ==========================================
-window.addEventListener('DOMContentLoaded', () => { 
-    fetchNews(); 
+
+async function fetchPersonnel() {
+    const lists = {
+        'founder-list': 'founder',
+        'school-list': 'school',
+        'police-list': 'police'
+    };
+    try {
+        const res = await fetch('members.json');
+        const data = await res.json();
+        Object.keys(lists).forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.innerHTML = data.filter(m => m.category === lists[id]).map(m => `
+                <div class="card p-card" onclick="openBio(${m.id})">
+                    <img src="${m.img}">
+                    <h4>${m.name}</h4>
+                    <p style="color:#777; font-size:0.85rem;">${m.role}</p>
+                </div>
+            `).join('');
+        });
+    } catch (e) {}
+}
+
+function openBio(id) {
+    fetch('members.json').then(r => r.json()).then(data => {
+        const m = data.find(i => i.id === id);
+        if(!m) return;
+        document.getElementById('m-name').innerText = m.name;
+        document.getElementById('m-role').innerText = m.role;
+        document.getElementById('m-dept').innerText = m.dept;
+        document.getElementById('m-bio').innerHTML = linkify(m.bio);
+        document.getElementById('bio-modal').style.display = 'flex';
+    });
+}
+
+function closeModal() {
+    document.getElementById('bio-modal').style.display = 'none';
+}
+
+// ==========================================
+// 4. เริ่มต้นระบบเมื่อโหลดหน้า (Init)
+// ==========================================
+window.addEventListener('DOMContentLoaded', () => {
     fetchPersonnel();
-    const ag = document.getElementById('agency-select');
-    if(ag) ag.addEventListener('change', updateDocTypes);
-    if (window.location.search.includes('id=')) loadPostDetail();
+    loadDocData();
+    // ถ้ามีฟังก์ชันข่าว (index.html) ก็ใส่ตรงนี้
 });
