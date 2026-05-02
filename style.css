@@ -1,24 +1,7 @@
-/* =========================================
-   THAI SCHOOL V.5 - FINAL INTEGRATED
-   (Base on User's Original Structure)
-   ========================================= */
-
-/* --- 1. Font Settings (Anakotmai) --- */
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-light.woff2') format('woff2');
-    font-weight: 300;
-}
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-medium.woff2') format('woff2');
-    font-weight: 500;
-}
-@font-face {
-    font-family: 'Anakotmai';
-    src: url('./fonts/anakotmai-bold.woff2') format('woff2');
-    font-weight: 700;
-}
+/* --- 1. Font Settings --- */
+@font-face { font-family: 'Anakotmai'; src: url('./fonts/anakotmai-light.woff2') format('woff2'); font-weight: 300; }
+@font-face { font-family: 'Anakotmai'; src: url('./fonts/anakotmai-medium.woff2') format('woff2'); font-weight: 500; }
+@font-face { font-family: 'Anakotmai'; src: url('./fonts/anakotmai-bold.woff2') format('woff2'); font-weight: 700; }
 
 :root {
     --primary: #00a859;
@@ -33,7 +16,7 @@
     font-family: 'Anakotmai', sans-serif !important; 
 }
 
-body { background: var(--light); color: var(--dark); line-height: 1.6; }
+body { background: var(--light); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
 
 /* --- 2. Navigation --- */
 nav {
@@ -42,119 +25,94 @@ nav {
     position: sticky; top: 0; z-index: 1000;
 }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
-.nav-links { display: flex !important; list-style: none; gap: 2rem; }
+.nav-links { display: flex; list-style: none; gap: 2rem; }
 .nav-links a { text-decoration: none; color: var(--dark); font-weight: 500; transition: 0.3s; }
 .nav-links a:hover { color: var(--primary); }
 
-/* --- 3. Hero Section --- */
+/* --- 3. Hero Section (แก้รูปแหว่ง) --- */
 .hero {
-    width: 100%; height: 450px; 
+    width: 100%; 
+    min-height: 350px;
+    height: auto;
     display: flex; justify-content: center; align-items: center;
-    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/cover no-repeat;
+    background: url('https://i.postimg.cc/YCXXM0kX/mi-m-ch-x-252-20260423194221.png') center/contain no-repeat;
+    background-color: #f0f0f0; /* พื้นหลังกันพลาดถ้าภาพโหลดไม่ติด */
 }
 
 /* --- 4. Container & Grid --- */
 .container { max-width: 1200px; margin: 0 auto; padding: 40px 25px; }
-.grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
-.p-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important; gap: 25px !important; margin-bottom: 50px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.p-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; margin-bottom: 50px; }
 
-/* --- 5. Card Styles (หน้าแรก) --- */
+/* --- 5. Card Styles --- */
 .card {
     background: white; border-radius: 12px; overflow: hidden;
     box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
     height: 100%; display: flex; flex-direction: column;
 }
-
-/* [FIX] แก้รูปภาพแหว่งหน้าแรก */
 .card img { 
     width: 100%; 
-    height: 200px; /* ล็อคความสูงไว้ให้เท่ากันทุกใบ */
-    object-fit: cover !important; /* รูปไม่ยืด ไม่แหว่ง */
+    height: 200px;
+    object-fit: cover; /* รักษาอัตราส่วนแต่ไม่ให้แหว่งจนน่าเกลียด */
     display: block; 
 }
-
-.card-body {
-    padding: 20px 25px !important;
-    display: flex !important; flex-direction: column !important;
-    gap: 10px !important; text-align: left !important;
-}
-
-/* ย่อเนื้อหาข่าว 2 บรรทัด */
-.card-desc-short {
-    font-size: 0.9rem; color: #64748b;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-    line-height: 1.6;
+.card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; gap: 10px; }
+.card-date { color: #888; font-size: 0.85rem; }
+.card-body h3 { font-size: 1.1rem; color: var(--dark); font-weight: 700; }
+.card-body .btn { 
+    text-decoration: none; color: var(--primary); font-weight: bold; 
+    font-size: 0.9rem; margin-top: auto; padding-top: 10px;
 }
 
 /* --- 6. Personnel Card --- */
-.p-card {
-    padding: 25px !important; display: flex !important;
-    flex-direction: column !important; align-items: center !important;
-    text-align: center !important; cursor: pointer;
-    background: white; border-radius: 12px; transition: 0.3s;
-    border: 1px solid #eee;
-}
+.p-card { padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+.p-card:hover { transform: translateY(-5px); }
 .p-card img {
-    width: 130px !important; height: 175px !important;
-    aspect-ratio: 3/4 !important;
-    object-fit: cover !important; /* [FIX] หัวบุคลากรไม่ขาด */
-    border-radius: 6px !important;
-    border: 3px solid #fff !important; outline: 1px solid #ddd !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-    margin-bottom: 15px !important;
+    width: 130px; height: 170px;
+    object-fit: cover; border-radius: 8px;
+    border: 3px solid #fff; box-shadow: var(--shadow);
+    margin-bottom: 15px;
 }
 
-/* --- 7. Document Check Section (ต้องตรงกับ Class ใน HTML พี่) --- */
-.verify-box {
-    background: #fff; padding: 30px; border-radius: 15px; border: 1px solid #eee;
-    max-width: 600px; margin: 40px auto; box-shadow: var(--shadow);
-}
-.input-field-group { margin-bottom: 20px; text-align: left; }
-.input-field-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
-.input-field-group input, .input-field-group select {
-    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
-    font-size: 1rem; outline: none;
-}
-
-/* [FIX] ปุ่มและสถานะเกรด */
-.btn-verify-modern {
-    width: 100%; background: var(--primary); color: #fff; border: none;
-    padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.stat-value { color: #000000 !important; font-weight: 800; }
-
-/* --- 8. Modal --- */
+/* --- 7. Modal & Verification --- */
 .modal {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;
+    background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center;
+    padding: 20px;
 }
-.modal-content { background: white; padding: 2.5rem; border-radius: 20px; max-width: 500px; width: 90%; }
-.modal-header-tag {
-    background: var(--primary); color: white; padding: 5px 15px;
-    border-radius: 8px; display: inline-block; font-weight: 700; margin-bottom: 12px;
+.modal-content { 
+    background: white; padding: 2rem; border-radius: 20px; 
+    max-width: 550px; width: 100%; max-height: 90vh; overflow-y: auto;
 }
 .btn-close-modal {
-    width: 100% !important; background-color: #00a859 !important; color: #ffffff !important;
-    padding: 16px !important; border-radius: 12px !important; font-weight: bold; border: none; cursor: pointer;
+    width: 100%; background: var(--primary); color: white; border: none;
+    padding: 14px; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 20px;
 }
 
-/* --- 9. Loading & Banner (ต้องมีเพื่อให้ JS ทำงาน) --- */
-.top-banner {
-    position: fixed; top: -100px; left: 0; width: 100%; padding: 15px;
-    text-align: center; color: white; font-weight: bold; z-index: 3000; transition: 0.5s ease;
+.verify-box {
+    background: #fff; padding: 30px; border-radius: 15px; border: 1px solid #eee;
+    max-width: 600px; margin: 0 auto; box-shadow: var(--shadow);
 }
-.top-banner.show { top: 0; }
-.top-banner.success { background: #00a859; }
-.top-banner.error { background: #dc2626; }
+.input-field-group { margin-bottom: 15px; }
+.input-field-group label { display: block; font-weight: 700; margin-bottom: 5px; }
+.input-field-group input, .input-field-group select {
+    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none;
+}
 
-.loading-container { background: #eee; height: 8px; border-radius: 10px; overflow: hidden; margin-bottom: 20px; }
+.loading-container { background: #eee; height: 10px; border-radius: 5px; overflow: hidden; margin: 20px 0; }
 #load-bar { background: var(--primary); width: 0%; height: 100%; transition: 0.2s; }
 
-/* Responsive */
+/* --- 8. Notification --- */
+.top-banner {
+    position: fixed; top: -100px; left: 0; width: 100%; padding: 15px;
+    text-align: center; color: white; font-weight: bold; z-index: 3000; transition: 0.5s;
+}
+.top-banner.show { top: 0; }
+.top-banner.success { background: var(--primary); }
+.top-banner.error { background: #dc2626; }
+
 @media (max-width: 768px) {
-    .p-grid { grid-template-columns: repeat(2, 1fr) !important; }
-    .hero { height: 200px; }
+    nav { padding: 1rem 20px; flex-direction: column; }
+    .hero { min-height: 200px; }
+    .p-grid { grid-template-columns: repeat(2, 1fr); }
 }
