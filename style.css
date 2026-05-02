@@ -1,9 +1,9 @@
 /* =========================================
-   THAI SCHOOL V.5 - OFFICIAL STYLE SHEET
-   อ้างอิงโครงสร้างต้นฉบับจาก GitHub พี่ 100%
+   THAI SCHOOL V.5 - COMPLETE STYLE SHEET
+   ฟอนต์ Anakotmai | หน้า Personnel | หน้า Archive ครบ!
    ========================================= */
 
-/* --- 1. Font & Root Settings --- */
+/* --- 1. Font Settings (Anakotmai Only) --- */
 @font-face {
     font-family: 'Anakotmai';
     src: url('./fonts/anakotmai-light.woff2') format('woff2');
@@ -62,6 +62,7 @@ nav {
     gap: 25px; 
 }
 
+/* Personnel Grid */
 .p-grid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
@@ -69,53 +70,67 @@ nav {
     margin-bottom: 50px;
 }
 
-/* --- 5. Card Styles (News & News Truncate) --- */
-.card {
-    background: white; border-radius: 12px; overflow: hidden;
-    box-shadow: var(--shadow); transition: 0.3s; border: 1px solid #eee;
-    height: 100%; display: flex; flex-direction: column;
-}
-.card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-
-.card-body {
-    padding: 20px 25px !important;
-    display: flex !important; flex-direction: column !important;
-    gap: 10px !important; text-align: left !important;
-}
-
-/* ตัดเนื้อหาข่าวหน้าแรก 2 บรรทัดตามสั่ง */
-.card-desc-short {
-    font-size: 0.9rem;
-    color: #64748b;
-    display: -webkit-box;
-    -webkit-line-clamp: 2; 
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.6;
-}
-
-.card-date { color: #888; font-size: 0.85rem; }
-.card-body h3 { font-size: 1.1rem; line-height: 1.4; color: var(--dark); font-weight: 700; }
-.card-body .btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9rem; margin-top: auto; }
-
-/* --- 6. Personnel Card (แก้หัวขาด / ตัวหนังสือไม่ชิดขอบ) --- */
+/* --- 5. Personnel Card (คืนค่ากรอบขาวที่หายไป!) --- */
 .p-card {
-    padding: 30px 20px !important; 
+    background: white !important; /* บังคับพื้นหลังขาว */
+    border: 1px solid #eee !important;
+    border-radius: 12px !important;
+    padding: 30px 20px !important;
     display: flex !important;
     flex-direction: column !important; align-items: center !important;
     text-align: center !important; cursor: pointer;
-    background: white; border-radius: 12px; transition: 0.3s;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: 0.3s;
 }
-.p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+.p-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--primary); }
 
 .p-card img {
-    width: 130px !important; height: 175px !important; 
-    aspect-ratio: 3/4 !important; 
-    object-fit: cover !important; /* บังคับรูปให้อยู่ในกรอบ หัวไม่แหว่งแน่นอน */
+    width: 130px !important; height: 175px !important;
+    aspect-ratio: 3/4 !important;
+    object-fit: cover !important; /* หัวไม่ขาดแน่นอน */
     border-radius: 6px !important;
     border: 3px solid #fff !important; outline: 1px solid #ddd !important;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     margin-bottom: 20px !important;
+}
+
+/* --- 6. Archive / Verify Section (คืนค่าหน้าตรวจสอบที่หายไป!) --- */
+.verify-box {
+    background: #fff !important;
+    padding: 35px !important;
+    border-radius: 15px !important;
+    border: 1px solid #eee !important;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: var(--shadow);
+}
+
+.input-field-group { margin-bottom: 20px; text-align: left; }
+.input-field-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; color: var(--dark); }
+.input-field-group input, .input-field-group select {
+    width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px;
+    font-size: 1rem; outline: none; transition: 0.3s;
+}
+.input-field-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 168, 89, 0.1); }
+
+.btn-verify-modern {
+    width: 100%; background: var(--primary); color: #fff; border: none;
+    padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer;
+    font-size: 1rem; transition: 0.3s; margin-top: 10px;
+}
+.btn-verify-modern:hover { background: #008f4c; transform: translateY(-2px); }
+
+/* --- 7. Document Result (เกรดสีดำสนิท) --- */
+.doc-result-card {
+    background: #fff; border: 1px solid #eee; border-radius: 15px;
+    padding: 25px; margin-top: 30px; text-align: left;
+    box-shadow: var(--shadow);
+}
+
+.stat-value { 
+    font-weight: 800; 
+    color: #000000 !important; /* ดำสนิทตามสั่ง */
+    font-size: 1.1rem; 
 }
 
 /* --- 8. Modal & Bio Details --- */
@@ -129,45 +144,23 @@ nav {
     max-height: 90vh; overflow-y: auto;
 }
 
-/* คืนค่ากรอบสีเขียวรอบหัวข้อประวัติใน Modal ตามรูป */
 .modal-header-tag {
     background: var(--primary); color: white; padding: 6px 15px;
     border-radius: 8px; display: inline-block; font-weight: 700;
     margin-bottom: 12px; font-size: 0.9rem;
 }
 
-.bio-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
-.bio-item b { display: block; font-size: 0.95rem; color: #333; font-weight: 700; }
-
-/* ปุ่มปิด Modal - สีเขียวอนาคตใหม่บังคับ */
 .btn-close-modal {
-    width: 100% !important;
-    background-color: #00a859 !important;
-    color: #ffffff !important;
-    border: none !important;
-    padding: 16px !important;
-    border-radius: 12px !important;
-    font-size: 1rem !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    margin-top: 25px !important;
-    display: block !important;
-    text-align: center !important;
-}
-
-/* --- 9. Document Check (เกรดสีดำสนิท) --- */
-.stat-value { 
-    font-weight: 800; 
-    color: #000000 !important; /* ดำสนิทไม่อมเขียว */
-    font-size: 1.1rem; 
-}
-
-.stat-item {
-    background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #f1f5f9;
+    width: 100% !important; background-color: #00a859 !important;
+    color: #ffffff !important; border: none !important; padding: 16px !important;
+    border-radius: 12px !important; font-size: 1rem !important;
+    font-weight: bold !important; cursor: pointer !important;
+    margin-top: 25px !important; display: block !important; text-align: center !important;
 }
 
 /* --- Responsive --- */
 @media (max-width: 768px) {
     .p-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 15px !important; }
     .p-card img { width: 110px !important; height: 145px !important; }
+    .verify-box { padding: 20px !important; margin: 20px; }
 }
